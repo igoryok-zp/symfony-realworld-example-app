@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ./app
+      target: app_prod
+      args:
+        - APP_USER=${APP_USER}
+    environment:
+      - DATABASE_URL=postgresql://${APP_USER}:${DB_PSWD}@db:5432/${DB_NAME}?serverVersion=15&charset=utf8
+    depends_on:
+      - db
+    networks:
+      - frontend
+      - backend
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PSWD}
+      - POSTGRES_USER=${APP_USER}
+    networks:
+      - backend
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  proxy:
+    build:
+      context: ./app
+      target: proxy
+      args:
+        - APP_USER=${APP_USER}
+    depends_on:
+      - app
+    networks:
+      - frontend
+    ports:
+      - ${APP_PORT}:80
+
+volumes:
+  db_data:
+
+networks:
+  backend:
+  frontend:

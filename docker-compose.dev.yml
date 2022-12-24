@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  app:
+    build:
+      target: app_dev
+    volumes:
+      - ./app:/var/www/html
+      ### Use var directory to add necessary configs such as xdebug
+      # - ./var/app/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      ### Uncomment below to use your composer cache
+      # - $HOME/.composer:/home/$APP_USER/.composer
+    extra_hosts:
+      ### Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
+  db:
+    ports:
+      - 5432:5432
+  proxy:
+    volumes:
+      - ./app/public:/var/www/html/public
+
+volumes:
+  db_data:
+    ### Use var directory to store db data
+    # driver: local
+    # driver_opts:
+    #   o: bind
+    #   type: none
+    #   device: ./var/db
