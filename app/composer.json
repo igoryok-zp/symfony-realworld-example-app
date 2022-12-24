@@ -39,6 +39,7 @@
         "phpro/grumphp": "^1.15",
         "phpstan/phpstan": "^1.9",
         "squizlabs/php_codesniffer": "^3.7",
+        "symfony/maker-bundle": "^1.48",
         "symfony/stopwatch": "6.2.*",
         "symfony/web-profiler-bundle": "6.2.*"
     },
