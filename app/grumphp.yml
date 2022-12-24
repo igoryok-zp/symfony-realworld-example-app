@@ -1,0 +1,8 @@
+grumphp:
+  tasks:
+    phpcs:
+      standard: PSR12
+    phplint: null
+    phpmd: null
+    phpstan:
+      level: 5
