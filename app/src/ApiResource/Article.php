@@ -8,10 +8,12 @@ use App\Config\ArticleConfig;
 use App\Dto\ArticleDto;
 use App\State\ArticleCreateProcessor;
 use App\State\ArticleProvider;
+use App\State\ArticleUpdateProcessor;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -65,6 +67,37 @@ use Symfony\Component\Validator\Constraints as Assert;
             openapiContext: [
                 'summary' => '',
                 'description' => '',
+            ],
+        ),
+        new Put(
+            name: 'article_update',
+            uriTemplate: '/articles/{slug}',
+            read: false,
+            processor: ArticleUpdateProcessor::class,
+            normalizationContext: [
+                'groups' => [
+                    ArticleConfig::OUTPUT,
+                ],
+            ],
+            denormalizationContext: [
+                'groups' => [
+                    ArticleConfig::INPUT,
+                ],
+            ],
+            validationContext: [
+                'groups' => [
+                    ArticleConfig::VALID,
+                ],
+            ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+                'parameters' => [[
+                    'name' => 'slug',
+                    'in' => 'path',
+                    'required' => true,
+                    'type' => 'string',
+                ]],
             ],
         ),
     ],

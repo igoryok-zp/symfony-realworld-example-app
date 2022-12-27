@@ -75,4 +75,26 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals($body, $article['body']);
         $this->assertEquals('user1', $article['author']['username']);
     }
+
+    public function testUpdate()
+    {
+        $token = $this->getToken('user1@app.test', 'pswd1');
+
+        $title = 'Updated Article';
+        $description = 'Updated Description';
+        $body = 'Updated Body';
+
+        $article = $this->requestArticles('PUT', 'article-1', token: $token, data: [
+            'title' => $title,
+            'description' => $description,
+            'body' => $body,
+        ]);
+
+        $this->assertMatchesArticleJsonSchema('update');
+
+        $this->assertEquals('updated-article', $article['slug']);
+        $this->assertEquals($title, $article['title']);
+        $this->assertEquals($description, $article['description']);
+        $this->assertEquals($body, $article['body']);
+    }
 }
