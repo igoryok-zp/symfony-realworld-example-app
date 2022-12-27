@@ -1,0 +1,6 @@
+App\Entity\Article:
+    article{1..9}:
+        title: 'Article <current()>'
+        description: 'Description <current()>'
+        body: 'Body <current()>'
+        author: '@profile<current()>'

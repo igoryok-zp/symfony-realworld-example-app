@@ -31,6 +31,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/articles, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/profiles/(.+), roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/users, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/api/users/login, roles: PUBLIC_ACCESS, methods: [POST] }
