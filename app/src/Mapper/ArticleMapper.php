@@ -6,12 +6,32 @@ namespace App\Mapper;
 
 use App\Dto\ArticleDto;
 use App\Entity\Article;
+use App\Utility\Context;
 
 class ArticleMapper
 {
     public function __construct(
+        private Context $context,
         private ProfileMapper $profileMapper,
     ) {
+    }
+
+    public function mapDtoToEntity(ArticleDto $dto, ?Article $entity = null): Article
+    {
+        $result = $entity ?: new Article();
+        if ($dto->title !== null) {
+            $result->setTitle($dto->title);
+        }
+        if ($dto->description !== null) {
+            $result->setDescription($dto->description);
+        }
+        if ($dto->body !== null) {
+            $result->setBody($dto->body);
+        }
+        if ($result->getAuthor() === null && $this->context->getUser() !== null) {
+            $result->setAuthor($this->context->getUser()->getProfile());
+        }
+        return $result;
     }
 
     public function mapEntityToDto(Article $entity): ArticleDto

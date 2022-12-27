@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class ArticleDto
 {
@@ -20,17 +21,47 @@ final class ArticleDto
     ])]
     public ?string $slug = null;
 
+    #[Assert\Length(
+        max: ArticleConfig::TITLE_LENGTH,
+        groups: [
+            ArticleConfig::VALID,
+        ],
+    )]
+    #[Assert\NotBlank(
+        groups: [
+            ArticleConfig::VALID_CREATE,
+        ]
+    )]
     #[Groups([
+        ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
     ])]
     public ?string $title = null;
 
+    #[Assert\Length(
+        max: ArticleConfig::DESCRIPTION_LENGTH,
+        groups: [
+            ArticleConfig::VALID,
+        ],
+    )]
+    #[Assert\NotBlank(
+        groups: [
+            ArticleConfig::VALID_CREATE,
+        ],
+    )]
     #[Groups([
+        ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
     ])]
     public ?string $description = null;
 
+    #[Assert\NotBlank(
+        groups: [
+            ArticleConfig::VALID_CREATE,
+        ]
+    )]
     #[Groups([
+        ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
     ])]
     public ?string $body = null;

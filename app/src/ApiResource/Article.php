@@ -6,11 +6,14 @@ namespace App\ApiResource;
 
 use App\Config\ArticleConfig;
 use App\Dto\ArticleDto;
+use App\State\ArticleCreateProcessor;
 use App\State\ArticleProvider;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
@@ -40,11 +43,37 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 ]],
             ],
         ),
+        new Post(
+            name: 'article_create',
+            processor: ArticleCreateProcessor::class,
+            normalizationContext: [
+                'groups' => [
+                    ArticleConfig::OUTPUT,
+                ],
+            ],
+            denormalizationContext: [
+                'groups' => [
+                    ArticleConfig::INPUT,
+                ],
+            ],
+            validationContext: [
+                'groups' => [
+                    ArticleConfig::VALID_CREATE,
+                    ArticleConfig::VALID,
+                ],
+            ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+            ],
+        ),
     ],
 )]
 final class Article
 {
+    #[Assert\Valid]
     #[Groups([
+        ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
     ])]
     public ?ArticleDto $article = null;

@@ -33,6 +33,13 @@ class ArticleService
         return $article;
     }
 
+    private function save(ArticleDto $data, ?Article $article = null): Article
+    {
+        $result = $this->articleMapper->mapDtoToEntity($data, $article);
+        $this->articleRepository->save($result);
+        return $result;
+    }
+
     public function getArticle(string $slug): ?ArticleDto
     {
         $result = null;
@@ -41,5 +48,11 @@ class ArticleService
             $result = $this->toDto($article);
         }
         return $result;
+    }
+
+    public function createArticle(ArticleDto $data): ArticleDto
+    {
+        $article = $this->save($data);
+        return $this->toDto($article);
     }
 }

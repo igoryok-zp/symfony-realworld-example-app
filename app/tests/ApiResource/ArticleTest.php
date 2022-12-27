@@ -52,4 +52,27 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals('Body 1', $article['body']);
         $this->assertEquals('user1', $article['author']['username']);
     }
+
+    public function testCreate()
+    {
+        $token = $this->getToken('user1@app.test', 'pswd1');
+
+        $title = 'Test';
+        $description = 'Test Description';
+        $body = 'Test Body';
+
+        $article = $this->requestArticles('POST', token: $token, data: [
+            'title' => $title,
+            'description' => $description,
+            'body' => $body,
+        ]);
+
+        $this->assertMatchesArticleJsonSchema('create');
+
+        $this->assertEquals('test', $article['slug']);
+        $this->assertEquals($title, $article['title']);
+        $this->assertEquals($description, $article['description']);
+        $this->assertEquals($body, $article['body']);
+        $this->assertEquals('user1', $article['author']['username']);
+    }
 }

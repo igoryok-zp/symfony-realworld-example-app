@@ -10,5 +10,10 @@ final class ArticleConfig
     public const TITLE_LENGTH = 128;
     public const DESCRIPTION_LENGTH = 255;
 
+    public const INPUT = 'ArticleInput';
+
     public const OUTPUT = 'ArticleOutput';
+
+    public const VALID = 'ArticleValid';
+    public const VALID_CREATE = 'ArticleValidCreate';
 }
