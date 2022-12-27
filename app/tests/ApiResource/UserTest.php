@@ -39,4 +39,21 @@ class UserTest extends ApiResourceTestCase
         $this->assertFalse(isset($user['password']));
         $this->assertNotEmpty($user['token']);
     }
+
+    public function testLogin()
+    {
+        $email = 'user1@app.test';
+        $password = 'pswd1';
+
+        $user = $this->requestUsers('POST', 'users/login', [
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        $this->assertMatchesUserJsonSchema('login');
+
+        $this->assertEquals($email, $user['email']);
+        $this->assertFalse(isset($user['password']));
+        $this->assertNotEmpty($user['token']);
+    }
 }

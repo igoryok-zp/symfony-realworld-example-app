@@ -4,3 +4,5 @@ api_platform:
             mime_types: ['application/json']
         html:
             mime_types: ['text/html']
+    exception_to_status:
+        App\Exception\UnauthorizedException: 401

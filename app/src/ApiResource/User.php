@@ -7,6 +7,7 @@ namespace App\ApiResource;
 use App\Config\UserConfig;
 use App\Dto\UserDto;
 use App\State\UserCreateProcessor;
+use App\State\UserLoginProcessor;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -34,6 +35,33 @@ use Symfony\Component\Validator\Constraints as Assert;
                     UserConfig::VALID_CREATE,
                     UserConfig::VALID,
                 ]
+            ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+            ],
+        ),
+        new Post(
+            name: 'user_login',
+            uriTemplate: '/users/login',
+            processor: UserLoginProcessor::class,
+            normalizationContext: [
+                'groups' => [
+                    UserConfig::OUTPUT,
+                ],
+                'skip_null_values' => false,
+            ],
+            denormalizationContext: [
+                'groups' => [
+                    UserConfig::INPUT_LOGIN,
+                    UserConfig::INPUT,
+                ],
+            ],
+            validationContext: [
+                'groups' => [
+                    UserConfig::VALID_LOGIN,
+                    UserConfig::VALID,
+                ],
             ],
             openapiContext: [
                 'summary' => '',

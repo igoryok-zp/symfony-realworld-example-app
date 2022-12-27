@@ -30,6 +30,7 @@ final class UserDto
     #[Assert\NotBlank(
         groups: [
             UserConfig::VALID_CREATE,
+            UserConfig::VALID_LOGIN,
         ],
     )]
     #[Groups([
@@ -41,10 +42,12 @@ final class UserDto
     #[Assert\NotBlank(
         groups: [
             UserConfig::VALID_CREATE,
+            UserConfig::VALID_LOGIN,
         ],
     )]
     #[Groups([
         UserConfig::INPUT_CREATE,
+        UserConfig::INPUT_LOGIN,
     ])]
     public ?string $password = null;
 
