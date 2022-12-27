@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\ApiResource;
 
 use App\Config\ArticleConfig;
+use App\Controller\Api\ArticleDeleteController;
 use App\Dto\ArticleDto;
 use App\State\ArticleCreateProcessor;
 use App\State\ArticleProvider;
 use App\State\ArticleUpdateProcessor;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
@@ -89,6 +91,22 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ArticleConfig::VALID,
                 ],
             ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+                'parameters' => [[
+                    'name' => 'slug',
+                    'in' => 'path',
+                    'required' => true,
+                    'type' => 'string',
+                ]],
+            ],
+        ),
+        new Delete(
+            name: 'article_delete',
+            uriTemplate: '/articles/{slug}',
+            controller: ArticleDeleteController::class,
+            read: false,
             openapiContext: [
                 'summary' => '',
                 'description' => '',

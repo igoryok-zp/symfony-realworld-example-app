@@ -97,4 +97,11 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals($description, $article['description']);
         $this->assertEquals($body, $article['body']);
     }
+
+    public function testDelete()
+    {
+        $token = $this->getToken('user1@app.test', 'pswd1');
+
+        $this->requestArticles('DELETE', 'article-1', token: $token);
+    }
 }

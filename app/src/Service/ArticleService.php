@@ -85,4 +85,11 @@ class ArticleService
         $this->save($data, $article);
         return $this->toDto($article);
     }
+
+    public function deleteArticle(string $slug): void
+    {
+        $article = $this->findArticle($slug);
+        $this->verifyPermissions($article);
+        $this->articleRepository->remove($article);
+    }
 }
