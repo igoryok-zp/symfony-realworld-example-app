@@ -72,4 +72,21 @@ class UserTest extends ApiResourceTestCase
         $this->assertFalse(isset($user['password']));
         $this->assertNotEmpty($user['token']);
     }
+
+    public function testUpdate()
+    {
+        $token = $this->getToken('user1@app.test', 'pswd1');
+
+        $email = 'test@app.test';
+
+        $user = $this->requestUsers('PUT', 'user', [
+            'email' => $email,
+        ], $token);
+
+        $this->assertMatchesUserJsonSchema('update');
+
+        $this->assertEquals($email, $user['email']);
+        $this->assertFalse(isset($user['password']));
+        $this->assertNotEmpty($user['token']);
+    }
 }

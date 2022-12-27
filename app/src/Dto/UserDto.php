@@ -14,6 +14,7 @@ final class UserDto
     #[AppAssert\UniqueEmail(
         groups: [
             UserConfig::VALID_CREATE,
+            UserConfig::VALID_UPDATE,
         ],
     )]
     #[Assert\Email(
@@ -48,6 +49,7 @@ final class UserDto
     #[Groups([
         UserConfig::INPUT_CREATE,
         UserConfig::INPUT_LOGIN,
+        UserConfig::INPUT_UPDATE,
     ])]
     public ?string $password = null;
 

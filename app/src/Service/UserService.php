@@ -41,6 +41,15 @@ class UserService
         return $result;
     }
 
+    private function getContextUser(): User
+    {
+        $user = $this->context->getUser();
+        if ($user === null) {
+            throw new UnauthorizedException();
+        }
+        return $user;
+    }
+
     public function createUser(UserDto $data): UserDto
     {
         $user = $this->save($data);
@@ -58,10 +67,14 @@ class UserService
 
     public function getCurrentUser(): UserDto
     {
-        $user = $this->context->getUser();
-        if ($user === null) {
-            throw new UnauthorizedException();
-        }
+        $user = $this->getContextUser();
+        return $this->toDto($user);
+    }
+
+    public function updateCurrentUser(UserDto $data): UserDto
+    {
+        $user = $this->getContextUser();
+        $this->save($data, $user);
         return $this->toDto($user);
     }
 }

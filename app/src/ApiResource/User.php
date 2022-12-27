@@ -9,9 +9,11 @@ use App\Dto\UserDto;
 use App\State\UserCreateProcessor;
 use App\State\UserCurrentProvider;
 use App\State\UserLoginProcessor;
+use App\State\UserUpdateProcessor;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -79,6 +81,33 @@ use Symfony\Component\Validator\Constraints as Assert;
                     UserConfig::OUTPUT,
                 ],
                 'skip_null_values' => false,
+            ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+            ],
+        ),
+        new Put(
+            name: 'user_update',
+            uriTemplate: '/user',
+            processor: UserUpdateProcessor::class,
+            normalizationContext: [
+                'groups' => [
+                    UserConfig::OUTPUT,
+                ],
+                'skip_null_values' => false,
+            ],
+            denormalizationContext: [
+                'groups' => [
+                    UserConfig::INPUT_UPDATE,
+                    UserConfig::INPUT,
+                ],
+            ],
+            validationContext: [
+                'groups' => [
+                    UserConfig::VALID_UPDATE,
+                    UserConfig::VALID,
+                ],
             ],
             openapiContext: [
                 'summary' => '',
