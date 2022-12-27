@@ -1,0 +1,5 @@
+App\Entity\Comment:
+    article1_comment{2..9}:
+        body: 'Comment <current()>'
+        author: '@profile<current()>'
+        article: '@article1'
