@@ -47,4 +47,20 @@ class CommentTest extends ApiResourceTestCase
             $this->assertEquals('user' . $num, $comments[$i]['author']['username']);
         }
     }
+
+    public function testCreate()
+    {
+        $token = $this->getToken('user1@app.test', 'pswd1');
+
+        $body = 'Test';
+
+        $comment = $this->requestComments('POST', 'article-1', token: $token, data: [
+            'body' => $body,
+        ]);
+
+        $this->assertMatchesCommentJsonSchema('create');
+
+        $this->assertEquals($body, $comment['body']);
+        $this->assertEquals('user1', $comment['author']['username']);
+    }
 }

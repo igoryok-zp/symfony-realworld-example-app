@@ -6,12 +6,26 @@ namespace App\Mapper;
 
 use App\Dto\CommentDto;
 use App\Entity\Comment;
+use App\Utility\Context;
 
 class CommentMapper
 {
     public function __construct(
+        private Context $context,
         private ProfileMapper $profileMapper,
     ) {
+    }
+
+    public function mapDtoToEntity(CommentDto $dto, ?Comment $entity = null): Comment
+    {
+        $result = $entity ?: new Comment();
+        if ($dto->body !== null) {
+            $result->setBody($dto->body);
+        }
+        if ($result->getAuthor() === null && $this->context->getUser() !== null) {
+            $result->setAuthor($this->context->getUser()->getProfile());
+        }
+        return $result;
     }
 
     public function mapEntityToDto(Comment $entity): CommentDto

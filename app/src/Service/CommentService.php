@@ -35,10 +35,25 @@ class CommentService
         return $article;
     }
 
+    private function save(Article $article, CommentDto $data): Comment
+    {
+        $result = $this->commentMapper->mapDtoToEntity($data);
+        $result->setArticle($article);
+        $this->commentRepository->save($result);
+        return $result;
+    }
+
     public function getArticleComments(string $slug): array
     {
         $article = $this->findArticle($slug);
         $comments = $this->commentRepository->findBy(['article' => $article]);
         return array_map(fn ($comment) => $this->toDto($comment), $comments);
+    }
+
+    public function createArticleComment(string $slug, CommentDto $data): CommentDto
+    {
+        $article = $this->findArticle($slug);
+        $comment = $this->save($article, $data);
+        return $this->toDto($comment);
     }
 }
