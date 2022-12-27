@@ -6,10 +6,12 @@ namespace App\ApiResource;
 
 use App\Config\CommentConfig;
 use App\Controller\Api\CommentCreateController;
+use App\Controller\Api\CommentDeleteController;
 use App\Dto\CommentDto;
 use App\State\CommentsProvider;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\PropertyInfo\Type;
@@ -66,6 +68,27 @@ use Symfony\Component\Validator\Constraints as Assert;
                     'in' => 'path',
                     'required' => true,
                     'type' => 'string',
+                ]],
+            ],
+        ),
+        new Delete(
+            name: 'comment_delete',
+            uriTemplate: '/articles/{slug}/comments/{id}',
+            controller: CommentDeleteController::class,
+            read: false,
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+                'parameters' => [[
+                    'name' => 'slug',
+                    'in' => 'path',
+                    'required' => true,
+                    'type' => 'string',
+                ], [
+                    'name' => 'id',
+                    'in' => 'path',
+                    'required' => true,
+                    'type' => 'integer',
                 ]],
             ],
         ),

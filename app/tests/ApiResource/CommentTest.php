@@ -63,4 +63,11 @@ class CommentTest extends ApiResourceTestCase
         $this->assertEquals($body, $comment['body']);
         $this->assertEquals('user1', $comment['author']['username']);
     }
+
+    public function testDelete()
+    {
+        $token = $this->getToken('user2@app.test', 'pswd2');
+
+        $this->requestComments('DELETE', 'article-1', 1, token: $token);
+    }
 }
