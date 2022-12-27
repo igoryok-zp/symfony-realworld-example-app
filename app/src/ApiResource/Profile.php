@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\ApiResource;
 
 use App\Config\ProfileConfig;
+use App\Controller\Api\ProfileFollowController;
 use App\Dto\ProfileDto;
 use App\State\ProfileProvider;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -26,6 +29,61 @@ use Symfony\Component\Serializer\Annotation\Groups;
             openapiContext: [
                 'summary' => '',
                 'description' => '',
+            ],
+        ),
+        new Post(
+            name: 'profile_follow',
+            uriTemplate: '/profiles/{username}/follow',
+            controller: ProfileFollowController::class,
+            deserialize: false,
+            read: false,
+            validate: false,
+            normalizationContext: [
+                'groups' => [
+                    ProfileConfig::OUTPUT,
+                ],
+                'skip_null_values' => false,
+            ],
+            status: 200,
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+                'requestBody' => [
+                    'content' => [],
+                ]
+            ]
+        ),
+        new Delete(
+            name: 'profile_unfollow',
+            uriTemplate: '/profiles/{username}/follow',
+            controller: ProfileFollowController::class,
+            read: false,
+            normalizationContext: [
+                'groups' => [
+                    ProfileConfig::OUTPUT,
+                ],
+                'skip_null_values' => false,
+            ],
+            status: 200,
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+                'responses' => [
+                    '200' => [
+                        'content' => [
+                            'application/json' => [
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/Profile-' . ProfileConfig::OUTPUT,
+                                ],
+                            ],
+                            'text/html' => [
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/Profile-' . ProfileConfig::OUTPUT,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ),
     ],

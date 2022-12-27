@@ -23,4 +23,9 @@ final class ProfileDto
         ProfileConfig::OUTPUT,
     ])]
     public ?string $image = null;
+
+    #[Groups([
+        ProfileConfig::OUTPUT,
+    ])]
+    public bool $following = false;
 }

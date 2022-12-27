@@ -5,6 +5,7 @@ api_platform:
         html:
             mime_types: ['text/html']
     exception_to_status:
+        App\Exception\ForbiddenException: 403
         App\Exception\NotFoundException: 404
         App\Exception\UnauthorizedException: 401
     swagger:

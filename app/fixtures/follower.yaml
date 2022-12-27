@@ -1,0 +1,4 @@
+App\Entity\Follower:
+    profile1_follower{2..9}:
+        profile: '@profile1'
+        follower: '@profile<current()>'

@@ -19,6 +19,16 @@ class ProfileTest extends ApiResourceTestCase
         return $result['profile'] ?? [];
     }
 
+    private function assertFollowing(string $token, string $username, bool $expected)
+    {
+        $profile = $this->requestProfiles('GET', $username, $token);
+
+        $this->assertMatchesProfileJsonSchema('get');
+
+        $this->assertEquals($username, $profile['username']);
+        $this->assertEquals($expected, $profile['following']);
+    }
+
     public function testGet()
     {
         $username = 'user1';
@@ -30,5 +40,38 @@ class ProfileTest extends ApiResourceTestCase
         $this->assertEquals($username, $profile['username']);
         $this->assertEquals('bio 1', $profile['bio']);
         $this->assertEquals('image-1.png', $profile['image']);
+        $this->assertEquals(false, $profile['following']);
+    }
+
+    public function testFollow()
+    {
+        $username = 'user2';
+
+        $token = $this->getToken('user1@app.test', 'pswd1');
+
+        $this->assertFollowing($token, $username, false);
+
+        $profile = $this->requestProfiles('POST', $username . '/follow', $token);
+
+        $this->assertMatchesProfileJsonSchema('follow');
+
+        $this->assertEquals($username, $profile['username']);
+        $this->assertEquals(true, $profile['following']);
+    }
+
+    public function testUnfollow()
+    {
+        $username = 'user1';
+
+        $token = $this->getToken('user2@app.test', 'pswd2');
+
+        $this->assertFollowing($token, $username, true);
+
+        $profile = $this->requestProfiles('DELETE', $username . '/follow', $token);
+
+        $this->assertMatchesProfileJsonSchema('unfollow');
+
+        $this->assertEquals($username, $profile['username']);
+        $this->assertEquals(false, $profile['following']);
     }
 }
