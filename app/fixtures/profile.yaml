@@ -1,0 +1,5 @@
+App\Entity\Profile:
+    profile{1..9}:
+        username: 'user<current()>'
+        bio: 'bio <current()>'
+        image: 'image-<current()>.png'

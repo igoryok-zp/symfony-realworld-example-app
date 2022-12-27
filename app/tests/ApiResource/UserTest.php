@@ -27,10 +27,16 @@ class UserTest extends ApiResourceTestCase
     {
         $email = 'test@app.test';
         $password = 'test1';
+        $username = 'test';
+        $bio = 'test bio';
+        $image = 'test.png';
 
         $user = $this->requestUsers('POST', 'users', [
             'email' => $email,
             'password' => $password,
+            'username' => $username,
+            'bio' => $bio,
+            'image' => $image,
         ]);
 
         $this->assertMatchesUserJsonSchema('create');
@@ -38,6 +44,9 @@ class UserTest extends ApiResourceTestCase
         $this->assertEquals($email, $user['email']);
         $this->assertFalse(isset($user['password']));
         $this->assertNotEmpty($user['token']);
+        $this->assertEquals($username, $user['username']);
+        $this->assertEquals($bio, $user['bio']);
+        $this->assertEquals($image, $user['image']);
     }
 
     public function testLogin()
@@ -55,6 +64,9 @@ class UserTest extends ApiResourceTestCase
         $this->assertEquals($email, $user['email']);
         $this->assertFalse(isset($user['password']));
         $this->assertNotEmpty($user['token']);
+        $this->assertEquals('user1', $user['username']);
+        $this->assertEquals('bio 1', $user['bio']);
+        $this->assertEquals('image-1.png', $user['image']);
     }
 
     public function testCurrent()
@@ -71,6 +83,9 @@ class UserTest extends ApiResourceTestCase
         $this->assertEquals($email, $user['email']);
         $this->assertFalse(isset($user['password']));
         $this->assertNotEmpty($user['token']);
+        $this->assertEquals('user1', $user['username']);
+        $this->assertEquals('bio 1', $user['bio']);
+        $this->assertEquals('image-1.png', $user['image']);
     }
 
     public function testUpdate()
@@ -78,9 +93,15 @@ class UserTest extends ApiResourceTestCase
         $token = $this->getToken('user1@app.test', 'pswd1');
 
         $email = 'test@app.test';
+        $username = 'test';
+        $bio = 'test bio';
+        $image = 'test.png';
 
         $user = $this->requestUsers('PUT', 'user', [
             'email' => $email,
+            'username' => $username,
+            'bio' => $bio,
+            'image' => $image,
         ], $token);
 
         $this->assertMatchesUserJsonSchema('update');
@@ -88,5 +109,8 @@ class UserTest extends ApiResourceTestCase
         $this->assertEquals($email, $user['email']);
         $this->assertFalse(isset($user['password']));
         $this->assertNotEmpty($user['token']);
+        $this->assertEquals($username, $user['username']);
+        $this->assertEquals($bio, $user['bio']);
+        $this->assertEquals($image, $user['image']);
     }
 }
