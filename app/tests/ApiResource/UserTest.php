@@ -13,13 +13,13 @@ class UserTest extends ApiResourceTestCase
         $this->assertMatchesApiResourceJsonSchema(User::class, 'user_' . $operationName);
     }
 
-    private function requestUsers(string $method, string $api, array $data = []): array
+    private function requestUsers(string $method, string $api, array $data = [], string $token = ''): array
     {
         $userData = [];
         if (!empty($data)) {
             $userData['user'] = $data;
         }
-        $result = $this->requestApi($method, $api, $userData);
+        $result = $this->requestApi($method, $api, $userData, $token);
         return $result['user'] ?? [];
     }
 
@@ -51,6 +51,22 @@ class UserTest extends ApiResourceTestCase
         ]);
 
         $this->assertMatchesUserJsonSchema('login');
+
+        $this->assertEquals($email, $user['email']);
+        $this->assertFalse(isset($user['password']));
+        $this->assertNotEmpty($user['token']);
+    }
+
+    public function testCurrent()
+    {
+        $email = 'user1@app.test';
+        $password = 'pswd1';
+
+        $token = $this->getToken($email, $password);
+
+        $user = $this->requestUsers('GET', 'user', token: $token);
+
+        $this->assertMatchesUserJsonSchema('current');
 
         $this->assertEquals($email, $user['email']);
         $this->assertFalse(isset($user['password']));

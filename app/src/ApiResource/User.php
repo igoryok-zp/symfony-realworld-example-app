@@ -7,8 +7,10 @@ namespace App\ApiResource;
 use App\Config\UserConfig;
 use App\Dto\UserDto;
 use App\State\UserCreateProcessor;
+use App\State\UserCurrentProvider;
 use App\State\UserLoginProcessor;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -62,6 +64,21 @@ use Symfony\Component\Validator\Constraints as Assert;
                     UserConfig::VALID_LOGIN,
                     UserConfig::VALID,
                 ],
+            ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+            ],
+        ),
+        new Get(
+            name: 'user_current',
+            uriTemplate: '/user',
+            provider: UserCurrentProvider::class,
+            normalizationContext: [
+                'groups' => [
+                    UserConfig::OUTPUT,
+                ],
+                'skip_null_values' => false,
             ],
             openapiContext: [
                 'summary' => '',

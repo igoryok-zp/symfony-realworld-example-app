@@ -9,12 +9,14 @@ use App\Entity\User;
 use App\Exception\UnauthorizedException;
 use App\Mapper\UserMapper;
 use App\Repository\UserRepository;
+use App\Utility\Context;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
 {
     public function __construct(
+        private Context $context,
         private UserMapper $userMapper,
         private UserPasswordHasherInterface $passwordHasher,
         private UserRepository $userRepository,
@@ -50,6 +52,15 @@ class UserService
         $user = $this->userRepository->findOneByEmail($data->email);
         if ($user === null || !$this->passwordHasher->isPasswordValid($user, $data->password)) {
             throw new UnauthorizedException('Email or password is not valid');
+        }
+        return $this->toDto($user);
+    }
+
+    public function getCurrentUser(): UserDto
+    {
+        $user = $this->context->getUser();
+        if ($user === null) {
+            throw new UnauthorizedException();
         }
         return $this->toDto($user);
     }

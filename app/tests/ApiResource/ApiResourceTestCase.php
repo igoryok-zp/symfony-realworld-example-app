@@ -13,12 +13,15 @@ class ApiResourceTestCase extends ApiPlatformApiTestCase
         $this->assertMatchesResourceItemJsonSchema($resourceClass, $operationName, 'json');
     }
 
-    protected function requestApi(string $method, string $api, array $data = []): array
+    protected function requestApi(string $method, string $api, array $data = [], string $token = ''): array
     {
         $url = '/api/' . $api;
         $headers = [
             'Accept' => 'application/json',
         ];
+        if (!empty($token)) {
+            $headers['Authorization'] = 'Token ' . $token;
+        }
         $options = ['headers' => $headers];
         if (!empty($data)) {
             $options['json'] = $data;
@@ -29,5 +32,16 @@ class ApiResourceTestCase extends ApiPlatformApiTestCase
 
         $result = (array) json_decode($response->getContent(false), true);
         return $result;
+    }
+
+    protected function getToken(string $email, string $password): string
+    {
+        $data = $this->requestApi('POST', 'users/login', [
+            'user' => [
+                'email' => $email,
+                'password' => $password,
+            ]
+        ]);
+        return $data['user']['token'];
     }
 }
