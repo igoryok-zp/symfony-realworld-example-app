@@ -1,3 +1,7 @@
+api_doc:
+    path: /
+    controller: api_platform.swagger_ui.action
+
 controllers:
     resource:
         path: ../src/Controller/

@@ -1,0 +1,6 @@
+api_platform:
+    formats:
+        json:
+            mime_types: ['application/json']
+        html:
+            mime_types: ['text/html']

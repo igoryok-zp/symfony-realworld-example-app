@@ -1,0 +1,4 @@
+App\Entity\User:
+    user{1..9}:
+        email: 'user<current()>\@app.test'
+        password: 'pswd<current()>'
