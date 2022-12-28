@@ -1,0 +1,4 @@
+App\Entity\Favorite:
+    article1_favorite{2..9}:
+        article: '@article1'
+        profile: '@profile<current()>'

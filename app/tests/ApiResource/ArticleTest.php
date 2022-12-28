@@ -38,6 +38,16 @@ class ArticleTest extends ApiResourceTestCase
         ]);
     }
 
+    private function assertFavorited(string $token, string $slug, bool $expected)
+    {
+        $article = $this->requestArticles('GET', $slug, token: $token);
+
+        $this->assertMatchesArticleJsonSchema('get');
+
+        $this->assertEquals($slug, $article['slug']);
+        $this->assertEquals($expected, $article['favorited']);
+    }
+
     public function testGet()
     {
         $slug = 'article-1';
@@ -50,6 +60,8 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals('Article 1', $article['title']);
         $this->assertEquals('Description 1', $article['description']);
         $this->assertEquals('Body 1', $article['body']);
+        $this->assertEquals(false, $article['favorited']);
+        $this->assertEquals(8, $article['favoritesCount']);
         $this->assertEquals('user1', $article['author']['username']);
     }
 
@@ -73,6 +85,8 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals($title, $article['title']);
         $this->assertEquals($description, $article['description']);
         $this->assertEquals($body, $article['body']);
+        $this->assertEquals(false, $article['favorited']);
+        $this->assertEquals(0, $article['favoritesCount']);
         $this->assertEquals('user1', $article['author']['username']);
     }
 
@@ -96,6 +110,8 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals($title, $article['title']);
         $this->assertEquals($description, $article['description']);
         $this->assertEquals($body, $article['body']);
+        $this->assertEquals(false, $article['favorited']);
+        $this->assertEquals(8, $article['favoritesCount']);
     }
 
     public function testDelete()
@@ -103,5 +119,39 @@ class ArticleTest extends ApiResourceTestCase
         $token = $this->getToken('user1@app.test', 'pswd1');
 
         $this->requestArticles('DELETE', 'article-1', token: $token);
+    }
+
+    public function testFavorite()
+    {
+        $slug = 'article-2';
+
+        $token = $this->getToken('user1@app.test', 'pswd1');
+
+        $this->assertFavorited($token, $slug, false);
+
+        $article = $this->requestArticles('POST', $slug . '/favorite', token: $token);
+
+        $this->assertMatchesArticleJsonSchema('favorite');
+
+        $this->assertEquals($slug, $article['slug']);
+        $this->assertEquals(1, $article['favoritesCount']);
+        $this->assertEquals(true, $article['favorited']);
+    }
+
+    public function testUnfavorite()
+    {
+        $slug = 'article-1';
+
+        $token = $this->getToken('user2@app.test', 'pswd2');
+
+        $this->assertFavorited($token, $slug, true);
+
+        $article = $this->requestArticles('DELETE', $slug . '/favorite', token: $token);
+
+        $this->assertMatchesArticleJsonSchema('unfavorite');
+
+        $this->assertEquals($slug, $article['slug']);
+        $this->assertEquals(7, $article['favoritesCount']);
+        $this->assertEquals(false, $article['favorited']);
     }
 }

@@ -85,5 +85,15 @@ final class ArticleDto
     #[Groups([
         ArticleConfig::OUTPUT,
     ])]
+    public bool $favorited = false;
+
+    #[Groups([
+        ArticleConfig::OUTPUT,
+    ])]
+    public int $favoritesCount = 0;
+
+    #[Groups([
+        ArticleConfig::OUTPUT,
+    ])]
     public ?ProfileDto $author = null;
 }

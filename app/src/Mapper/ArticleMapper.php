@@ -6,14 +6,26 @@ namespace App\Mapper;
 
 use App\Dto\ArticleDto;
 use App\Entity\Article;
+use App\Repository\FavoriteRepository;
 use App\Utility\Context;
 
 class ArticleMapper
 {
     public function __construct(
         private Context $context,
+        private FavoriteRepository $favoriteRepository,
         private ProfileMapper $profileMapper,
     ) {
+    }
+
+    private function isFavorited(Article $article): bool
+    {
+        $result = false;
+        $user = $this->context->getUser();
+        if ($user !== null) {
+            $result = $this->favoriteRepository->exists($article, $user->getProfile());
+        }
+        return $result;
     }
 
     public function mapDtoToEntity(ArticleDto $dto, ?Article $entity = null): Article
@@ -43,6 +55,8 @@ class ArticleMapper
         $result->body = $entity->getBody();
         $result->createdAt = $entity->getCreatedAt();
         $result->updatedAt = $entity->getCreatedAt();
+        $result->favorited = $this->isFavorited($entity);
+        $result->favoritesCount = $this->favoriteRepository->countByArticle($entity);
         $result->author = $this->profileMapper->mapEntityToDto($entity->getAuthor());
         return $result;
     }

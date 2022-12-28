@@ -12,6 +12,7 @@ use App\Exception\NotFoundException;
 use App\Exception\UnauthorizedException;
 use App\Mapper\ArticleMapper;
 use App\Repository\ArticleRepository;
+use App\Repository\FavoriteRepository;
 use App\Utility\Context;
 
 class ArticleService
@@ -20,6 +21,7 @@ class ArticleService
         private ArticleMapper $articleMapper,
         private ArticleRepository $articleRepository,
         private Context $context,
+        private FavoriteRepository $favoriteRepository,
     ) {
     }
 
@@ -91,5 +93,21 @@ class ArticleService
         $article = $this->findArticle($slug);
         $this->verifyPermissions($article);
         $this->articleRepository->remove($article);
+    }
+
+    public function favoriteArticle(string $slug): ArticleDto
+    {
+        $article = $this->findArticle($slug);
+        $profile = $this->getContextProfile();
+        $this->favoriteRepository->add($article, $profile);
+        return $this->toDto($article);
+    }
+
+    public function unfavoriteArticle(string $slug): ArticleDto
+    {
+        $article = $this->findArticle($slug);
+        $profile = $this->getContextProfile();
+        $this->favoriteRepository->remove($article, $profile);
+        return $this->toDto($article);
     }
 }
