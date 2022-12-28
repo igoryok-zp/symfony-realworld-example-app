@@ -4,3 +4,4 @@ App\Entity\Article:
         description: 'Description <current()>'
         body: 'Body <current()>'
         author: '@profile<current()>'
+        tags: ['@tag<current()>']

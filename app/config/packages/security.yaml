@@ -33,6 +33,7 @@ security:
     access_control:
         - { path: ^/api/articles, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/profiles/(.+), roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/tags, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/users, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/api/users/login, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

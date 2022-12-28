@@ -1,0 +1,3 @@
+App\Entity\Tag:
+    tag{1..9}:
+        name: 'tag<current()>'

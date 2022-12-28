@@ -60,6 +60,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals('Article 1', $article['title']);
         $this->assertEquals('Description 1', $article['description']);
         $this->assertEquals('Body 1', $article['body']);
+        $this->assertEquals(['tag1'], $article['tagList']);
         $this->assertEquals(false, $article['favorited']);
         $this->assertEquals(8, $article['favoritesCount']);
         $this->assertEquals('user1', $article['author']['username']);
@@ -72,11 +73,13 @@ class ArticleTest extends ApiResourceTestCase
         $title = 'Test';
         $description = 'Test Description';
         $body = 'Test Body';
+        $tagList = ['test'];
 
         $article = $this->requestArticles('POST', token: $token, data: [
             'title' => $title,
             'description' => $description,
             'body' => $body,
+            'tagList' => $tagList,
         ]);
 
         $this->assertMatchesArticleJsonSchema('create');
@@ -85,6 +88,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals($title, $article['title']);
         $this->assertEquals($description, $article['description']);
         $this->assertEquals($body, $article['body']);
+        $this->assertEquals($tagList, $article['tagList']);
         $this->assertEquals(false, $article['favorited']);
         $this->assertEquals(0, $article['favoritesCount']);
         $this->assertEquals('user1', $article['author']['username']);
@@ -97,11 +101,13 @@ class ArticleTest extends ApiResourceTestCase
         $title = 'Updated Article';
         $description = 'Updated Description';
         $body = 'Updated Body';
+        $tagList = ['test'];
 
         $article = $this->requestArticles('PUT', 'article-1', token: $token, data: [
             'title' => $title,
             'description' => $description,
             'body' => $body,
+            'tagList' => $tagList,
         ]);
 
         $this->assertMatchesArticleJsonSchema('update');
@@ -110,6 +116,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals($title, $article['title']);
         $this->assertEquals($description, $article['description']);
         $this->assertEquals($body, $article['body']);
+        $this->assertEquals($tagList, $article['tagList']);
         $this->assertEquals(false, $article['favorited']);
         $this->assertEquals(8, $article['favoritesCount']);
     }

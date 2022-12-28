@@ -66,6 +66,12 @@ final class ArticleDto
     ])]
     public ?string $body = null;
 
+    #[Groups([
+        ArticleConfig::INPUT,
+        ArticleConfig::OUTPUT,
+    ])]
+    public ?array $tagList = null;
+
     #[Context([
         DateTimeNormalizer::FORMAT_KEY => DateTimeConfig::FORMAT,
     ])]
