@@ -11,6 +11,7 @@ use App\Dto\ArticleDto;
 use App\State\ArticleCreateProcessor;
 use App\State\ArticleProvider;
 use App\State\ArticlesFeedProvider;
+use App\State\ArticlesProvider;
 use App\State\ArticleUpdateProcessor;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
@@ -38,6 +39,45 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'summary' => '',
                 'description' => '',
                 'parameters' => [[
+                    'name' => 'limit',
+                    'in' => 'query',
+                    'required' => false,
+                    'type' => 'integer',
+                ], [
+                    'name' => 'offset',
+                    'in' => 'query',
+                    'required' => false,
+                    'type' => 'integer',
+                ]],
+            ],
+        ),
+        new Get(
+            name: 'article_list',
+            provider: ArticlesProvider::class,
+            normalizationContext: [
+                'groups' => [
+                    ArticleConfig::OUTPUT_LIST,
+                ],
+            ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+                'parameters' => [[
+                    'name' => 'author',
+                    'in' => 'query',
+                    'required' => false,
+                    'type' => 'string',
+                ], [
+                    'name' => 'favorited',
+                    'in' => 'query',
+                    'required' => false,
+                    'type' => 'string',
+                ], [
+                    'name' => 'tag',
+                    'in' => 'query',
+                    'required' => false,
+                    'type' => 'string',
+                ], [
                     'name' => 'limit',
                     'in' => 'query',
                     'required' => false,

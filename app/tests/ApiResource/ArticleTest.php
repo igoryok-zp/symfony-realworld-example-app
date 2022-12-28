@@ -184,4 +184,76 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals('user1', $article['author']['username']);
         $this->assertEquals(true, $article['author']['following']);
     }
+
+    public function listDataProvider()
+    {
+        $limit = 1;
+        $author = 'user1';
+        $tag = 'tag1';
+        return [[
+            '',
+            function ($count, $articles) {
+                $this->assertEquals(9, $count);
+                $this->assertCount(9, $articles);
+            }
+        ], [
+            'limit=' . $limit,
+            function ($count, $articles) use ($limit) {
+                $this->assertEquals(9, $count);
+                $this->assertCount($limit, $articles);
+            }
+        ], [
+            'author=' . $author,
+            function ($count, $articles) use ($author) {
+                $this->assertEquals(1, $count);
+                $this->assertCount(1, $articles);
+                $this->assertEquals($author, $articles[0]['author']['username']);
+            }
+        ], [
+            'favorited=user2',
+            function ($count, $articles) {
+                $this->assertEquals(1, $count);
+                $this->assertCount(1, $articles);
+                $this->assertEquals(true, $articles[0]['favorited']);
+            },
+            fn () => $this->getToken('user2@app.test', 'pswd2')
+        ], [
+            'tag=' . $tag,
+            function ($count, $articles) use ($tag) {
+                $this->assertEquals(1, $count);
+                $this->assertCount(1, $articles);
+                $this->assertEquals([$tag], $articles[0]['tagList']);
+            }
+        ], [
+            'author=' . $author . '&favorited=user2&tag=' . $tag . '&limit=' . $limit,
+            function ($count, $articles) use ($author, $tag, $limit) {
+                $this->assertEquals(1, $count);
+                $this->assertCount($limit, $articles);
+                $this->assertEquals($author, $articles[0]['author']['username']);
+                $this->assertEquals(true, $articles[0]['favorited']);
+                $this->assertEquals([$tag], $articles[0]['tagList']);
+            },
+            fn () => $this->getToken('user2@app.test', 'pswd2')
+        ]];
+    }
+
+    /**
+     * @dataProvider listDataProvider
+     * @param string $query
+     * @param mixed $assertFunc
+     * @param mixed $tokenProvider
+     * @return void
+     */
+    public function testList(string $query, $assertFunc, $tokenProvider = null)
+    {
+        [$count, $articles] = $this->requestArticles(
+            'GET',
+            query: $query,
+            token: $tokenProvider !== null ? call_user_func($tokenProvider) : ''
+        );
+
+        $this->assertMatchesArticleJsonSchema('list');
+
+        call_user_func($assertFunc, $count, $articles);
+    }
 }

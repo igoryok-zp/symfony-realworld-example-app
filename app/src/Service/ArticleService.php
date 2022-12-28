@@ -123,4 +123,20 @@ class ArticleService
         $articles = $this->articleRepository->findArticlesFeed($profile->getId(), $limit, $offset);
         return array_map(fn (Article $article) => $this->toDto($article), $articles);
     }
+
+    public function countArticles(?string $author = null, ?string $favorited = null, ?string $tag = null): int
+    {
+        return $this->articleRepository->countArticles($author, $favorited, $tag);
+    }
+
+    public function getArticles(
+        int $limit,
+        int $offset,
+        ?string $author = null,
+        ?string $favorited = null,
+        ?string $tag = null
+    ): array {
+        $articles = $this->articleRepository->findArticles($limit, $offset, $author, $favorited, $tag);
+        return array_map(fn (Article $article) => $this->toDto($article), $articles);
+    }
 }
