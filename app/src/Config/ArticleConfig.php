@@ -13,6 +13,7 @@ final class ArticleConfig
     public const INPUT = 'ArticleInput';
 
     public const OUTPUT = 'ArticleOutput';
+    public const OUTPUT_LIST = 'ArticleListOutput';
 
     public const VALID = 'ArticleValid';
     public const VALID_CREATE = 'ArticleValidCreate';

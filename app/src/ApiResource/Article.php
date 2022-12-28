@@ -10,18 +10,46 @@ use App\Controller\Api\ArticleFavoriteController;
 use App\Dto\ArticleDto;
 use App\State\ArticleCreateProcessor;
 use App\State\ArticleProvider;
+use App\State\ArticlesFeedProvider;
 use App\State\ArticleUpdateProcessor;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
+        new Get(
+            name: 'article_feed',
+            uriTemplate: '/articles/feed',
+            provider: ArticlesFeedProvider::class,
+            normalizationContext: [
+                'groups' => [
+                    ArticleConfig::OUTPUT_LIST,
+                ],
+            ],
+            openapiContext: [
+                'summary' => '',
+                'description' => '',
+                'parameters' => [[
+                    'name' => 'limit',
+                    'in' => 'query',
+                    'required' => false,
+                    'type' => 'integer',
+                ], [
+                    'name' => 'offset',
+                    'in' => 'query',
+                    'required' => false,
+                    'type' => 'integer',
+                ]],
+            ],
+        ),
         new Get(
             name: 'article_get',
             uriTemplate: '/articles/{slug}',
@@ -187,6 +215,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 final class Article
 {
+    #[ApiProperty(
+        builtinTypes: [
+            new Type(
+                builtinType: Type::BUILTIN_TYPE_ARRAY,
+                collection: true,
+                collectionValueType: [
+                    new Type(
+                        builtinType: Type::BUILTIN_TYPE_OBJECT,
+                        class: ArticleDto::class,
+                    ),
+                ],
+            ),
+        ],
+    )]
+    #[Groups([
+        ArticleConfig::OUTPUT_LIST,
+    ])]
+    public array $articles = [];
+
+    #[Groups([
+        ArticleConfig::OUTPUT_LIST,
+    ])]
+    public int $articlesCount = 0;
+
     #[Assert\Valid]
     #[Groups([
         ArticleConfig::INPUT,

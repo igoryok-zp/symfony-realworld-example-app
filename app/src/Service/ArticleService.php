@@ -110,4 +110,17 @@ class ArticleService
         $this->favoriteRepository->remove($article, $profile);
         return $this->toDto($article);
     }
+
+    public function countArticlesFeed(): int
+    {
+        $profile = $this->getContextProfile();
+        return $this->articleRepository->countArticlesFeed($profile->getId());
+    }
+
+    public function getArticlesFeed(int $limit, int $offset): array
+    {
+        $profile = $this->getContextProfile();
+        $articles = $this->articleRepository->findArticlesFeed($profile->getId(), $limit, $offset);
+        return array_map(fn (Article $article) => $this->toDto($article), $articles);
+    }
 }

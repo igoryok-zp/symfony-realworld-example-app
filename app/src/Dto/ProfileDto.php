@@ -13,6 +13,7 @@ final class ProfileDto
 {
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
         CommentConfig::OUTPUT,
         CommentConfig::OUTPUT_LIST,
         ProfileConfig::OUTPUT,
@@ -21,6 +22,7 @@ final class ProfileDto
 
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
         CommentConfig::OUTPUT,
         CommentConfig::OUTPUT_LIST,
         ProfileConfig::OUTPUT,
@@ -29,6 +31,7 @@ final class ProfileDto
 
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
         CommentConfig::OUTPUT,
         CommentConfig::OUTPUT_LIST,
         ProfileConfig::OUTPUT,
@@ -37,6 +40,7 @@ final class ProfileDto
 
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
         CommentConfig::OUTPUT,
         CommentConfig::OUTPUT_LIST,
         ProfileConfig::OUTPUT,

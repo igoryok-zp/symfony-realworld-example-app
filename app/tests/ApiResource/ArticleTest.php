@@ -161,4 +161,27 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals(7, $article['favoritesCount']);
         $this->assertEquals(false, $article['favorited']);
     }
+
+    public function testFeed()
+    {
+        $token = $this->getToken('user2@app.test', 'pswd2');
+
+        [$count, $articles] = $this->requestArticles('GET', 'feed', token: $token);
+
+        $this->assertMatchesArticleJsonSchema('feed');
+
+        $this->assertEquals(1, $count);
+        $this->assertCount(1, $articles);
+
+        $article = $articles[0];
+        $this->assertEquals('article-1', $article['slug']);
+        $this->assertEquals('Article 1', $article['title']);
+        $this->assertEquals('Description 1', $article['description']);
+        $this->assertEquals('Body 1', $article['body']);
+        $this->assertEquals(['tag1'], $article['tagList']);
+        $this->assertEquals(true, $article['favorited']);
+        $this->assertEquals(8, $article['favoritesCount']);
+        $this->assertEquals('user1', $article['author']['username']);
+        $this->assertEquals(true, $article['author']['following']);
+    }
 }

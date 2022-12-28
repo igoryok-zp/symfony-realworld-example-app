@@ -18,6 +18,7 @@ final class ArticleDto
     #[ApiProperty(identifier: true)]
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?string $slug = null;
 
@@ -35,6 +36,7 @@ final class ArticleDto
     #[Groups([
         ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?string $title = null;
 
@@ -52,6 +54,7 @@ final class ArticleDto
     #[Groups([
         ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?string $description = null;
 
@@ -63,12 +66,14 @@ final class ArticleDto
     #[Groups([
         ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?string $body = null;
 
     #[Groups([
         ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?array $tagList = null;
 
@@ -77,6 +82,7 @@ final class ArticleDto
     ])]
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?DateTimeImmutable $createdAt = null;
 
@@ -85,21 +91,25 @@ final class ArticleDto
     ])]
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?DateTimeImmutable $updatedAt = null;
 
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public bool $favorited = false;
 
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public int $favoritesCount = 0;
 
     #[Groups([
         ArticleConfig::OUTPUT,
+        ArticleConfig::OUTPUT_LIST,
     ])]
     public ?ProfileDto $author = null;
 }
