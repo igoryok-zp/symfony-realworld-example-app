@@ -1,4 +1,6 @@
 api_platform:
+    title: 'Symfony RealWorld Example App'
+    version: '1.0.0'
     formats:
         json:
             mime_types: ['application/json']
