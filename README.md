@@ -2,7 +2,7 @@
 
 [![RealWorld: Backend](https://img.shields.io/badge/RealWorld-Backend-blueviolet.svg)](https://github.com/gothinkster/realworld)
 [![Test: status](https://github.com/igoryok-zp/symfony-realworld-example-app/actions/workflows/test.yml/badge.svg)](https://github.com/igoryok-zp/symfony-realworld-example-app/actions/workflows/test.yml)
-[![Coverage: percent](https://codecov.io/gh/igoryok-zp/symfony-realworld-example-app/branch/main/graph/badge.svg)](https://codecov.io/gh/igoryok-zp/symfony-realworld-example-app)
+[![Coverage: percent](https://codecov.io/gh/igoryok-zp/symfony-realworld-example-app/branch/master/graph/badge.svg)](https://codecov.io/gh/igoryok-zp/symfony-realworld-example-app)
 [![Code Analysis: status](https://github.com/igoryok-zp/symfony-realworld-example-app/actions/workflows/code-analysis.yml/badge.svg)](https://github.com/igoryok-zp/symfony-realworld-example-app/actions/workflows/code-analysis.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT)
 
