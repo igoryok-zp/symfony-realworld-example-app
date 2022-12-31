@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Config\TagConfig;
 use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -18,7 +19,10 @@ class Tag
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 32, unique: true)]
+    #[ORM\Column(
+        length: TagConfig::NAME_LENGTH,
+        unique: true,
+    )]
     private ?string $name = null;
 
     #[Gedmo\Timestampable(on: 'create')]
