@@ -26,8 +26,8 @@ jobs:
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
-        working-directory: ./app
         with:
+          working-directory: ./app
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
