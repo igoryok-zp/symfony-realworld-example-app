@@ -1,5 +1,9 @@
 # ![Symfony RealWorld Example App](logo.png)
 
+[![RealWorld: Backend](https://img.shields.io/badge/RealWorld-Backend-blueviolet.svg)](https://github.com/gothinkster/realworld)
+[![Code Analysis: status](https://github.com/igoryok-zp/symfony-realworld-example-app/actions/workflows/code-analysis.yml/badge.svg)](https://github.com/igoryok-zp/symfony-realworld-example-app/actions/workflows/code-analysis.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT)
+
 > ### Symfony codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
