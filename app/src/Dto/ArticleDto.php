@@ -6,6 +6,7 @@ namespace App\Dto;
 
 use App\Config\ArticleConfig;
 use App\Config\DateTimeConfig;
+use App\Config\TagConfig;
 use ApiPlatform\Metadata\ApiProperty;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Annotation\Context;
@@ -70,6 +71,18 @@ final class ArticleDto
     ])]
     public ?string $body = null;
 
+    #[Assert\All(
+        constraints: [
+            new Assert\NotBlank(),
+            new Assert\Type('string'),
+            new Assert\Length(
+                max: TagConfig::NAME_LENGTH,
+            ),
+        ],
+        groups: [
+            ArticleConfig::VALID,
+        ],
+    )]
     #[Groups([
         ArticleConfig::INPUT,
         ArticleConfig::OUTPUT,
