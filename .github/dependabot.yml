@@ -9,5 +9,6 @@ updates:
     directory: "/app"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
     assignees:
       - "igoryok-zp"
