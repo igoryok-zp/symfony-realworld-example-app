@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use Exception;
-use Throwable;
-
-class ForbiddenException extends Exception
+class ForbiddenException extends AbstractException
 {
-    public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)
+    protected function getName(): string
     {
-        $exceptionMessage = 'Forbidden';
-        if (!empty($message)) {
-            $exceptionMessage .= ': ' . $message;
-        }
-        parent::__construct($exceptionMessage, $code, $previous);
+        return 'Forbidden';
     }
 }
