@@ -1,24 +1,38 @@
-FROM php:8.1-fpm AS php_fpm
+FROM php:8.2-fpm-alpine AS php_fpm
 
-RUN apt-get update && \
-    apt-get -y install zip libfreetype6-dev libjpeg62-turbo-dev libpng-dev libpq-dev libxslt-dev libzip-dev && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-configure intl && \
-    docker-php-ext-install -j$(nproc) bcmath gd intl opcache pdo_pgsql xsl zip && \
-    pecl install apcu && \
-    docker-php-ext-enable apcu && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# php extensions installer: https://github.com/mlocati/docker-php-extension-installer
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+# persistent / runtime deps
+RUN apk add --no-cache \
+        acl \
+        fcgi \
+        file \
+        gettext \
+        git \
+    ;
+
+RUN set -eux; \
+    install-php-extensions \
+        intl \
+        zip \
+        apcu \
+        opcache \
+        pdo_pgsql \
+    ;
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 ARG APP_USER
-RUN useradd -m -s /bin/bash -u 1000 $APP_USER && \
+RUN adduser --disabled-password $APP_USER && \
     chown $APP_USER:$APP_USER -R /var/www && \
     sed -i -e "s/www-data/$APP_USER/g" /usr/local/etc/php-fpm.d/www.conf
 
 COPY docker/app/entrypoint.sh /usr/local/bin/docker-app-entrypoint
 RUN chmod +x /usr/local/bin/docker-app-entrypoint
+
+RUN ln -s /var/www/html/bin/console /usr/local/bin/ && \
+    ln -s /var/www/html/bin/phpunit /usr/local/bin/
 
 ENTRYPOINT ["docker-app-entrypoint"]
 CMD ["php-fpm"]
@@ -29,9 +43,11 @@ FROM php_fpm AS app_dev
 
 ENV APP_ENV=dev
 
-RUN pecl install pcov xdebug && \
-    docker-php-ext-enable pcov && \
-    docker-php-ext-enable xdebug
+RUN set -eux; \
+    install-php-extensions \
+        pcov \
+        xdebug \
+    ;
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini && \
     rm $PHP_INI_DIR/php.ini-production
@@ -61,10 +77,10 @@ RUN rm -rf docker/ && \
 
 
 
-FROM nginx:1 AS proxy
+FROM nginx:1-alpine AS proxy
 
 ARG APP_USER
-RUN useradd -m -s /bin/bash -u 1000 $APP_USER && \
+RUN adduser --disabled-password $APP_USER && \
     mkdir -p /var/www/html/public && \
     chown $APP_USER:$APP_USER -R /var/www/html && \
     sed -i -e "s/^user .*/user $APP_USER;/g" /etc/nginx/nginx.conf
