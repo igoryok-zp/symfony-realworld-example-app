@@ -85,7 +85,7 @@ Open http://localhost/ to verify the app is running fine.
 
 Run PHPUnit:
 ```
-docker-compose exec app php bin/phpunit
+docker-compose exec app phpunit
 ```
 
 
