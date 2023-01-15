@@ -14,37 +14,56 @@ use App\Service\ProfileService;
 
 class ProfileServiceTest extends ServiceTestCase
 {
+    private $followerRepository;
+    private $profileRepository;
+
     private function createService(?int $contextUserId = null): ProfileService
     {
+        $this->followerRepository = $this->buildProxy(FollowerRepository::class);
+        $this->profileRepository = $this->buildProxy(ProfileRepository::class);
+
         return new ProfileService(
             $this->createContext($contextUserId),
-            $this->buildProxy(FollowerRepository::class),
-            $this->buildProxy(ProfileMapper::class),
-            $this->buildProxy(ProfileRepository::class),
+            $this->followerRepository,
+            $this->getService(ProfileMapper::class),
+            $this->profileRepository,
         );
     }
 
-    public function testFollowProfileNotFound()
+    public function followProfileExceptionDataProvider()
     {
-        $this->expectException(NotFoundException::class);
-
-        $service = $this->createService(1);
-        $service->followProfile('test');
+        return [[
+            'test',
+            NotFoundException::class,
+            1
+        ], [
+            'user1',
+            UnauthorizedException::class,
+        ], [
+            'user1',
+            ForbiddenException::class,
+            1,
+        ]];
     }
 
-    public function testFollowProfileUnauthorized()
+    /**
+     * @dataProvider followProfileExceptionDataProvider
+     */
+    public function testFollowProfileException(string $username, string $exception, ?int $contextUserId = null)
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException($exception);
 
-        $service = $this->createService();
-        $service->followProfile('user1');
-    }
+        $service = $this->createService($contextUserId);
 
-    public function testFollowProfileForbidden()
-    {
-        $this->expectException(ForbiddenException::class);
+        $this->profileRepository
+            ->expects($this->once())
+            ->method('__call')
+            ->with('findOneByUsername', [$username]);
 
-        $service = $this->createService(1);
-        $service->followProfile('user1');
+        $this->followerRepository
+            ->expects($this->never())
+            ->method('add');
+
+        $service->followProfile($username);
     }
 }

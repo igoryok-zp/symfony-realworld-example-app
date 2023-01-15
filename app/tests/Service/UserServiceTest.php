@@ -14,15 +14,26 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserServiceTest extends ServiceTestCase
 {
+    private $tokenManager;
+
     private function createService(?int $contextUserId = null): UserService
     {
+        $this->tokenManager = $this->buildProxy(JWTTokenManagerInterface::class);
+
         return new UserService(
             $this->createContext($contextUserId),
-            $this->buildProxy(UserMapper::class),
-            $this->buildProxy(UserPasswordHasherInterface::class),
-            $this->buildProxy(UserRepository::class),
-            $this->buildProxy(JWTTokenManagerInterface::class),
+            $this->getService(UserMapper::class),
+            $this->getService(UserPasswordHasherInterface::class),
+            $this->getService(UserRepository::class),
+            $this->tokenManager,
         );
+    }
+
+    private function expectTokenManagerCreateNever()
+    {
+        $this->tokenManager
+            ->expects($this->never())
+            ->method('create');
     }
 
     public function testGetCurrentUserUnauthorized()
@@ -30,6 +41,9 @@ class UserServiceTest extends ServiceTestCase
         $this->expectException(UnauthorizedException::class);
 
         $service = $this->createService();
+
+        $this->expectTokenManagerCreateNever();
+
         $service->getCurrentUser();
     }
 
@@ -42,6 +56,9 @@ class UserServiceTest extends ServiceTestCase
         $data->password = 'test';
 
         $service = $this->createService();
+
+        $this->expectTokenManagerCreateNever();
+
         $service->loginUser($data);
     }
 }
