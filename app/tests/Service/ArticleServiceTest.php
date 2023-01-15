@@ -14,37 +14,54 @@ use App\Service\ArticleService;
 
 class ArticleServiceTest extends ServiceTestCase
 {
+    private $articleRepository;
+
     private function createService(?int $contextUserId = null): ArticleService
     {
+        $this->articleRepository = $this->buildProxy(ArticleRepository::class);
+
         return new ArticleService(
-            $this->buildProxy(ArticleMapper::class),
-            $this->buildProxy(ArticleRepository::class),
+            $this->getService(ArticleMapper::class),
+            $this->articleRepository,
             $this->createContext($contextUserId),
-            $this->buildProxy(FavoriteRepository::class),
+            $this->getService(FavoriteRepository::class),
         );
     }
 
-    public function testDeleteArticleForbidden()
+    public function deleteArticleExceptionDataProvider()
     {
-        $this->expectException(ForbiddenException::class);
-
-        $service = $this->createService(2);
-        $service->deleteArticle('article-1');
+        return [[
+            'article-1',
+            ForbiddenException::class,
+            2,
+        ], [
+            'test',
+            NotFoundException::class,
+            1,
+        ], [
+            'article-1',
+            UnauthorizedException::class,
+        ]];
     }
 
-    public function testDeleteArticleNotFound()
+    /**
+     * @dataProvider deleteArticleExceptionDataProvider
+     */
+    public function testDeleteArticleException(string $slug, string $exception, ?int $contextUserId = null)
     {
-        $this->expectException(NotFoundException::class);
+        $this->expectException($exception);
 
-        $service = $this->createService(1);
-        $service->deleteArticle('test');
-    }
+        $service = $this->createService($contextUserId);
 
-    public function testDeleteUnauthorized()
-    {
-        $this->expectException(UnauthorizedException::class);
+        $this->articleRepository
+            ->expects($this->once())
+            ->method('__call')
+            ->with('findOneBySlug', [$slug]);
 
-        $service = $this->createService();
-        $service->deleteArticle('article-1');
+        $this->articleRepository
+            ->expects($this->never())
+            ->method('remove');
+
+        $service->deleteArticle($slug);
     }
 }

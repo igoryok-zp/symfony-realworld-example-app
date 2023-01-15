@@ -14,14 +14,28 @@ use App\Service\CommentService;
 
 class CommentServiceTest extends ServiceTestCase
 {
+    private $articleRepository;
+    private $commentRepository;
+
     private function createService(?int $contextUserId = null): CommentService
     {
+        $this->articleRepository = $this->buildProxy(ArticleRepository::class);
+        $this->commentRepository = $this->buildProxy(CommentRepository::class);
+
         return new CommentService(
-            $this->buildProxy(ArticleRepository::class),
-            $this->buildProxy(CommentMapper::class),
-            $this->buildProxy(CommentRepository::class),
+            $this->articleRepository,
+            $this->getService(CommentMapper::class),
+            $this->commentRepository,
             $this->createContext($contextUserId),
         );
+    }
+
+    private function expectArticleRepositoryFindOneBySlugOnce(string $slug)
+    {
+        $this->articleRepository
+            ->expects($this->once())
+            ->method('__call')
+            ->with('findOneBySlug', [$slug]);
     }
 
     public function testGetArticleCommentsNotFound()
@@ -29,30 +43,57 @@ class CommentServiceTest extends ServiceTestCase
         $this->expectException(NotFoundException::class);
 
         $service = $this->createService();
-        $service->getArticleComments('test');
+
+        $slug = 'test';
+
+        $this->expectArticleRepositoryFindOneBySlugOnce($slug);
+
+        $this->commentRepository
+            ->expects($this->never())
+            ->method('findBy');
+
+        $service->getArticleComments($slug);
     }
 
-    public function testDeleteArticleCommentNotFound()
+    public function deleteArticleCommentExceptionDataProvider()
     {
-        $this->expectException(NotFoundException::class);
-
-        $service = $this->createService(2);
-        $service->deleteArticleComment('article-2', 1);
+        return [[
+            'article-2',
+            1,
+            NotFoundException::class,
+            2,
+        ], [
+            'article-1',
+            1,
+            UnauthorizedException::class,
+        ], [
+            'article-1',
+            1,
+            ForbiddenException::class,
+            1,
+        ]];
     }
 
-    public function testDeleteArticleCommentUnauthorized()
+    /**
+     * @dataProvider deleteArticleCommentExceptionDataProvider
+     */
+    public function testDeleteArticleCommentException(string $slug, int $commentId, string $exception, ?int $contextUserId = null)
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException($exception);
 
-        $service = $this->createService();
-        $service->deleteArticleComment('article-1', 1);
-    }
+        $service = $this->createService($contextUserId);
 
-    public function testDeleteArticleCommentForbidden()
-    {
-        $this->expectException(ForbiddenException::class);
+        $this->expectArticleRepositoryFindOneBySlugOnce($slug);
 
-        $service = $this->createService(1);
-        $service->deleteArticleComment('article-1', 1);
+        $this->commentRepository
+            ->expects($this->once())
+            ->method('find')
+            ->with($commentId);
+
+        $this->commentRepository
+            ->expects($this->never())
+            ->method('remove');
+
+        $service->deleteArticleComment($slug, $commentId);
     }
 }

@@ -11,11 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ServiceTestCase extends KernelTestCase
 {
-    protected function buildProxy(string $originalClassName): mixed
+    protected function buildProxy(string $class): mixed
     {
-        $reflection = new ReflectionClass($originalClassName);
+        $reflection = new ReflectionClass($class);
         if ($reflection->isInterface()) {
-            $reflection = new ReflectionClass(static::getContainer()->get($originalClassName));
+            $reflection = new ReflectionClass($this->getService($class));
         }
 
         $constructorArguments = [];
@@ -24,7 +24,7 @@ class ServiceTestCase extends KernelTestCase
                 $constructorArgument = null;
                 $type = (string) $param->getType();
                 if (!empty($type)) {
-                    $constructorArgument = static::getContainer()->get($type);
+                    $constructorArgument = $this->getService($type);
                 }
                 if (empty($constructorArgument) && $param->isDefaultValueAvailable()) {
                     $constructorArgument = $param->getDefaultValue();
@@ -33,19 +33,23 @@ class ServiceTestCase extends KernelTestCase
             }
         }
 
-        $result = $this->createTestProxy($reflection->getName(), $constructorArguments);
-        return $result;
+        return $this->createTestProxy($reflection->getName(), $constructorArguments);
     }
 
     protected function createContext(?int $userId = null)
     {
         $user = null;
         if ($userId !== null) {
-            $userRepository = static::getContainer()->get(UserRepository::class);
+            $userRepository = $this->getService(UserRepository::class);
             $user = $userRepository->find($userId);
         }
         $context = $this->createMock(Context::class);
         $context->method('getUser')->willReturn($user);
         return $context;
+    }
+
+    protected function getService(string $class): mixed
+    {
+        return static::getContainer()->get($class);
     }
 }
