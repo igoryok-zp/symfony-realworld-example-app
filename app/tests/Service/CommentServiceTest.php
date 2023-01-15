@@ -77,8 +77,12 @@ class CommentServiceTest extends ServiceTestCase
     /**
      * @dataProvider deleteArticleCommentExceptionDataProvider
      */
-    public function testDeleteArticleCommentException(string $slug, int $commentId, string $exception, ?int $contextUserId = null)
-    {
+    public function testDeleteArticleCommentException(
+        string $slug,
+        int $commentId,
+        string $exception,
+        ?int $contextUserId = null
+    ) {
         $this->expectException($exception);
 
         $service = $this->createService($contextUserId);
