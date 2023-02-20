@@ -255,6 +255,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 final class Article
 {
+    /**
+     * @var ArticleDto[]
+     */
     #[ApiProperty(
         builtinTypes: [
             new Type(

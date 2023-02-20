@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ArticleTest extends TestCase
 {
-    public function testSlug()
+    public function testSlug(): void
     {
         $article = new Article();
         $this->assertNull($article->getSlug());
@@ -19,7 +19,7 @@ class ArticleTest extends TestCase
         $this->assertEquals($slug, $article->getSlug());
     }
 
-    public function testCreatedAt()
+    public function testCreatedAt(): void
     {
         $article = new Article();
         $this->assertNull($article->getCreatedAt());
@@ -29,7 +29,7 @@ class ArticleTest extends TestCase
         $this->assertEquals($createdAt, $article->getCreatedAt());
     }
 
-    public function testUpdatedAt()
+    public function testUpdatedAt(): void
     {
         $article = new Article();
         $this->assertNull($article->getUpdatedAt());

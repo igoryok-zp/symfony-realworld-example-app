@@ -11,6 +11,9 @@ use App\Utility\Context;
 
 class ProfileMapper
 {
+    /**
+     * @var bool[]
+     */
     private $followings = [];
 
     public function __construct(

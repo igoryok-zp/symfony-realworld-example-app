@@ -23,6 +23,10 @@ class TagRepository extends ServiceEntityRepository
         parent::__construct($registry, Tag::class);
     }
 
+    /**
+     * @param string[] $tagNames
+     * @return Tag[]
+     */
     public function findOrCreate(array $tagNames): array
     {
         $tags = $this->findBy(['name' => $tagNames]);

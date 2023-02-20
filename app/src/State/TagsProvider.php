@@ -9,6 +9,9 @@ use App\Service\TagService;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 
+/**
+ * @implements ProviderInterface<Tag>
+ */
 class TagsProvider implements ProviderInterface
 {
     public function __construct(
@@ -16,6 +19,12 @@ class TagsProvider implements ProviderInterface
     ) {
     }
 
+    /**
+     * @param Operation $operation
+     * @param mixed[] $uriVariables
+     * @param mixed[] $context
+     * @return Tag
+     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Tag
     {
         $result = new Tag();

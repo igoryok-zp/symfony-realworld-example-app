@@ -10,10 +10,14 @@ use App\Mapper\UserMapper;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserServiceTest extends ServiceTestCase
 {
+    /**
+     * @var MockObject&JWTTokenManagerInterface
+     */
     private $tokenManager;
 
     private function createService(?int $contextUserId = null): UserService
@@ -29,14 +33,14 @@ class UserServiceTest extends ServiceTestCase
         );
     }
 
-    private function expectTokenManagerCreateNever()
+    private function expectTokenManagerCreateNever(): void
     {
         $this->tokenManager
             ->expects($this->never())
             ->method('create');
     }
 
-    public function testGetCurrentUserUnauthorized()
+    public function testGetCurrentUserUnauthorized(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -47,7 +51,7 @@ class UserServiceTest extends ServiceTestCase
         $service->getCurrentUser();
     }
 
-    public function testLoginUserUnauthorized()
+    public function testLoginUserUnauthorized(): void
     {
         $this->expectException(UnauthorizedException::class);
 

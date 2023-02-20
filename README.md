@@ -35,7 +35,6 @@ Code analysis:
 
 - [GrumPHP](https://phpro.github.io/grumphp/)
 - [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-- [PHP Parallel Lint](https://github.com/php-parallel-lint/PHP-Parallel-Lint)
 - [PHP Mess Detector](https://phpmd.org/)
 - [PHPStan](https://phpstan.org/)
 

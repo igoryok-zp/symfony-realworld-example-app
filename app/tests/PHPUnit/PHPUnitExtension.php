@@ -9,7 +9,7 @@ use Symfony\Component\Process\Process;
 
 class PHPUnitExtension implements BeforeFirstTestHook
 {
-    private function exec(array $command): void
+    private function exec(string ...$command): void
     {
         $process = new Process(['php', './bin/console', '--env=test', ...$command]);
         $process->mustRun();
@@ -17,10 +17,10 @@ class PHPUnitExtension implements BeforeFirstTestHook
 
     public function executeBeforeFirstTest(): void
     {
-        $this->exec(['doctrine:database:create', '--if-not-exists']);
-        $this->exec(['doctrine:schema:drop', '--full-database', '--force']);
-        $this->exec(['doctrine:migrations:migrate', '--no-interaction']);
-        $this->exec(['doctrine:schema:update', '--force']);
-        $this->exec(['hautelook:fixtures:load', '--no-interaction']);
+        $this->exec('doctrine:database:create', '--if-not-exists');
+        $this->exec('doctrine:schema:drop', '--full-database', '--force');
+        $this->exec('doctrine:migrations:migrate', '--no-interaction');
+        $this->exec('doctrine:schema:update', '--force');
+        $this->exec('hautelook:fixtures:load', '--no-interaction');
     }
 }

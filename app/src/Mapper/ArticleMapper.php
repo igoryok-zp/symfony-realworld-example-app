@@ -32,6 +32,11 @@ class ArticleMapper
         return $result;
     }
 
+    /**
+     * @param Article $article
+     * @param string[] $tags
+     * @return void
+     */
     private function setTags(Article $article, array $tags): void
     {
         $oldTags = $article->getTags()->map(fn (Tag $tag) => $tag->getName())->getValues();

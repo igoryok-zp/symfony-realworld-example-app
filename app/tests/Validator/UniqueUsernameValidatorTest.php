@@ -10,16 +10,30 @@ use App\Repository\ProfileRepository;
 use App\Utility\Context;
 use App\Validator\UniqueUsername;
 use App\Validator\UniqueUsernameValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
+/**
+ * @extends ConstraintValidatorTestCase<UniqueUsernameValidator>
+ */
 class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
 {
+    /**
+     * @var MockObject&Context
+     */
     private $appContext;
+
+    /**
+     * @var MockObject&ProfileRepository
+     */
     private $profileRepository;
 
+    /**
+     * @return MockObject&ProfileRepository
+     */
     protected function createProfileRepositoryMock()
     {
         return $this->getMockBuilder(ProfileRepository::class)
@@ -38,7 +52,7 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
         return new UniqueUsernameValidator($this->appContext, $this->profileRepository);
     }
 
-    public function testUnexpectedType()
+    public function testUnexpectedType(): void
     {
         $this->expectException(UnexpectedTypeException::class);
 
@@ -47,7 +61,7 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
     }
 
-    public function testNullIsValid()
+    public function testNullIsValid(): void
     {
         $value = null;
         $constraint = new UniqueUsername();
@@ -56,7 +70,7 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testUnexpectedValue()
+    public function testUnexpectedValue(): void
     {
         $this->expectException(UnexpectedValueException::class);
 
@@ -65,7 +79,7 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
     }
 
-    public function testContextProfileUsernameIsValid()
+    public function testContextProfileUsernameIsValid(): void
     {
         $value = 'test';
 
@@ -86,7 +100,7 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testWithUser()
+    public function testWithUser(): void
     {
         $value = 'test';
 

@@ -8,11 +8,19 @@ use App\ApiResource\Comment;
 
 class CommentTest extends ApiResourceTestCase
 {
-    private function assertMatchesCommentJsonSchema(string $operationName)
+    private function assertMatchesCommentJsonSchema(string $operationName): void
     {
         $this->assertMatchesApiResourceJsonSchema(Comment::class, 'comment_' . $operationName);
     }
 
+    /**
+     * @param string $method
+     * @param string $slug
+     * @param integer|null $commentId
+     * @param mixed[] $data
+     * @param string $token
+     * @return mixed[]
+     */
     private function requestComments(
         string $method,
         string $slug,
@@ -32,7 +40,7 @@ class CommentTest extends ApiResourceTestCase
         return $result['comments'] ?? $result['comment'] ?? [];
     }
 
-    public function testList()
+    public function testList(): void
     {
         $comments = $this->requestComments('GET', 'article-1');
 
@@ -48,7 +56,7 @@ class CommentTest extends ApiResourceTestCase
         }
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $token = $this->getToken('user1@app.test', 'pswd1');
 
@@ -64,7 +72,7 @@ class CommentTest extends ApiResourceTestCase
         $this->assertEquals('user1', $comment['author']['username']);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $token = $this->getToken('user2@app.test', 'pswd2');
 

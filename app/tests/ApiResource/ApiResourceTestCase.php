@@ -8,11 +8,18 @@ use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as ApiPlatformApiTestCase;
 
 class ApiResourceTestCase extends ApiPlatformApiTestCase
 {
-    protected function assertMatchesApiResourceJsonSchema(string $resourceClass, string $operationName)
+    protected function assertMatchesApiResourceJsonSchema(string $resourceClass, string $operationName): void
     {
         $this->assertMatchesResourceItemJsonSchema($resourceClass, $operationName, 'json');
     }
 
+    /**
+     * @param string $method
+     * @param string $api
+     * @param mixed[] $data
+     * @param string $token
+     * @return mixed[]
+     */
     protected function requestApi(string $method, string $api, array $data = [], string $token = ''): array
     {
         $url = '/api/' . $api;

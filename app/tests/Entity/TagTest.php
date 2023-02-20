@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class TagTest extends TestCase
 {
-    public function testId()
+    public function testId(): void
     {
         $tag = new Tag();
         $this->assertNull($tag->getId());
@@ -17,7 +17,7 @@ class TagTest extends TestCase
         $this->assertFalse(method_exists($tag, 'setId'));
     }
 
-    public function testCreatedAt()
+    public function testCreatedAt(): void
     {
         $tag = new Tag();
         $this->assertNull($tag->getCreatedAt());

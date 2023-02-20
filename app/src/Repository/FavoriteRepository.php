@@ -34,7 +34,7 @@ class FavoriteRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function add(Article $article, Profile $profile)
+    public function add(Article $article, Profile $profile): void
     {
         if (!$this->exists($article, $profile)) {
             $entity = new Favorite();
@@ -45,7 +45,7 @@ class FavoriteRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Article $article, Profile $profile)
+    public function remove(Article $article, Profile $profile): void
     {
         $entity = $this->find([
             'article' => $article,

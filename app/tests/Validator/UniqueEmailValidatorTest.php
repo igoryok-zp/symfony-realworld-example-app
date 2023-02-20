@@ -9,16 +9,30 @@ use App\Repository\UserRepository;
 use App\Utility\Context;
 use App\Validator\UniqueEmail;
 use App\Validator\UniqueEmailValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
+/**
+ * @extends ConstraintValidatorTestCase<UniqueEmailValidator>
+ */
 class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
 {
+    /**
+     * @var MockObject&Context
+     */
     private $appContext;
+
+    /**
+     * @var MockObject&UserRepository
+     */
     private $userRepository;
 
+    /**
+     * @return MockObject&UserRepository
+     */
     protected function createUserRepositoryMock()
     {
         return $this->getMockBuilder(UserRepository::class)
@@ -37,7 +51,7 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
         return new UniqueEmailValidator($this->appContext, $this->userRepository);
     }
 
-    public function testUnexpectedType()
+    public function testUnexpectedType(): void
     {
         $this->expectException(UnexpectedTypeException::class);
 
@@ -46,7 +60,7 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
     }
 
-    public function testNullIsValid()
+    public function testNullIsValid(): void
     {
         $value = null;
         $constraint = new UniqueEmail();
@@ -55,7 +69,7 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testUnexpectedValue()
+    public function testUnexpectedValue(): void
     {
         $this->expectException(UnexpectedValueException::class);
 
@@ -64,7 +78,7 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
     }
 
-    public function testContextUserEmailIsValid()
+    public function testContextUserEmailIsValid(): void
     {
         $value = 'test@app.test';
 
@@ -82,7 +96,7 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testWithUser()
+    public function testWithUser(): void
     {
         $value = 'test@app.test';
 

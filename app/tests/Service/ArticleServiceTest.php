@@ -11,9 +11,13 @@ use App\Mapper\ArticleMapper;
 use App\Repository\ArticleRepository;
 use App\Repository\FavoriteRepository;
 use App\Service\ArticleService;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ArticleServiceTest extends ServiceTestCase
 {
+    /**
+     * @var MockObject&ArticleRepository
+     */
     private $articleRepository;
 
     private function createService(?int $contextUserId = null): ArticleService
@@ -28,7 +32,10 @@ class ArticleServiceTest extends ServiceTestCase
         );
     }
 
-    public function deleteArticleExceptionDataProvider()
+    /**
+     * @return mixed[]
+     */
+    public function deleteArticleExceptionDataProvider(): array
     {
         return [[
             'article-1',
@@ -47,7 +54,7 @@ class ArticleServiceTest extends ServiceTestCase
     /**
      * @dataProvider deleteArticleExceptionDataProvider
      */
-    public function testDeleteArticleException(string $slug, string $exception, ?int $contextUserId = null)
+    public function testDeleteArticleException(string $slug, string $exception, ?int $contextUserId = null): void
     {
         $this->expectException($exception);
 

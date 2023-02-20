@@ -18,7 +18,7 @@ class UserProcessor implements ProcessorInterface
     /**
      * @inheritdoc
      */
-    public function preProcess(string $fixtureId, $object): void
+    public function preProcess(string $fixtureId, object $object): void
     {
         if ($object instanceof User) {
             $object->setPassword($this->passwordHasher->hashPassword($object, $object->getPassword()));
@@ -28,7 +28,7 @@ class UserProcessor implements ProcessorInterface
     /**
      * @inheritdoc
      */
-    public function postProcess(string $fixtureId, $object): void
+    public function postProcess(string $fixtureId, object $object): void
     {
         // do nothing
     }

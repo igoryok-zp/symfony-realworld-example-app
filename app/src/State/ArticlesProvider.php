@@ -9,6 +9,9 @@ use App\Service\ArticleService;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 
+/**
+ * @implements ProviderInterface<Article>
+ */
 class ArticlesProvider implements ProviderInterface
 {
     public function __construct(
@@ -16,6 +19,12 @@ class ArticlesProvider implements ProviderInterface
     ) {
     }
 
+    /**
+     * @param Operation $operation
+     * @param mixed[] $uriVariables
+     * @param mixed[] $context
+     * @return Article
+     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Article
     {
         $result = new Article();

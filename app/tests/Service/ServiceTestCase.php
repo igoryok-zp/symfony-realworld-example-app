@@ -6,6 +6,7 @@ namespace App\Tests\Service;
 
 use App\Repository\UserRepository;
 use App\Utility\Context;
+use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -36,13 +37,14 @@ class ServiceTestCase extends KernelTestCase
         return $this->createTestProxy($reflection->getName(), $constructorArguments);
     }
 
-    protected function createContext(?int $userId = null)
+    protected function createContext(?int $userId = null): Context
     {
         $user = null;
         if ($userId !== null) {
             $userRepository = $this->getService(UserRepository::class);
             $user = $userRepository->find($userId);
         }
+        /** @var MockObject&Context */
         $context = $this->createMock(Context::class);
         $context->method('getUser')->willReturn($user);
         return $context;

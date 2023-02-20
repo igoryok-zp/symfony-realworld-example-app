@@ -32,7 +32,7 @@ class FollowerRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function add(Profile $profile, Profile $follower)
+    public function add(Profile $profile, Profile $follower): void
     {
         if (!$this->exists($profile, $follower)) {
             $entity = new Follower();
@@ -43,7 +43,7 @@ class FollowerRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Profile $profile, Profile $follower)
+    public function remove(Profile $profile, Profile $follower): void
     {
         $entity = $this->find([
             'profile' => $profile,

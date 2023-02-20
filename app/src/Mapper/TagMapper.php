@@ -13,6 +13,10 @@ class TagMapper
         return $tag->getName();
     }
 
+    /**
+     * @param iterable<Tag> $tags
+     * @return string[]
+     */
     public function mapEntitiesToStringArray(iterable $tags): array
     {
         $result = [];

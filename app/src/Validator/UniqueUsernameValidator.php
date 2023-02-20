@@ -25,7 +25,7 @@ class UniqueUsernameValidator extends ConstraintValidator
         return $profile !== null;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof UniqueUsername) {
             throw new UnexpectedTypeException($constraint, UniqueUsername::class);

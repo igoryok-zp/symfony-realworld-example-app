@@ -9,6 +9,10 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class ConstraintViolationListNormalizer implements NormalizerInterface
 {
+    /**
+     * @param ConstraintViolationListInterface $volations
+     * @return string[]
+     */
     private function getMessages(ConstraintViolationListInterface $volations): array
     {
         $messages = [];
@@ -19,11 +23,23 @@ class ConstraintViolationListNormalizer implements NormalizerInterface
         return $messages;
     }
 
+    /**
+     * @param mixed $data
+     * @param string|null $format
+     * @param mixed[] $context
+     * @return boolean
+     */
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return 'jsonproblem' === $format && $data instanceof ConstraintViolationListInterface;
     }
 
+    /**
+     * @param mixed $object
+     * @param string|null $format
+     * @param mixed[] $context
+     * @return mixed[]
+     */
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         return [

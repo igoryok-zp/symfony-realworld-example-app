@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ProfileTest extends TestCase
 {
-    public function testCreatedAt()
+    public function testCreatedAt(): void
     {
         $profile = new Profile();
         $this->assertNull($profile->getCreatedAt());
@@ -19,7 +19,7 @@ class ProfileTest extends TestCase
         $this->assertEquals($createdAt, $profile->getCreatedAt());
     }
 
-    public function testUpdatedAt()
+    public function testUpdatedAt(): void
     {
         $profile = new Profile();
         $this->assertNull($profile->getUpdatedAt());
