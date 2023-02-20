@@ -6,20 +6,24 @@ namespace App\Tests\Fixture;
 
 use App\Entity\User;
 use App\Fixture\UserProcessor;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserProcessorTest extends TestCase
 {
+    /**
+     * @var MockObject&UserPasswordHasherInterface
+     */
     private $passwordHasher;
 
-    private function createProcessor()
+    private function createProcessor(): UserProcessor
     {
         $this->passwordHasher = $this->createMock(UserPasswordHasherInterface::class);
         return new UserProcessor($this->passwordHasher);
     }
 
-    public function testPreProcess()
+    public function testPreProcess(): void
     {
         $processor = $this->createProcessor();
 
@@ -39,7 +43,7 @@ class UserProcessorTest extends TestCase
         $this->assertEquals($pswdHash, $user->getPassword());
     }
 
-    public function testPostProcess()
+    public function testPostProcess(): void
     {
         $processor = $this->createProcessor();
 

@@ -11,10 +11,18 @@ use App\Mapper\CommentMapper;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Service\CommentService;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class CommentServiceTest extends ServiceTestCase
 {
+    /**
+     * @var MockObject&ArticleRepository
+     */
     private $articleRepository;
+
+    /**
+     * @var MockObject&CommentRepository
+     */
     private $commentRepository;
 
     private function createService(?int $contextUserId = null): CommentService
@@ -30,7 +38,7 @@ class CommentServiceTest extends ServiceTestCase
         );
     }
 
-    private function expectArticleRepositoryFindOneBySlugOnce(string $slug)
+    private function expectArticleRepositoryFindOneBySlugOnce(string $slug): void
     {
         $this->articleRepository
             ->expects($this->once())
@@ -38,7 +46,7 @@ class CommentServiceTest extends ServiceTestCase
             ->with('findOneBySlug', [$slug]);
     }
 
-    public function testGetArticleCommentsNotFound()
+    public function testGetArticleCommentsNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -55,7 +63,10 @@ class CommentServiceTest extends ServiceTestCase
         $service->getArticleComments($slug);
     }
 
-    public function deleteArticleCommentExceptionDataProvider()
+    /**
+     * @return mixed[]
+     */
+    public function deleteArticleCommentExceptionDataProvider(): array
     {
         return [[
             'article-2',
@@ -82,7 +93,7 @@ class CommentServiceTest extends ServiceTestCase
         int $commentId,
         string $exception,
         ?int $contextUserId = null
-    ) {
+    ): void {
         $this->expectException($exception);
 
         $service = $this->createService($contextUserId);

@@ -15,6 +15,9 @@ class TagService
     ) {
     }
 
+    /**
+     * @return string[]
+     */
     public function getTags(): array
     {
         $tags = $this->tagRepository->findAll();

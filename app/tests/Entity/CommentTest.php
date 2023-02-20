@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CommentTest extends TestCase
 {
-    public function testCreatedAt()
+    public function testCreatedAt(): void
     {
         $comment = new Comment();
         $this->assertNull($comment->getCreatedAt());
@@ -19,7 +19,7 @@ class CommentTest extends TestCase
         $this->assertEquals($createdAt, $comment->getCreatedAt());
     }
 
-    public function testUpdatedAt()
+    public function testUpdatedAt(): void
     {
         $comment = new Comment();
         $this->assertNull($comment->getUpdatedAt());

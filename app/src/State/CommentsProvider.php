@@ -9,6 +9,9 @@ use App\Service\CommentService;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 
+/**
+ * @implements ProviderInterface<Comment>
+ */
 class CommentsProvider implements ProviderInterface
 {
     public function __construct(
@@ -16,6 +19,12 @@ class CommentsProvider implements ProviderInterface
     ) {
     }
 
+    /**
+     * @param Operation $operation
+     * @param mixed[] $uriVariables
+     * @param mixed[] $context
+     * @return Comment
+     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Comment
     {
         $result = new Comment();

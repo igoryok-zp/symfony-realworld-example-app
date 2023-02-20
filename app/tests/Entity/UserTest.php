@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testId()
+    public function testId(): void
     {
         $user = new User();
         $this->assertNull($user->getId());
@@ -17,7 +17,7 @@ class UserTest extends TestCase
         $this->assertFalse(method_exists($user, 'setId'));
     }
 
-    public function testRoles()
+    public function testRoles(): void
     {
         $user = new User();
         $roleUser = 'ROLE_USER';
@@ -28,7 +28,7 @@ class UserTest extends TestCase
         $this->assertEquals([...$roles, $roleUser], $user->getRoles());
     }
 
-    public function testCreatedAt()
+    public function testCreatedAt(): void
     {
         $user = new User();
         $this->assertNull($user->getCreatedAt());
@@ -38,7 +38,7 @@ class UserTest extends TestCase
         $this->assertEquals($createdAt, $user->getCreatedAt());
     }
 
-    public function testUpdatedAt()
+    public function testUpdatedAt(): void
     {
         $user = new User();
         $this->assertNull($user->getUpdatedAt());

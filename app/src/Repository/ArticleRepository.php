@@ -97,6 +97,12 @@ class ArticleRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * @param integer $followerId
+     * @param integer $limit
+     * @param integer $offset
+     * @return Article[]
+     */
     public function findArticlesFeed(int $followerId, int $limit, int $offset): array
     {
         $queryBuilder = $this->createArticlesFeedQueryBuilder($followerId);
@@ -114,6 +120,14 @@ class ArticleRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * @param integer $limit
+     * @param integer $offset
+     * @param string|null $author
+     * @param string|null $favorited
+     * @param string|null $tag
+     * @return Article[]
+     */
     public function findArticles(
         int $limit,
         int $offset,

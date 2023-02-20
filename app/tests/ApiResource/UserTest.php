@@ -8,11 +8,18 @@ use App\ApiResource\User;
 
 class UserTest extends ApiResourceTestCase
 {
-    private function assertMatchesUserJsonSchema(string $operationName)
+    private function assertMatchesUserJsonSchema(string $operationName): void
     {
         $this->assertMatchesApiResourceJsonSchema(User::class, 'user_' . $operationName);
     }
 
+    /**
+     * @param string $method
+     * @param string $api
+     * @param mixed[] $data
+     * @param string $token
+     * @return mixed[]
+     */
     private function requestUsers(string $method, string $api, array $data = [], string $token = ''): array
     {
         $userData = [];
@@ -23,7 +30,7 @@ class UserTest extends ApiResourceTestCase
         return $result['user'] ?? [];
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $email = 'test@app.test';
         $password = 'test1';
@@ -49,7 +56,7 @@ class UserTest extends ApiResourceTestCase
         $this->assertEquals($image, $user['image']);
     }
 
-    public function testLogin()
+    public function testLogin(): void
     {
         $email = 'user1@app.test';
         $password = 'pswd1';
@@ -69,7 +76,7 @@ class UserTest extends ApiResourceTestCase
         $this->assertEquals('image-1.png', $user['image']);
     }
 
-    public function testCurrent()
+    public function testCurrent(): void
     {
         $email = 'user1@app.test';
         $password = 'pswd1';
@@ -88,7 +95,7 @@ class UserTest extends ApiResourceTestCase
         $this->assertEquals('image-1.png', $user['image']);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $token = $this->getToken('user1@app.test', 'pswd1');
 

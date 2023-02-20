@@ -22,5 +22,8 @@ use ApiPlatform\Metadata\Get;
 )]
 final class Tag
 {
+    /**
+     * @var string[]
+     */
     public array $tags = [];
 }

@@ -58,6 +58,10 @@ class CommentService
         }
     }
 
+    /**
+     * @param string $slug
+     * @return CommentDto[]
+     */
     public function getArticleComments(string $slug): array
     {
         $article = $this->findArticle($slug);

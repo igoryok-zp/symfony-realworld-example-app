@@ -96,6 +96,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 final class Comment
 {
+    /**
+     * @var CommentDto[]
+     */
     #[ApiProperty(
         builtinTypes: [
             new Type(

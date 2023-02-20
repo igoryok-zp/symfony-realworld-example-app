@@ -9,5 +9,5 @@ use Symfony\Component\Validator\Constraint;
 #[\Attribute]
 class UniqueUsername extends Constraint
 {
-    public $message = 'The username "{{ username }}" is already occupied.';
+    public string $message = 'The username "{{ username }}" is already occupied.';
 }

@@ -8,18 +8,24 @@ use App\ApiResource\Profile;
 
 class ProfileTest extends ApiResourceTestCase
 {
-    private function assertMatchesProfileJsonSchema(string $operationName)
+    private function assertMatchesProfileJsonSchema(string $operationName): void
     {
         $this->assertMatchesApiResourceJsonSchema(Profile::class, 'profile_' . $operationName);
     }
 
+    /**
+     * @param string $method
+     * @param string $profileApi
+     * @param string $token
+     * @return mixed[]
+     */
     private function requestProfiles(string $method, string $profileApi, string $token = ''): array
     {
         $result = $this->requestApi($method, 'profiles/' . $profileApi, token: $token);
         return $result['profile'] ?? [];
     }
 
-    private function assertFollowing(string $token, string $username, bool $expected)
+    private function assertFollowing(string $token, string $username, bool $expected): void
     {
         $profile = $this->requestProfiles('GET', $username, $token);
 
@@ -29,7 +35,7 @@ class ProfileTest extends ApiResourceTestCase
         $this->assertEquals($expected, $profile['following']);
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $username = 'user1';
 
@@ -43,7 +49,7 @@ class ProfileTest extends ApiResourceTestCase
         $this->assertEquals(false, $profile['following']);
     }
 
-    public function testFollow()
+    public function testFollow(): void
     {
         $username = 'user2';
 
@@ -59,7 +65,7 @@ class ProfileTest extends ApiResourceTestCase
         $this->assertEquals(true, $profile['following']);
     }
 
-    public function testUnfollow()
+    public function testUnfollow(): void
     {
         $username = 'user1';
 

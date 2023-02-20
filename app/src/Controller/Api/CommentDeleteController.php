@@ -17,7 +17,7 @@ class CommentDeleteController extends AbstractController
     }
 
     /** @SuppressWarnings(PHPMD.ShortVariable) */
-    public function __invoke(string $slug, int $id)
+    public function __invoke(string $slug, int $id): void
     {
         $this->service->deleteArticleComment($slug, $id);
     }

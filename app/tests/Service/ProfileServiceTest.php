@@ -11,10 +11,18 @@ use App\Mapper\ProfileMapper;
 use App\Repository\FollowerRepository;
 use App\Repository\ProfileRepository;
 use App\Service\ProfileService;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ProfileServiceTest extends ServiceTestCase
 {
+    /**
+     * @var MockObject&FollowerRepository
+     */
     private $followerRepository;
+
+    /**
+     * @var MockObject&ProfileRepository
+     */
     private $profileRepository;
 
     private function createService(?int $contextUserId = null): ProfileService
@@ -30,7 +38,10 @@ class ProfileServiceTest extends ServiceTestCase
         );
     }
 
-    public function followProfileExceptionDataProvider()
+    /**
+     * @return mixed[]
+     */
+    public function followProfileExceptionDataProvider(): array
     {
         return [[
             'test',
@@ -49,7 +60,7 @@ class ProfileServiceTest extends ServiceTestCase
     /**
      * @dataProvider followProfileExceptionDataProvider
      */
-    public function testFollowProfileException(string $username, string $exception, ?int $contextUserId = null)
+    public function testFollowProfileException(string $username, string $exception, ?int $contextUserId = null): void
     {
         $this->expectException($exception);
 

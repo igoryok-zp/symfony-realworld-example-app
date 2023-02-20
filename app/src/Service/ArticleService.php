@@ -117,6 +117,11 @@ class ArticleService
         return $this->articleRepository->countArticlesFeed($profile->getId());
     }
 
+    /**
+     * @param integer $limit
+     * @param integer $offset
+     * @return ArticleDto[]
+     */
     public function getArticlesFeed(int $limit, int $offset): array
     {
         $profile = $this->getContextProfile();
@@ -129,6 +134,14 @@ class ArticleService
         return $this->articleRepository->countArticles($author, $favorited, $tag);
     }
 
+    /**
+     * @param integer $limit
+     * @param integer $offset
+     * @param string|null $author
+     * @param string|null $favorited
+     * @param string|null $tag
+     * @return ArticleDto[]
+     */
     public function getArticles(
         int $limit,
         int $offset,

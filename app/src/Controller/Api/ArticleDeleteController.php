@@ -16,7 +16,7 @@ class ArticleDeleteController extends AbstractController
     ) {
     }
 
-    public function __invoke(string $slug)
+    public function __invoke(string $slug): void
     {
         $this->service->deleteArticle($slug);
     }

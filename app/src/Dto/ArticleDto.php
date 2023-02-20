@@ -71,6 +71,9 @@ final class ArticleDto
     ])]
     public ?string $body = null;
 
+    /**
+     * @var string[]|null
+     */
     #[Assert\All(
         constraints: [
             new Assert\NotBlank(),

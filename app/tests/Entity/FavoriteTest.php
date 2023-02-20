@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class FavoriteTest extends TestCase
 {
-    public function testArticle()
+    public function testArticle(): void
     {
         $favorite = new Favorite();
         $this->assertNull($favorite->getArticle());
@@ -21,7 +21,7 @@ class FavoriteTest extends TestCase
         $this->assertEquals($article, $favorite->getArticle());
     }
 
-    public function testProfile()
+    public function testProfile(): void
     {
         $favorite = new Favorite();
         $this->assertNull($favorite->getProfile());
@@ -31,7 +31,7 @@ class FavoriteTest extends TestCase
         $this->assertEquals($profile, $favorite->getProfile());
     }
 
-    public function testCreatedAt()
+    public function testCreatedAt(): void
     {
         $favorite = new Favorite();
         $this->assertNull($favorite->getCreatedAt());

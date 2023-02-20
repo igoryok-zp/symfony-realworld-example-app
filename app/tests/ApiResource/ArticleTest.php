@@ -8,11 +8,19 @@ use App\ApiResource\Article;
 
 class ArticleTest extends ApiResourceTestCase
 {
-    private function assertMatchesArticleJsonSchema(string $operationName)
+    private function assertMatchesArticleJsonSchema(string $operationName): void
     {
         $this->assertMatchesApiResourceJsonSchema(Article::class, 'article_' . $operationName);
     }
 
+    /**
+     * @param string $method
+     * @param string $api
+     * @param string $query
+     * @param mixed[] $data
+     * @param string $token
+     * @return mixed[]
+     */
     private function requestArticles(
         string $method,
         string $api = '',
@@ -38,7 +46,7 @@ class ArticleTest extends ApiResourceTestCase
         ]);
     }
 
-    private function assertFavorited(string $token, string $slug, bool $expected)
+    private function assertFavorited(string $token, string $slug, bool $expected): void
     {
         $article = $this->requestArticles('GET', $slug, token: $token);
 
@@ -48,7 +56,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals($expected, $article['favorited']);
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $slug = 'article-1';
 
@@ -66,7 +74,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals('user1', $article['author']['username']);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $token = $this->getToken('user1@app.test', 'pswd1');
 
@@ -94,7 +102,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals('user1', $article['author']['username']);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $token = $this->getToken('user1@app.test', 'pswd1');
 
@@ -121,14 +129,14 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals(8, $article['favoritesCount']);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $token = $this->getToken('user1@app.test', 'pswd1');
 
         $this->requestArticles('DELETE', 'article-1', token: $token);
     }
 
-    public function testFavorite()
+    public function testFavorite(): void
     {
         $slug = 'article-2';
 
@@ -145,7 +153,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals(true, $article['favorited']);
     }
 
-    public function testUnfavorite()
+    public function testUnfavorite(): void
     {
         $slug = 'article-1';
 
@@ -162,7 +170,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals(false, $article['favorited']);
     }
 
-    public function testFeed()
+    public function testFeed(): void
     {
         $token = $this->getToken('user2@app.test', 'pswd2');
 
@@ -185,7 +193,10 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals(true, $article['author']['following']);
     }
 
-    public function listDataProvider()
+    /**
+     * @return mixed[]
+     */
+    public function listDataProvider(): array
     {
         $limit = 1;
         $author = 'user1';
@@ -240,11 +251,11 @@ class ArticleTest extends ApiResourceTestCase
     /**
      * @dataProvider listDataProvider
      * @param string $query
-     * @param mixed $assertFunc
-     * @param mixed $tokenProvider
+     * @param callable $assertFunc
+     * @param callable|null $tokenProvider
      * @return void
      */
-    public function testList(string $query, $assertFunc, $tokenProvider = null)
+    public function testList(string $query, callable $assertFunc, ?callable $tokenProvider = null): void
     {
         [$count, $articles] = $this->requestArticles(
             'GET',

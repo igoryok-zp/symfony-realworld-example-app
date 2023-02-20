@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class FollowerTest extends TestCase
 {
-    public function testProfile()
+    public function testProfile(): void
     {
         $follower = new Follower();
         $this->assertNull($follower->getProfile());
@@ -20,7 +20,7 @@ class FollowerTest extends TestCase
         $this->assertEquals($profile, $follower->getProfile());
     }
 
-    public function testFollower()
+    public function testFollower(): void
     {
         $follower = new Follower();
         $this->assertNull($follower->getFollower());
@@ -30,7 +30,7 @@ class FollowerTest extends TestCase
         $this->assertEquals($profile, $follower->getFollower());
     }
 
-    public function testCreatedAt()
+    public function testCreatedAt(): void
     {
         $follower = new Follower();
         $this->assertNull($follower->getCreatedAt());
