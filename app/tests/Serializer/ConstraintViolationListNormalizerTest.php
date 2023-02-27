@@ -17,11 +17,15 @@ class ConstraintViolationListNormalizerTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->serializer = static::getContainer()->get(SerializerInterface::class);
-        $this->assertInstanceOf(SerializerInterface::class, $this->serializer);
+        /** @var SerializerInterface */
+        $serializer = static::getContainer()->get(SerializerInterface::class);
+        $this->assertInstanceOf(SerializerInterface::class, $serializer);
+        $this->serializer = $serializer;
 
-        $this->validator = static::getContainer()->get(ValidatorInterface::class);
-        $this->assertInstanceOf(ValidatorInterface::class, $this->validator);
+        /** @var ValidatorInterface */
+        $validator = static::getContainer()->get(ValidatorInterface::class);
+        $this->assertInstanceOf(ValidatorInterface::class, $validator);
+        $this->validator = $validator;
     }
 
     public function testNormalize(): void

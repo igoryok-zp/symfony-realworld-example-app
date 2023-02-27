@@ -12,6 +12,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\FavoriteRepository;
 use App\Service\ArticleService;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 
 class ArticleServiceTest extends ServiceTestCase
 {
@@ -53,6 +54,10 @@ class ArticleServiceTest extends ServiceTestCase
 
     /**
      * @dataProvider deleteArticleExceptionDataProvider
+     * @param string $slug
+     * @param class-string<Throwable> $exception
+     * @param integer|null $contextUserId
+     * @return void
      */
     public function testDeleteArticleException(string $slug, string $exception, ?int $contextUserId = null): void
     {

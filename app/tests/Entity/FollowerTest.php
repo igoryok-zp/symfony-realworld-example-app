@@ -6,6 +6,7 @@ namespace App\Tests\Entity;
 
 use App\Entity\Follower;
 use App\Entity\Profile;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class FollowerTest extends TestCase
@@ -35,7 +36,7 @@ class FollowerTest extends TestCase
         $follower = new Follower();
         $this->assertNull($follower->getCreatedAt());
 
-        $createdAt = date_create_immutable();
+        $createdAt = new DateTimeImmutable();
         $follower->setCreatedAt($createdAt);
         $this->assertEquals($createdAt, $follower->getCreatedAt());
     }

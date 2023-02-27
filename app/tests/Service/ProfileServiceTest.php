@@ -12,6 +12,7 @@ use App\Repository\FollowerRepository;
 use App\Repository\ProfileRepository;
 use App\Service\ProfileService;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 
 class ProfileServiceTest extends ServiceTestCase
 {
@@ -59,6 +60,10 @@ class ProfileServiceTest extends ServiceTestCase
 
     /**
      * @dataProvider followProfileExceptionDataProvider
+     * @param string $username
+     * @param class-string<Throwable> $exception
+     * @param integer|null $contextUserId
+     * @return void
      */
     public function testFollowProfileException(string $username, string $exception, ?int $contextUserId = null): void
     {

@@ -7,6 +7,7 @@ namespace App\Tests\Entity;
 use App\Entity\Article;
 use App\Entity\Favorite;
 use App\Entity\Profile;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class FavoriteTest extends TestCase
@@ -36,7 +37,7 @@ class FavoriteTest extends TestCase
         $favorite = new Favorite();
         $this->assertNull($favorite->getCreatedAt());
 
-        $createdAt = date_create_immutable();
+        $createdAt = new DateTimeImmutable();
         $favorite->setCreatedAt($createdAt);
         $this->assertEquals($createdAt, $favorite->getCreatedAt());
     }

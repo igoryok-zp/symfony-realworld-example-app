@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Tag;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class TagTest extends TestCase
@@ -22,7 +23,7 @@ class TagTest extends TestCase
         $tag = new Tag();
         $this->assertNull($tag->getCreatedAt());
 
-        $createdAt = date_create_immutable();
+        $createdAt = new DateTimeImmutable();
         $tag->setCreatedAt($createdAt);
         $this->assertEquals($createdAt, $tag->getCreatedAt());
     }

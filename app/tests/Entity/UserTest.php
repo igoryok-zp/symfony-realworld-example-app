@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\User;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
@@ -33,7 +34,7 @@ class UserTest extends TestCase
         $user = new User();
         $this->assertNull($user->getCreatedAt());
 
-        $createdAt = date_create_immutable();
+        $createdAt = new DateTimeImmutable();
         $user->setCreatedAt($createdAt);
         $this->assertEquals($createdAt, $user->getCreatedAt());
     }
@@ -43,7 +44,7 @@ class UserTest extends TestCase
         $user = new User();
         $this->assertNull($user->getUpdatedAt());
 
-        $updatedAt = date_create_immutable();
+        $updatedAt = new DateTimeImmutable();
         $user->setUpdatedAt($updatedAt);
         $this->assertEquals($updatedAt, $user->getUpdatedAt());
     }
