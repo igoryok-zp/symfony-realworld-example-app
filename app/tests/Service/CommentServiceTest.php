@@ -12,6 +12,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Service\CommentService;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 
 class CommentServiceTest extends ServiceTestCase
 {
@@ -87,6 +88,11 @@ class CommentServiceTest extends ServiceTestCase
 
     /**
      * @dataProvider deleteArticleCommentExceptionDataProvider
+     * @param string $slug
+     * @param integer $commentId
+     * @param class-string<Throwable> $exception
+     * @param integer|null $contextUserId
+     * @return void
      */
     public function testDeleteArticleCommentException(
         string $slug,

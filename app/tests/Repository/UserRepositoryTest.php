@@ -15,8 +15,10 @@ class UserRepositoryTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->userRepository = static::getContainer()->get(UserRepository::class);
-        $this->assertInstanceOf(UserRepository::class, $this->userRepository);
+        /** @var UserRepository */
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->assertInstanceOf(UserRepository::class, $userRepository);
+        $this->userRepository = $userRepository;
     }
 
     public function testUpgradePasswordException(): void

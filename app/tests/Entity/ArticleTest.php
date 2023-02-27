@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Article;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class ArticleTest extends TestCase
@@ -24,7 +25,7 @@ class ArticleTest extends TestCase
         $article = new Article();
         $this->assertNull($article->getCreatedAt());
 
-        $createdAt = date_create_immutable();
+        $createdAt = new DateTimeImmutable();
         $article->setCreatedAt($createdAt);
         $this->assertEquals($createdAt, $article->getCreatedAt());
     }
@@ -34,7 +35,7 @@ class ArticleTest extends TestCase
         $article = new Article();
         $this->assertNull($article->getUpdatedAt());
 
-        $updatedAt = date_create_immutable();
+        $updatedAt = new DateTimeImmutable();
         $article->setUpdatedAt($updatedAt);
         $this->assertEquals($updatedAt, $article->getUpdatedAt());
     }

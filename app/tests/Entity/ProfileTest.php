@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Profile;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class ProfileTest extends TestCase
@@ -14,7 +15,7 @@ class ProfileTest extends TestCase
         $profile = new Profile();
         $this->assertNull($profile->getCreatedAt());
 
-        $createdAt = date_create_immutable();
+        $createdAt = new DateTimeImmutable();
         $profile->setCreatedAt($createdAt);
         $this->assertEquals($createdAt, $profile->getCreatedAt());
     }
@@ -24,7 +25,7 @@ class ProfileTest extends TestCase
         $profile = new Profile();
         $this->assertNull($profile->getUpdatedAt());
 
-        $updatedAt = date_create_immutable();
+        $updatedAt = new DateTimeImmutable();
         $profile->setUpdatedAt($updatedAt);
         $this->assertEquals($updatedAt, $profile->getUpdatedAt());
     }

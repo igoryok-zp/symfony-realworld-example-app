@@ -12,6 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ServiceTestCase extends KernelTestCase
 {
+    /**
+     * @template T
+     * @param class-string<T> $class
+     * @return MockObject&T
+     */
     protected function buildProxy(string $class): mixed
     {
         $reflection = new ReflectionClass($class);
@@ -23,6 +28,7 @@ class ServiceTestCase extends KernelTestCase
         if ($reflection->getConstructor()) {
             foreach ($reflection->getConstructor()->getParameters() as $param) {
                 $constructorArgument = null;
+                /** @var class-string<mixed> */
                 $type = (string) $param->getType();
                 if (!empty($type)) {
                     $constructorArgument = $this->getService($type);
@@ -34,7 +40,9 @@ class ServiceTestCase extends KernelTestCase
             }
         }
 
-        return $this->createTestProxy($reflection->getName(), $constructorArguments);
+        /** @var MockObject&T */
+        $proxy = $this->createTestProxy($reflection->getName(), $constructorArguments);
+        return $proxy;
     }
 
     protected function createContext(?int $userId = null): Context
@@ -50,8 +58,16 @@ class ServiceTestCase extends KernelTestCase
         return $context;
     }
 
+    /**
+     * @template T
+     * @param class-string<T> $class
+     * @return T
+     */
     protected function getService(string $class): mixed
     {
-        return static::getContainer()->get($class);
+        /** @var T */
+        $service = static::getContainer()->get($class);
+        $this->assertInstanceOf($class, $service);
+        return $service;
     }
 }
