@@ -4,4 +4,4 @@ grumphp:
       standard: PSR12
     phpmd: null
     phpstan:
-      level: 7
+      level: 8

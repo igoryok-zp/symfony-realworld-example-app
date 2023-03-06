@@ -26,7 +26,9 @@ class ArticleCreateProcessor implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $result = new Article();
-        $result->article = $this->service->createArticle($data->article);
+        if ($data->article !== null) {
+            $result->article = $this->service->createArticle($data->article);
+        }
         return $result;
     }
 }

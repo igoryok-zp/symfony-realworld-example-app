@@ -9,6 +9,8 @@ use App\Utility\Context;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class ServiceTestCase extends KernelTestCase
 {
@@ -52,9 +54,16 @@ class ServiceTestCase extends KernelTestCase
             $userRepository = $this->getService(UserRepository::class);
             $user = $userRepository->find($userId);
         }
-        /** @var MockObject&Context */
-        $context = $this->createMock(Context::class);
-        $context->method('getUser')->willReturn($user);
+
+        /** @var MockObject&TokenInterface */
+        $tokenMock = $this->createMock(TokenInterface::class);
+        $tokenMock->method('getUser')->willReturn($user);
+
+        /** @var MockObject&TokenStorageInterface */
+        $tokenStorageMock = $this->createMock(TokenStorageInterface::class);
+        $tokenStorageMock->method('getToken')->willReturn($tokenMock);
+
+        $context = new Context($tokenStorageMock);
         return $context;
     }
 

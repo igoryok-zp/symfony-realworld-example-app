@@ -10,7 +10,7 @@ class TagMapper
 {
     public function mapEntityToString(Tag $tag): string
     {
-        return $tag->getName();
+        return (string) $tag->getName();
     }
 
     /**

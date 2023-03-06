@@ -29,7 +29,7 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    private function createArticlesFeedQueryBuilder(int $followerId): QueryBuilder
+    private function createArticlesFeedQueryBuilder(Profile $follower): QueryBuilder
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder
@@ -43,7 +43,7 @@ class ArticleRepository extends ServiceEntityRepository
                     $queryBuilder->expr()->eq('f.follower', ':follower_id')
                 )
             )
-            ->setParameter('follower_id', $followerId);
+            ->setParameter('follower_id', $follower->getId());
         return $queryBuilder;
     }
 
@@ -90,22 +90,22 @@ class ArticleRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function countArticlesFeed(int $followerId): int
+    public function countArticlesFeed(Profile $follower): int
     {
-        $queryBuilder = $this->createArticlesFeedQueryBuilder($followerId);
+        $queryBuilder = $this->createArticlesFeedQueryBuilder($follower);
         $queryBuilder->select('COUNT(a)');
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
     /**
-     * @param integer $followerId
+     * @param Profile $follower
      * @param integer $limit
      * @param integer $offset
      * @return Article[]
      */
-    public function findArticlesFeed(int $followerId, int $limit, int $offset): array
+    public function findArticlesFeed(Profile $follower, int $limit, int $offset): array
     {
-        $queryBuilder = $this->createArticlesFeedQueryBuilder($followerId);
+        $queryBuilder = $this->createArticlesFeedQueryBuilder($follower);
         $queryBuilder->select('a');
         $queryBuilder->orderBy('a.createdAt', 'DESC');
         $queryBuilder->setFirstResult($offset);

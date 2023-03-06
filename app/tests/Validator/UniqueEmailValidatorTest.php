@@ -87,7 +87,7 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
 
         $this->appContext
             ->expects($this->once())
-            ->method('getUser')
+            ->method('getUserSafe')
             ->willReturn($user);
 
         $constraint = new UniqueEmail();

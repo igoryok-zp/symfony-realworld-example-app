@@ -30,14 +30,18 @@ class ArticleService
         return $this->articleMapper->mapEntityToDto($article);
     }
 
-    /** @SuppressWarnings(PHPMD.BooleanArgumentFlag) */
-    private function findArticle(string $slug, bool $safe = false): ?Article
+    private function findArticle(string $slug): Article
     {
-        $article = $this->articleRepository->findOneBySlug($slug);
-        if ($article === null && !$safe) {
+        $article = $this->findArticleSafe($slug);
+        if ($article === null) {
             throw new NotFoundException('Article "' . $slug . '" does not exist');
         }
         return $article;
+    }
+
+    private function findArticleSafe(string $slug): ?Article
+    {
+        return $this->articleRepository->findOneBySlug($slug);
     }
 
     private function save(ArticleDto $data, ?Article $article = null): Article
@@ -49,17 +53,13 @@ class ArticleService
 
     private function getContextProfile(): Profile
     {
-        $user = $this->context->getUser();
-        if ($user === null) {
-            throw new UnauthorizedException();
-        }
-        return $user->getProfile();
+        return $this->context->getProfile();
     }
 
     private function verifyPermissions(Article $article): void
     {
         $profile = $this->getContextProfile();
-        if ($profile->getId() !== $article->getAuthor()->getId()) {
+        if ($profile->getId() !== $article->getAuthor()?->getId()) {
             throw new ForbiddenException('Article delete/update is forbidden');
         }
     }
@@ -67,7 +67,7 @@ class ArticleService
     public function getArticle(string $slug): ?ArticleDto
     {
         $result = null;
-        $article = $this->findArticle($slug, true);
+        $article = $this->findArticleSafe($slug);
         if ($article !== null) {
             $result = $this->toDto($article);
         }
@@ -114,7 +114,7 @@ class ArticleService
     public function countArticlesFeed(): int
     {
         $profile = $this->getContextProfile();
-        return $this->articleRepository->countArticlesFeed($profile->getId());
+        return $this->articleRepository->countArticlesFeed($profile);
     }
 
     /**
@@ -125,7 +125,7 @@ class ArticleService
     public function getArticlesFeed(int $limit, int $offset): array
     {
         $profile = $this->getContextProfile();
-        $articles = $this->articleRepository->findArticlesFeed($profile->getId(), $limit, $offset);
+        $articles = $this->articleRepository->findArticlesFeed($profile, $limit, $offset);
         return array_map(fn (Article $article) => $this->toDto($article), $articles);
     }
 

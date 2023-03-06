@@ -26,7 +26,9 @@ class UserLoginProcessor implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $result = new User();
-        $result->user = $this->service->loginUser($data->user);
+        if ($data->user !== null) {
+            $result->user = $this->service->loginUser($data->user);
+        }
         return $result;
     }
 }

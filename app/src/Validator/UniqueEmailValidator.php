@@ -39,7 +39,7 @@ class UniqueEmailValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        $user = $this->appContext->getUser();
+        $user = $this->appContext->getUserSafe();
         if ($user && $user->getEmail() === $value) {
             return;
         }
