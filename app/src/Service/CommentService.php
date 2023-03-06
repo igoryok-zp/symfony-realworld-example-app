@@ -49,11 +49,8 @@ class CommentService
 
     private function verifyPermissions(Comment $comment): void
     {
-        $user = $this->context->getUser();
-        if ($user === null) {
-            throw new UnauthorizedException();
-        }
-        if ($user->getProfile()->getId() !== $comment->getAuthor()->getId()) {
+        $profile = $this->context->getProfile();
+        if ($profile->getId() !== $comment->getAuthor()?->getId()) {
             throw new ForbiddenException('Comment deletion is forbidden');
         }
     }
@@ -80,7 +77,7 @@ class CommentService
     {
         $article = $this->findArticle($slug);
         $comment = $this->commentRepository->find($commentId);
-        if ($comment === null || $comment->getArticle()->getId() !== $article->getId()) {
+        if ($comment === null || $comment->getArticle()?->getId() !== $article->getId()) {
             throw new NotFoundException('Comment does not exist');
         }
         $this->verifyPermissions($comment);

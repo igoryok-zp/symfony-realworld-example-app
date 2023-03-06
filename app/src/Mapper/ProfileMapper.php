@@ -25,9 +25,8 @@ class ProfileMapper
     private function isFollowing(Profile $profile): bool
     {
         $result = false;
-        $user = $this->context->getUser();
-        if ($user !== null) {
-            $follower = $user->getProfile();
+        $follower = $this->context->getProfileSafe();
+        if ($follower !== null) {
             $cacheKey = $profile->getId() . '_' . $follower->getId();
             if (!isset($this->followings[$cacheKey])) {
                 $this->followings[$cacheKey] = $this->followerRepository->exists($profile, $follower);

@@ -22,8 +22,8 @@ class CommentMapper
         if ($dto->body !== null) {
             $result->setBody($dto->body);
         }
-        if ($result->getAuthor() === null && $this->context->getUser() !== null) {
-            $result->setAuthor($this->context->getUser()->getProfile());
+        if ($result->getAuthor() === null && $this->context->getProfileSafe() !== null) {
+            $result->setAuthor($this->context->getProfileSafe());
         }
         return $result;
     }
@@ -35,7 +35,9 @@ class CommentMapper
         $result->body = $entity->getBody();
         $result->createdAt = $entity->getCreatedAt();
         $result->updatedAt = $entity->getUpdatedAt();
-        $result->author = $this->profileMapper->mapEntityToDto($entity->getAuthor());
+        if ($entity->getAuthor() !== null) {
+            $result->author = $this->profileMapper->mapEntityToDto($entity->getAuthor());
+        }
         return $result;
     }
 }

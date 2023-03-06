@@ -86,13 +86,10 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
         $profile = new Profile();
         $profile->setUsername($value);
 
-        $user = new User();
-        $user->setProfile($profile);
-
         $this->appContext
             ->expects($this->once())
-            ->method('getUser')
-            ->willReturn($user);
+            ->method('getProfileSafe')
+            ->willReturn($profile);
 
         $constraint = new UniqueUsername();
         $this->validator->validate($value, $constraint);

@@ -29,29 +29,29 @@ class ProfileService
         return $this->profileMapper->mapEntityToDto($profile);
     }
 
-    /** @SuppressWarnings(PHPMD.BooleanArgumentFlag) */
-    private function findProfile(string $username, bool $safe = false): ?Profile
+    private function findProfile(string $username): Profile
     {
-        $profile = $this->profileRepository->findOneByUsername($username);
-        if ($profile === null && !$safe) {
+        $profile = $this->findProfileSafe($username);
+        if ($profile === null) {
             throw new NotFoundException('Profile "' . $username . '" does not exist');
         }
         return $profile;
     }
 
+    private function findProfileSafe(string $username): ?Profile
+    {
+        return $this->profileRepository->findOneByUsername($username);
+    }
+
     private function getFollower(): Profile
     {
-        $user = $this->context->getUser();
-        if ($user === null) {
-            throw new UnauthorizedException();
-        }
-        return $user->getProfile();
+        return $this->context->getProfile();
     }
 
     public function getProfile(string $username): ?ProfileDto
     {
         $result = null;
-        $profile = $this->findProfile($username, true);
+        $profile = $this->findProfileSafe($username);
         if ($profile !== null) {
             $result = $this->toDto($profile);
         }

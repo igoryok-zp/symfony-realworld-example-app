@@ -43,11 +43,7 @@ class UserService
 
     private function getContextUser(): User
     {
-        $user = $this->context->getUser();
-        if ($user === null) {
-            throw new UnauthorizedException();
-        }
-        return $user;
+        return $this->context->getUser();
     }
 
     public function createUser(UserDto $data): UserDto
@@ -58,8 +54,8 @@ class UserService
 
     public function loginUser(UserDto $data): UserDto
     {
-        $user = $this->userRepository->findOneByEmail($data->email);
-        if ($user === null || !$this->passwordHasher->isPasswordValid($user, $data->password)) {
+        $user = $this->userRepository->findOneByEmail((string) $data->email);
+        if ($user === null || !$this->passwordHasher->isPasswordValid($user, (string) $data->password)) {
             throw new UnauthorizedException('Email or password is not valid');
         }
         return $this->toDto($user);

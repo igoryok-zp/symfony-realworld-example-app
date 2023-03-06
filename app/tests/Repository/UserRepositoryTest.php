@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Repository;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -33,7 +34,10 @@ class UserRepositoryTest extends KernelTestCase
 
     public function testUpgradePasswordSave(): void
     {
+        /** @var User */
         $user = $this->userRepository->find(1);
+        $this->assertNotNull($user);
+
         $newHashedPassword = md5('pswd');
 
         $this->userRepository->upgradePassword($user, $newHashedPassword);

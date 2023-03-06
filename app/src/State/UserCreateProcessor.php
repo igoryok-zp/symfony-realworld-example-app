@@ -26,7 +26,9 @@ class UserCreateProcessor implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $result = new User();
-        $result->user = $this->service->createUser($data->user);
+        if ($data->user !== null) {
+            $result->user = $this->service->createUser($data->user);
+        }
         return $result;
     }
 }

@@ -26,7 +26,9 @@ class UserUpdateProcessor implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $result = new User();
-        $result->user = $this->service->updateCurrentUser($data->user);
+        if ($data->user !== null) {
+            $result->user = $this->service->updateCurrentUser($data->user);
+        }
         return $result;
     }
 }

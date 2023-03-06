@@ -20,7 +20,9 @@ class CommentCreateController extends AbstractController
     public function __invoke(string $slug, Comment $data): Comment
     {
         $result = new Comment();
-        $result->comment = $this->service->createArticleComment($slug, $data->comment);
+        if ($data->comment !== null) {
+            $result->comment = $this->service->createArticleComment($slug, $data->comment);
+        }
         return $result;
     }
 }

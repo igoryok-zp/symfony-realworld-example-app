@@ -37,9 +37,9 @@ class UserMapper
     {
         $result = new UserDto();
         $result->email = $entity->getEmail();
-        $result->username = $entity->getProfile()->getUsername();
-        $result->bio = $entity->getProfile()->getBio();
-        $result->image = $entity->getProfile()->getImage();
+        $result->username = $entity->getProfile()?->getUsername();
+        $result->bio = $entity->getProfile()?->getBio();
+        $result->image = $entity->getProfile()?->getImage();
         return $result;
     }
 }

@@ -39,8 +39,8 @@ class UniqueUsernameValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        $user = $this->appContext->getUser();
-        if ($user && $user->getProfile()->getUsername() === $value) {
+        $profile = $this->appContext->getProfileSafe();
+        if ($profile && $profile->getUsername() === $value) {
             return;
         }
 

@@ -25,9 +25,9 @@ class ArticleMapper
     private function isFavorited(Article $article): bool
     {
         $result = false;
-        $user = $this->context->getUser();
-        if ($user !== null) {
-            $result = $this->favoriteRepository->exists($article, $user->getProfile());
+        $profile = $this->context->getProfileSafe();
+        if ($profile !== null) {
+            $result = $this->favoriteRepository->exists($article, $profile);
         }
         return $result;
     }
@@ -69,8 +69,8 @@ class ArticleMapper
         if ($dto->tagList !== null) {
             $this->setTags($result, $dto->tagList);
         }
-        if ($result->getAuthor() === null && $this->context->getUser() !== null) {
-            $result->setAuthor($this->context->getUser()->getProfile());
+        if ($result->getAuthor() === null && $this->context->getProfileSafe() !== null) {
+            $result->setAuthor($this->context->getProfileSafe());
         }
         return $result;
     }
@@ -87,7 +87,9 @@ class ArticleMapper
         $result->updatedAt = $entity->getCreatedAt();
         $result->favorited = $this->isFavorited($entity);
         $result->favoritesCount = $this->favoriteRepository->countByArticle($entity);
-        $result->author = $this->profileMapper->mapEntityToDto($entity->getAuthor());
+        if ($entity->getAuthor() !== null) {
+            $result->author = $this->profileMapper->mapEntityToDto($entity->getAuthor());
+        }
         return $result;
     }
 }
