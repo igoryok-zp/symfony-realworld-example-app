@@ -21,6 +21,7 @@ class ProfileTest extends ApiResourceTestCase
      */
     private function requestProfiles(string $method, string $profileApi, string $token = ''): array
     {
+        /** @var mixed[][] */
         $result = $this->requestApi($method, 'profiles/' . $profileApi, token: $token);
         return $result['profile'] ?? [];
     }

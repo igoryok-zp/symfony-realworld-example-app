@@ -43,6 +43,7 @@ class ApiResourceTestCase extends ApiPlatformApiTestCase
 
     protected function getToken(string $email, string $password): string
     {
+        /** @var string[][] */
         $data = $this->requestApi('POST', 'users/login', [
             'user' => [
                 'email' => $email,

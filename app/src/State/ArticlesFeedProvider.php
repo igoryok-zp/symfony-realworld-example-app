@@ -22,7 +22,7 @@ class ArticlesFeedProvider implements ProviderInterface
     /**
      * @param Operation $operation
      * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param mixed[][] $context
      * @return Article
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Article
