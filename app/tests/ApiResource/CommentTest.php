@@ -42,6 +42,7 @@ class CommentTest extends ApiResourceTestCase
 
     public function testList(): void
     {
+        /** @var string[][][] */
         $comments = $this->requestComments('GET', 'article-1');
 
         $this->assertMatchesCommentJsonSchema('list');
@@ -62,6 +63,7 @@ class CommentTest extends ApiResourceTestCase
 
         $body = 'Test';
 
+        /** @var string[][] */
         $comment = $this->requestComments('POST', 'article-1', token: $token, data: [
             'body' => $body,
         ]);

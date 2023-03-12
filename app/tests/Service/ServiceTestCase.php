@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ServiceTestCase extends KernelTestCase
 {
     /**
-     * @template T
+     * @template T of object
      * @param class-string<T> $class
      * @return MockObject&T
      */
@@ -30,7 +30,7 @@ class ServiceTestCase extends KernelTestCase
         if ($reflection->getConstructor()) {
             foreach ($reflection->getConstructor()->getParameters() as $param) {
                 $constructorArgument = null;
-                /** @var class-string<mixed> */
+                /** @var class-string<object> */
                 $type = (string) $param->getType();
                 if (!empty($type)) {
                     $constructorArgument = $this->getService($type);
@@ -68,7 +68,7 @@ class ServiceTestCase extends KernelTestCase
     }
 
     /**
-     * @template T
+     * @template T of object
      * @param class-string<T> $class
      * @return T
      */

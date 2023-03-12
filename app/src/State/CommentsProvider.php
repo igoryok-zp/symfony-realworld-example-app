@@ -28,7 +28,7 @@ class CommentsProvider implements ProviderInterface
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Comment
     {
         $result = new Comment();
-        $result->comments = $this->service->getArticleComments($uriVariables['slug']);
+        $result->comments = $this->service->getArticleComments(strval($uriVariables['slug']));
         return $result;
     }
 }

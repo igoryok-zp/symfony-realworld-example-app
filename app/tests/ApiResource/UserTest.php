@@ -26,6 +26,7 @@ class UserTest extends ApiResourceTestCase
         if (!empty($data)) {
             $userData['user'] = $data;
         }
+        /** @var mixed[][] */
         $result = $this->requestApi($method, $api, $userData, $token);
         return $result['user'] ?? [];
     }

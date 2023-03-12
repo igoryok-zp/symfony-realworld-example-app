@@ -39,6 +39,7 @@ class ArticleTest extends ApiResourceTestCase
         if (!empty($query)) {
             $articleApi .= '?' . $query;
         }
+        /** @var mixed[][] */
         $result = $this->requestApi($method, $articleApi, $articleData, $token);
         return $result['article'] ?? array_filter([
             $result['articlesCount'] ?? null,
@@ -60,6 +61,7 @@ class ArticleTest extends ApiResourceTestCase
     {
         $slug = 'article-1';
 
+        /** @var string[][] */
         $article = $this->requestArticles('GET', $slug);
 
         $this->assertMatchesArticleJsonSchema('get');
@@ -83,6 +85,7 @@ class ArticleTest extends ApiResourceTestCase
         $body = 'Test Body';
         $tagList = ['test'];
 
+        /** @var string[][] */
         $article = $this->requestArticles('POST', token: $token, data: [
             'title' => $title,
             'description' => $description,
@@ -174,6 +177,7 @@ class ArticleTest extends ApiResourceTestCase
     {
         $token = $this->getToken('user2@app.test', 'pswd2');
 
+        /** @var string[][] $articles */
         [$count, $articles] = $this->requestArticles('GET', 'feed', token: $token);
 
         $this->assertMatchesArticleJsonSchema('feed');
@@ -181,6 +185,7 @@ class ArticleTest extends ApiResourceTestCase
         $this->assertEquals(1, $count);
         $this->assertCount(1, $articles);
 
+        /** @var string[][] */
         $article = $articles[0];
         $this->assertEquals('article-1', $article['slug']);
         $this->assertEquals('Article 1', $article['title']);
@@ -260,7 +265,7 @@ class ArticleTest extends ApiResourceTestCase
         [$count, $articles] = $this->requestArticles(
             'GET',
             query: $query,
-            token: $tokenProvider !== null ? call_user_func($tokenProvider) : ''
+            token: $tokenProvider !== null ? strval(call_user_func($tokenProvider)) : ''
         );
 
         $this->assertMatchesArticleJsonSchema('list');

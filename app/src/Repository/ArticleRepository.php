@@ -94,7 +94,9 @@ class ArticleRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createArticlesFeedQueryBuilder($follower);
         $queryBuilder->select('COUNT(a)');
-        return $queryBuilder->getQuery()->getSingleScalarResult();
+        /** @var int */
+        $result = $queryBuilder->getQuery()->getSingleScalarResult();
+        return $result;
     }
 
     /**
@@ -110,14 +112,18 @@ class ArticleRepository extends ServiceEntityRepository
         $queryBuilder->orderBy('a.createdAt', 'DESC');
         $queryBuilder->setFirstResult($offset);
         $queryBuilder->setMaxResults($limit);
-        return $queryBuilder->getQuery()->getResult();
+        /** @var Article[] */
+        $result = $queryBuilder->getQuery()->getResult();
+        return $result;
     }
 
     public function countArticles(?string $author = null, ?string $favorited = null, ?string $tag = null): int
     {
         $queryBuilder = $this->createArticlesQueryBuilder($author, $favorited, $tag);
         $queryBuilder->select('COUNT(a)');
-        return $queryBuilder->getQuery()->getSingleScalarResult();
+        /** @var int */
+        $result = $queryBuilder->getQuery()->getSingleScalarResult();
+        return $result;
     }
 
     /**
@@ -140,6 +146,8 @@ class ArticleRepository extends ServiceEntityRepository
         $queryBuilder->orderBy('a.createdAt', 'DESC');
         $queryBuilder->setFirstResult($offset);
         $queryBuilder->setMaxResults($limit);
-        return $queryBuilder->getQuery()->getResult();
+        /** @var Article[] */
+        $result = $queryBuilder->getQuery()->getResult();
+        return $result;
     }
 }

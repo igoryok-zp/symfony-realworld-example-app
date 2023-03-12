@@ -22,15 +22,15 @@ class ArticlesProvider implements ProviderInterface
     /**
      * @param Operation $operation
      * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param mixed[][] $context
      * @return Article
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Article
     {
         $result = new Article();
-        $author = $context['filters']['author'] ?? null;
-        $favorited = $context['filters']['favorited'] ?? null;
-        $tag = $context['filters']['tag'] ?? null;
+        $author = isset($context['filters']['author']) ? strval($context['filters']['author']) : null;
+        $favorited = isset($context['filters']['favorited']) ? strval($context['filters']['favorited']) : null;
+        $tag = isset($context['filters']['tag']) ? strval($context['filters']['tag']) : null;
         $result->articlesCount = $this->service->countArticles($author, $favorited, $tag);
         if ($result->articlesCount) {
             $limit = intval($context['filters']['limit'] ?? 20);
