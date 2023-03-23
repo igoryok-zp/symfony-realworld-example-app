@@ -33,7 +33,7 @@ class ArticleService
     private function findArticle(string $slug): Article
     {
         $article = $this->findArticleSafe($slug);
-        if ($article === null) {
+        if (null === $article) {
             throw new NotFoundException('Article "' . $slug . '" does not exist');
         }
         return $article;
@@ -68,7 +68,7 @@ class ArticleService
     {
         $result = null;
         $article = $this->findArticleSafe($slug);
-        if ($article !== null) {
+        if (null !== $article) {
             $result = $this->toDto($article);
         }
         return $result;
