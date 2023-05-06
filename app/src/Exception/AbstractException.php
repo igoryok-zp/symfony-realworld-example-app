@@ -18,5 +18,12 @@ abstract class AbstractException extends Exception
         parent::__construct($exceptionMessage, $code, $previous);
     }
 
-    abstract protected function getName(): string;
+    protected function getName(): string
+    {
+        $classParts = explode('\\', static::class);
+        $className = array_pop($classParts);
+        $classWords = preg_split('/(?=[A-Z])/', $className);
+        $nameParts = is_array($classWords) ? array_slice($classWords, 1, -1) : [];
+        return implode(' ', $nameParts);
+    }
 }

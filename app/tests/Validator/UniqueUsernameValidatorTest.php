@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Validator;
 
 use App\Entity\Profile;
-use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Utility\Context;
 use App\Validator\UniqueUsername;

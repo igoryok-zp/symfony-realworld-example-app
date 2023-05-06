@@ -9,7 +9,6 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
-use App\Exception\UnauthorizedException;
 use App\Mapper\CommentMapper;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;

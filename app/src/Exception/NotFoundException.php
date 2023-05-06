@@ -6,8 +6,4 @@ namespace App\Exception;
 
 class NotFoundException extends AbstractException
 {
-    protected function getName(): string
-    {
-        return 'Not Found';
-    }
 }
