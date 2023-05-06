@@ -8,7 +8,6 @@ use App\Dto\ProfileDto;
 use App\Entity\Profile;
 use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
-use App\Exception\UnauthorizedException;
 use App\Mapper\ProfileMapper;
 use App\Repository\FollowerRepository;
 use App\Repository\ProfileRepository;

@@ -6,8 +6,4 @@ namespace App\Exception;
 
 class UnauthorizedException extends AbstractException
 {
-    protected function getName(): string
-    {
-        return 'Unauthorized';
-    }
 }

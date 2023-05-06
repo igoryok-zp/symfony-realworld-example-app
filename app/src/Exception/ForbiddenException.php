@@ -6,8 +6,4 @@ namespace App\Exception;
 
 class ForbiddenException extends AbstractException
 {
-    protected function getName(): string
-    {
-        return 'Forbidden';
-    }
 }
