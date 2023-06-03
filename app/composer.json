@@ -30,7 +30,7 @@
         "symfony/security-bundle": "6.2.*",
         "symfony/serializer": "6.2.*",
         "symfony/twig-bundle": "6.2.*",
-        "symfony/validator": "6.2.*",
+        "symfony/validator": "6.3.*",
         "symfony/yaml": "6.2.*"
     },
     "require-dev": {
