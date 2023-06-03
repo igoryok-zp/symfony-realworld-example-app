@@ -21,14 +21,14 @@ class ProfileProvider implements ProviderInterface
 
     /**
      * @param Operation $operation
-     * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param string[] $uriVariables
+     * @param string[][] $context
      * @return Profile|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Profile
     {
         $result = null;
-        $profile = $this->service->getProfile(strval($uriVariables['username']));
+        $profile = $this->service->getProfile($uriVariables['username']);
         if ($profile !== null) {
             $result = new Profile();
             $result->profile = $profile;

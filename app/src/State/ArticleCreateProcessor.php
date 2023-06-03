@@ -19,8 +19,8 @@ class ArticleCreateProcessor implements ProcessorInterface
     /**
      * @param Article $data
      * @param Operation $operation
-     * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param string[] $uriVariables
+     * @param string[][] $context
      * @return Article
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])

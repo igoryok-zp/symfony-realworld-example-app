@@ -262,10 +262,13 @@ class ArticleTest extends ApiResourceTestCase
      */
     public function testList(string $query, callable $assertFunc, ?callable $tokenProvider = null): void
     {
+        /** @var string */
+        $token = $tokenProvider !== null ? call_user_func($tokenProvider) : '';
+
         [$count, $articles] = $this->requestArticles(
             'GET',
             query: $query,
-            token: $tokenProvider !== null ? strval(call_user_func($tokenProvider)) : ''
+            token: $token,
         );
 
         $this->assertMatchesArticleJsonSchema('list');

@@ -19,8 +19,8 @@ class UserCreateProcessor implements ProcessorInterface
     /**
      * @param User $data
      * @param Operation $operation
-     * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param string[] $uriVariables
+     * @param string[][] $context
      * @return User
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])

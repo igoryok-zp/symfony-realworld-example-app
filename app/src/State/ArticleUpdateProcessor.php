@@ -19,15 +19,15 @@ class ArticleUpdateProcessor implements ProcessorInterface
     /**
      * @param Article $data
      * @param Operation $operation
-     * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param string[] $uriVariables
+     * @param string[][] $context
      * @return Article
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $result = new Article();
         if ($data->article !== null) {
-            $result->article = $this->service->updateArticle(strval($uriVariables['slug']), $data->article);
+            $result->article = $this->service->updateArticle($uriVariables['slug'], $data->article);
         }
         return $result;
     }

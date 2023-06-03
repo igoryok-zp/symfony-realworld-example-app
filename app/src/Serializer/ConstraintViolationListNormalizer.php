@@ -24,6 +24,17 @@ class ConstraintViolationListNormalizer implements NormalizerInterface
     }
 
     /**
+     * @param string|null $format
+     * @return array<class-string|'*'|'object'|string, bool|null>
+     */
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            ConstraintViolationListInterface::class => true,
+        ];
+    }
+
+    /**
      * @param mixed $data
      * @param string|null $format
      * @param mixed[] $context
