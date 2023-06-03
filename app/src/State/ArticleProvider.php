@@ -21,14 +21,14 @@ class ArticleProvider implements ProviderInterface
 
     /**
      * @param Operation $operation
-     * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param string[] $uriVariables
+     * @param string[][] $context
      * @return Article|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Article
     {
         $result = null;
-        $article = $this->service->getArticle(strval($uriVariables['slug']));
+        $article = $this->service->getArticle($uriVariables['slug']);
         if ($article !== null) {
             $result = new Article();
             $result->article = $article;

@@ -21,8 +21,8 @@ class UserCurrentProvider implements ProviderInterface
 
     /**
      * @param Operation $operation
-     * @param mixed[] $uriVariables
-     * @param mixed[] $context
+     * @param string[] $uriVariables
+     * @param string[][] $context
      * @return User
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): User
