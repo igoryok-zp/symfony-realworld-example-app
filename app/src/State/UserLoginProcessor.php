@@ -9,6 +9,9 @@ use App\Service\UserService;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 
+/**
+ * @implements ProcessorInterface<User>
+ */
 class UserLoginProcessor implements ProcessorInterface
 {
     public function __construct(

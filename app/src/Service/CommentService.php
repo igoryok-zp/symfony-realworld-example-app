@@ -61,7 +61,7 @@ class CommentService
     public function getArticleComments(string $slug): array
     {
         $article = $this->findArticle($slug);
-        $comments = $this->commentRepository->findBy(['article' => $article]);
+        $comments = $this->commentRepository->findBy(['article' => $article], ['id' => 'ASC']);
         return array_map(fn ($comment) => $this->toDto($comment), $comments);
     }
 

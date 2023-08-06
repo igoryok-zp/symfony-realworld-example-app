@@ -9,6 +9,9 @@ use App\Service\ArticleService;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 
+/**
+ * @implements ProcessorInterface<Article>
+ */
 class ArticleUpdateProcessor implements ProcessorInterface
 {
     public function __construct(
