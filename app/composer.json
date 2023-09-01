@@ -38,7 +38,7 @@
         "hautelook/alice-bundle": "^2.11",
         "justinrainbow/json-schema": "^5.2",
         "phpmd/phpmd": "^2.13",
-        "phpro/grumphp": "^1.15",
+        "phpro/grumphp": "^2.0",
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.7",
