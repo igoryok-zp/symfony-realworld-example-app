@@ -33,7 +33,7 @@ Docker services:
 
 Code analysis:
 
-- [GrumPHP](https://phpro.github.io/grumphp/)
+- [GrumPHP](https://github.com/phpro/grumphp)
 - [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 - [PHP Mess Detector](https://phpmd.org/)
 - [PHPStan](https://phpstan.org/)
