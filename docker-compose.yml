@@ -8,14 +8,14 @@ services:
       args:
         - APP_USER=${APP_USER}
     environment:
-      - DATABASE_URL=postgresql://${APP_USER}:${DB_PSWD}@db:5432/${DB_NAME}?serverVersion=15&charset=utf8
+      - DATABASE_URL=postgresql://${APP_USER}:${DB_PSWD}@db:5432/${DB_NAME}?serverVersion=16&charset=utf8
     depends_on:
       - db
     networks:
       - frontend
       - backend
   db:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_PASSWORD=${DB_PSWD}
