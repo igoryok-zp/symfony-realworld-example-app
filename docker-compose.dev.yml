@@ -9,7 +9,8 @@ services:
       ### Use var directory to add necessary configs such as xdebug
       # - ./var/app/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       ### Uncomment below to use your composer cache
-      # - $HOME/.composer:/home/$APP_USER/.composer
+      ### See: composer config -gl | grep 'cache-dir'
+      # - $HOME/.cache/composer:/home/$APP_USER/.composer/cache
     extra_hosts:
       ### Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
