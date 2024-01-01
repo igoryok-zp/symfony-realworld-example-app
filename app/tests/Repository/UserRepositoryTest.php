@@ -29,7 +29,6 @@ class UserRepositoryTest extends KernelTestCase
         $user = $this->createMock(PasswordAuthenticatedUserInterface::class);
         $newHashedPassword = md5('pswd');
 
-        /** @phpstan-ignore-next-line */
         $this->userRepository->upgradePassword($user, $newHashedPassword);
     }
 
