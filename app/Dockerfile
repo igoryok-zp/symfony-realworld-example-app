@@ -1,16 +1,18 @@
-FROM php:8.2-fpm-alpine AS php_fpm
+FROM php:8.3-fpm AS php_fpm
 
 # php extensions installer: https://github.com/mlocati/docker-php-extension-installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
 # persistent / runtime deps
-RUN apk add --no-cache \
+RUN apt-get update && \
+    apt-get -y install \
         acl \
-        fcgi \
         file \
         gettext \
         git \
-    ;
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
     install-php-extensions \
@@ -24,7 +26,7 @@ RUN set -eux; \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 ARG APP_USER
-RUN adduser --disabled-password $APP_USER && \
+RUN useradd -m -s /bin/bash -u 1000 $APP_USER && \
     chown $APP_USER:$APP_USER -R /var/www && \
     sed -i -e "s/www-data/$APP_USER/g" /usr/local/etc/php-fpm.d/www.conf
 
