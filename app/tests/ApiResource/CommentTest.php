@@ -36,8 +36,9 @@ class CommentTest extends ApiResourceTestCase
         if (!empty($commentId)) {
             $commentApi .= '/' . $commentId;
         }
-        $result = $this->requestApi($method, $commentApi, $commentData, $token);
-        return $result['comments'] ?? $result['comment'] ?? [];
+        /** @var mixed[][] */
+        $data = $this->requestApi($method, $commentApi, $commentData, $token);
+        return $data['comments'] ?? $data['comment'] ?? [];
     }
 
     public function testList(): void

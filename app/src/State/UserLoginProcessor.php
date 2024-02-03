@@ -10,7 +10,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 
 /**
- * @implements ProcessorInterface<User>
+ * @implements ProcessorInterface<User, User>
  */
 class UserLoginProcessor implements ProcessorInterface
 {
