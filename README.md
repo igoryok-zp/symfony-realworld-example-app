@@ -61,7 +61,7 @@ cp env.txt .env
 
 Launch Docker services:
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 That's it, now you can open http://localhost/ in your browser.
@@ -75,7 +75,7 @@ cp docker-compose.dev.yml docker-compose.override.yml
 
 Restart Docker services:
 ```
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 Open http://localhost/ to verify the app is running fine.
@@ -84,7 +84,7 @@ Open http://localhost/ to verify the app is running fine.
 
 Run PHPUnit:
 ```
-docker-compose exec app phpunit
+docker compose exec app phpunit
 ```
 
 
