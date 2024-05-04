@@ -9,6 +9,7 @@ use App\Utility\Context;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -33,7 +34,9 @@ class ServiceTestCase extends KernelTestCase
                 /** @var class-string<object> */
                 $type = (string) $param->getType();
                 if (!empty($type)) {
-                    $constructorArgument = $this->getService($type);
+                    $constructorArgument = $param->isDefaultValueAvailable()
+                        ? $this->getServiceOrNull($type)
+                        : $this->getService($type);
                 }
                 if (empty($constructorArgument) && $param->isDefaultValueAvailable()) {
                     $constructorArgument = $param->getDefaultValue();
@@ -77,6 +80,21 @@ class ServiceTestCase extends KernelTestCase
         /** @var T */
         $service = static::getContainer()->get($class);
         $this->assertInstanceOf($class, $service);
+        return $service;
+    }
+
+    /**
+     * @template T of object
+     * @param class-string<T> $class
+     * @return T|null
+     */
+    protected function getServiceOrNull(string $class): mixed
+    {
+        /** @var T|null */
+        $service = static::getContainer()->get(
+            $class,
+            ContainerInterface::NULL_ON_INVALID_REFERENCE
+        );
         return $service;
     }
 }
