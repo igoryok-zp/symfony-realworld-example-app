@@ -25,6 +25,7 @@ class ApiResourceTestCase extends ApiPlatformApiTestCase
         $url = '/api/' . $api;
         $headers = [
             'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
         ];
         if (!empty($token)) {
             $headers['Authorization'] = 'Token ' . $token;

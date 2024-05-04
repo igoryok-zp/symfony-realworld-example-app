@@ -96,6 +96,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 final class Comment
 {
+    #[ApiProperty(identifier: true)]
+    public ?string $slug = null;
+
     /**
      * @var CommentDto[]
      */

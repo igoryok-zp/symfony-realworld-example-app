@@ -11,6 +11,7 @@ use App\State\ProfileProvider;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -19,6 +20,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(
             name: 'profile_get',
             uriTemplate: '/profiles/{username}',
+            uriVariables: [
+                'username' => new Link(
+                    fromClass: ProfileDto::class,
+                ),
+            ],
             provider: ProfileProvider::class,
             normalizationContext: [
                 'groups' => [
