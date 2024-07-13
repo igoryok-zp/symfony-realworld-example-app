@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v3.3.5",
+            "version": "v3.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "b5a93fb0bb855273aabb0807505ba61b68813246"
+                "reference": "6daec826cf2a26fa6455a0a137c027c71b126f15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/b5a93fb0bb855273aabb0807505ba61b68813246",
-                "reference": "b5a93fb0bb855273aabb0807505ba61b68813246",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/6daec826cf2a26fa6455a0a137c027c71b126f15",
+                "reference": "6daec826cf2a26fa6455a0a137c027c71b126f15",
                 "shasum": ""
             },
             "require": {
@@ -190,9 +190,9 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v3.3.5"
+                "source": "https://github.com/api-platform/core/tree/v3.3.7"
             },
-            "time": "2024-05-29T05:48:47+00:00"
+            "time": "2024-06-28T09:35:57+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -6570,30 +6570,30 @@
         },
         {
             "name": "symfony/web-link",
-            "version": "v6.4.8",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-link.git",
-                "reference": "304c67cefe7128ea3957e9bb1ac6ce08a90a635b"
+                "reference": "63f90aa0054bfd9a091d2f5cf465958f1030638f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-link/zipball/304c67cefe7128ea3957e9bb1ac6ce08a90a635b",
-                "reference": "304c67cefe7128ea3957e9bb1ac6ce08a90a635b",
+                "url": "https://api.github.com/repos/symfony/web-link/zipball/63f90aa0054bfd9a091d2f5cf465958f1030638f",
+                "reference": "63f90aa0054bfd9a091d2f5cf465958f1030638f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "psr/link": "^1.1|^2.0"
             },
             "conflict": {
-                "symfony/http-kernel": "<5.4"
+                "symfony/http-kernel": "<6.4"
             },
             "provide": {
                 "psr/link-implementation": "1.0|2.0"
             },
             "require-dev": {
-                "symfony/http-kernel": "^5.4|^6.0|^7.0"
+                "symfony/http-kernel": "^6.4|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -6633,7 +6633,7 @@
                 "push"
             ],
             "support": {
-                "source": "https://github.com/symfony/web-link/tree/v6.4.8"
+                "source": "https://github.com/symfony/web-link/tree/v7.1.1"
             },
             "funding": [
                 {
@@ -6649,7 +6649,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:49:08+00:00"
+            "time": "2024-05-31T14:57:53+00:00"
         },
         {
             "name": "symfony/yaml",
