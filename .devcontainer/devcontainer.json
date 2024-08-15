@@ -1,0 +1,15 @@
+{
+    "name": "Symfony RealWorld Example Dev Container",
+    "dockerComposeFile": [],
+    "service": "devcontainer",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "xdebug.php-debug"
+            ]
+        }
+    },
+    "shutdownAction": "stopCompose"
+}
