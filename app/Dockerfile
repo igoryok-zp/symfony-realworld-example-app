@@ -26,7 +26,8 @@ RUN set -eux; \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 ARG APP_USER
-RUN useradd -m -s /bin/bash -u 1000 $APP_USER && \
+ARG APP_USER_ID
+RUN useradd -m -s /bin/bash -u $APP_USER_ID $APP_USER && \
     chown $APP_USER:$APP_USER -R /var/www && \
     sed -i -e "s/www-data/$APP_USER/g" /usr/local/etc/php-fpm.d/www.conf
 
@@ -91,7 +92,8 @@ RUN set -eux; \
 FROM nginx:1-alpine AS proxy
 
 ARG APP_USER
-RUN adduser --disabled-password $APP_USER && \
+ARG APP_USER_ID
+RUN adduser --disabled-password -u $APP_USER_ID $APP_USER && \
     mkdir -p /var/www/html/public && \
     chown $APP_USER:$APP_USER -R /var/www/html && \
     sed -i -e "s/^user .*/user $APP_USER;/g" /etc/nginx/nginx.conf
