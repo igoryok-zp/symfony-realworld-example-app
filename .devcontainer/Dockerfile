@@ -28,7 +28,8 @@ RUN apt-get update && \
 
 ARG APP_USER
 ARG APP_USER_ID
-RUN useradd -m -s /bin/bash -u $APP_USER_ID $APP_USER && \
+RUN userdel ubuntu && \
+    useradd -m -s /bin/bash -u $APP_USER_ID $APP_USER && \
     mkdir -p /workspace && \
     chown $APP_USER:$APP_USER -R /workspace
 

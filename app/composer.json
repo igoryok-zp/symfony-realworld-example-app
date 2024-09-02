@@ -36,7 +36,7 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.0",
         "hautelook/alice-bundle": "^2.11",
-        "justinrainbow/json-schema": "^5.2",
+        "justinrainbow/json-schema": "^6.0",
         "phpmd/phpmd": "^2.13",
         "phpro/grumphp": "^2.0",
         "phpstan/phpstan": "^1.9",

@@ -15,24 +15,6 @@ services:
   db:
     ports:
       - 5432:5432
-  devcontainer:
-    build:
-      context: .
-      dockerfile: .devcontainer/Dockerfile
-      args:
-        - APP_USER=${APP_USER}
-        - APP_USER_ID=${APP_USER_ID}
-    environment:
-      - DATABASE_URL=postgresql://${APP_USER}:${DB_PSWD}@db:5432/${DB_NAME}?serverVersion=16&charset=utf8
-    volumes:
-      - .:/workspace
-      ### Add various user settings
-      # - $HOME/.gitconfig:/home/$APP_USER/.gitconfig
-      # - $HOME/.ssh:/home/$APP_USER/.ssh
-    command: /bin/sh -c "while sleep 1000; do :; done"
-    networks:
-      - frontend
-      - backend
   proxy:
     volumes:
       - ./app/public:/var/www/html/public

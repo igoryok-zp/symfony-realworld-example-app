@@ -1,0 +1,16 @@
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        - APP_USER=${APP_USER:-app}
+        - APP_USER_ID=${APP_USER_ID:-1000}
+    environment:
+      - DATABASE_URL=postgresql://${APP_USER:-app}:${DB_PSWD:-!ChangeMe!}@db:5432/${DB_NAME:-app}?serverVersion=16&charset=utf8
+    volumes:
+      - .:/workspace
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    networks:
+      - frontend
+      - backend

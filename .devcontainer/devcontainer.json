@@ -1,6 +1,10 @@
 {
-    "name": "Symfony RealWorld Example Dev Container",
-    "dockerComposeFile": [],
+    "name": "Symfony RealWorld Example",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "../docker-compose.dev.yml",
+        "docker-compose.yml"
+    ],
     "service": "devcontainer",
     "workspaceFolder": "/workspace",
     "customizations": {
