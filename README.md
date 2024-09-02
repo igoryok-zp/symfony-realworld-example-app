@@ -54,11 +54,6 @@ Make sure you have [Docker](https://docs.docker.com/get-docker/) installed.
 
 Clone the repository.
 
-Create Docker environment file from the sample:
-```
-cp env.txt .env
-```
-
 Launch Docker services:
 ```
 docker compose up -d
