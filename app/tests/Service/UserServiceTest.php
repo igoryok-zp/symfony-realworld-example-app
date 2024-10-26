@@ -22,7 +22,9 @@ class UserServiceTest extends ServiceTestCase
 
     private function createService(?int $contextUserId = null): UserService
     {
-        $this->tokenManager = $this->buildProxy(JWTTokenManagerInterface::class);
+        $this->tokenManager = $this->buildProxy(JWTTokenManagerInterface::class, [
+            'userIdClaim' => static::getContainer()->getParameter('lexik_jwt_authentication.user_id_claim'),
+        ]);
 
         return new UserService(
             $this->createContext($contextUserId),
