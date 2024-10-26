@@ -20,6 +20,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model\Operation;
+use ApiPlatform\OpenApi\Model\Parameter;
+use ApiPlatform\OpenApi\Model\RequestBody;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,21 +38,24 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ArticleConfig::OUTPUT_LIST,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'limit',
-                    'in' => 'query',
-                    'required' => false,
-                    'type' => 'integer',
-                ], [
-                    'name' => 'offset',
-                    'in' => 'query',
-                    'required' => false,
-                    'type' => 'integer',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'limit',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer']
+                    ),
+                    new Parameter(
+                        name: 'offset',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer'],
+                    ),
+                ],
+            ),
         ),
         new Get(
             name: 'article_list',
@@ -59,36 +65,42 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ArticleConfig::OUTPUT_LIST,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'author',
-                    'in' => 'query',
-                    'required' => false,
-                    'type' => 'string',
-                ], [
-                    'name' => 'favorited',
-                    'in' => 'query',
-                    'required' => false,
-                    'type' => 'string',
-                ], [
-                    'name' => 'tag',
-                    'in' => 'query',
-                    'required' => false,
-                    'type' => 'string',
-                ], [
-                    'name' => 'limit',
-                    'in' => 'query',
-                    'required' => false,
-                    'type' => 'integer',
-                ], [
-                    'name' => 'offset',
-                    'in' => 'query',
-                    'required' => false,
-                    'type' => 'integer',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'author',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'string'],
+                    ),
+                    new Parameter(
+                        name: 'favorited',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'string'],
+                    ),
+                    new Parameter(
+                        name: 'tag',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'string'],
+                    ),
+                    new Parameter(
+                        name: 'limit',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer'],
+                    ),
+                    new Parameter(
+                        name: 'offset',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer'],
+                    ),
+                ],
+            ),
         ),
         new Get(
             name: 'article_get',
@@ -105,16 +117,18 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ArticleConfig::OUTPUT,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                ],
+            ),
         ),
         new Post(
             name: 'article_create',
@@ -135,10 +149,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ArticleConfig::VALID,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+            ),
         ),
         new Put(
             name: 'article_update',
@@ -160,32 +174,36 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ArticleConfig::VALID,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                ],
+            ),
         ),
         new Delete(
             name: 'article_delete',
             uriTemplate: '/articles/{slug}',
             controller: ArticleDeleteController::class,
             read: false,
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                ],
+            ),
         ),
         new Post(
             name: 'article_favorite',
@@ -199,19 +217,21 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ArticleConfig::OUTPUT,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ]],
-                'requestBody' => [
-                    'content' => [],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
                 ],
-            ],
+                requestBody: new RequestBody(
+                    content: new \ArrayObject(),
+                ),
+            ),
         ),
         new Delete(
             name: 'article_unfavorite',
@@ -224,16 +244,18 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
             status: 200,
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ]],
-                'responses' => [
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                ],
+                responses: [
                     '200' => [
                         'content' => [
                             'application/json' => [
@@ -249,7 +271,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                         ],
                     ],
                 ],
-            ],
+            ),
         ),
     ],
 )]

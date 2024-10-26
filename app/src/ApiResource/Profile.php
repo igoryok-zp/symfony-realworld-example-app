@@ -13,6 +13,8 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model\Operation;
+use ApiPlatform\OpenApi\Model\RequestBody;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -32,10 +34,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 ],
                 'skip_null_values' => false,
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+            ),
         ),
         new Post(
             name: 'profile_follow',
@@ -51,13 +53,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'skip_null_values' => false,
             ],
             status: 200,
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'requestBody' => [
-                    'content' => [],
-                ]
-            ]
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                requestBody: new RequestBody(content: new \ArrayObject()),
+            ),
         ),
         new Delete(
             name: 'profile_unfollow',
@@ -71,10 +71,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'skip_null_values' => false,
             ],
             status: 200,
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'responses' => [
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                responses: [
                     '200' => [
                         'content' => [
                             'application/json' => [
@@ -90,7 +90,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                         ],
                     ],
                 ],
-            ],
+            ),
         ),
     ],
 )]

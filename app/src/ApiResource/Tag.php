@@ -7,16 +7,17 @@ namespace App\ApiResource;
 use App\State\TagsProvider;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\OpenApi\Model\Operation;
 
 #[ApiResource(
     operations: [
         new Get(
             name: 'tag_list',
             provider: TagsProvider::class,
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+            ),
         ),
     ],
 )]

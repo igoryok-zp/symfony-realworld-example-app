@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model\Operation;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,10 +41,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                     UserConfig::VALID,
                 ]
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+            ),
         ),
         new Post(
             name: 'user_login',
@@ -67,10 +68,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                     UserConfig::VALID,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+            ),
         ),
         new Get(
             name: 'user_current',
@@ -82,10 +83,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
                 'skip_null_values' => false,
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+            ),
         ),
         new Put(
             name: 'user_update',
@@ -109,10 +110,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                     UserConfig::VALID,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+            ),
         ),
     ],
 )]

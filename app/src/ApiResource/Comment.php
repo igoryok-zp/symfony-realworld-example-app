@@ -14,6 +14,8 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model\Operation;
+use ApiPlatform\OpenApi\Model\Parameter;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,16 +31,18 @@ use Symfony\Component\Validator\Constraints as Assert;
                     CommentConfig::OUTPUT_LIST,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                ],
+            ),
         ),
         new Post(
             name: 'comment_create',
@@ -60,37 +64,42 @@ use Symfony\Component\Validator\Constraints as Assert;
                     CommentConfig::VALID,
                 ],
             ],
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                ],
+            ),
         ),
         new Delete(
             name: 'comment_delete',
             uriTemplate: '/articles/{slug}/comments/{id}',
             controller: CommentDeleteController::class,
             read: false,
-            openapiContext: [
-                'summary' => '',
-                'description' => '',
-                'parameters' => [[
-                    'name' => 'slug',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'string',
-                ], [
-                    'name' => 'id',
-                    'in' => 'path',
-                    'required' => true,
-                    'type' => 'integer',
-                ]],
-            ],
+            openapi: new Operation(
+                summary: '',
+                description: '',
+                parameters: [
+                    new Parameter(
+                        name: 'slug',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                    new Parameter(
+                        name: 'id',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'integer'],
+                    ),
+                ],
+            ),
         ),
     ],
 )]
