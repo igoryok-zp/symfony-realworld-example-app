@@ -18,9 +18,10 @@ class ServiceTestCase extends KernelTestCase
     /**
      * @template T of object
      * @param class-string<T> $class
+     * @param array<string, mixed> $params
      * @return MockObject&T
      */
-    protected function buildProxy(string $class): mixed
+    protected function buildProxy(string $class, $params = []): mixed
     {
         $reflection = new ReflectionClass($class);
         if ($reflection->isInterface()) {
@@ -30,10 +31,10 @@ class ServiceTestCase extends KernelTestCase
         $constructorArguments = [];
         if ($reflection->getConstructor()) {
             foreach ($reflection->getConstructor()->getParameters() as $param) {
-                $constructorArgument = null;
+                $constructorArgument = $params[$param->name] ?? null;
                 /** @var class-string<object> */
                 $type = (string) $param->getType();
-                if (!empty($type)) {
+                if (empty($constructorArgument) && !empty($type)) {
                     $constructorArgument = $param->isDefaultValueAvailable()
                         ? $this->getServiceOrNull($type)
                         : $this->getService($type);
