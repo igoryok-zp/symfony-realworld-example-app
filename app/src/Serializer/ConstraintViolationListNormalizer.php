@@ -40,7 +40,7 @@ class ConstraintViolationListNormalizer implements NormalizerInterface
      * @param mixed[] $context
      * @return boolean
      */
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return 'jsonproblem' === $format && $data instanceof ConstraintViolationListInterface;
     }
@@ -51,7 +51,7 @@ class ConstraintViolationListNormalizer implements NormalizerInterface
      * @param mixed[] $context
      * @return mixed[]
      */
-    public function normalize($object, string $format = null, array $context = []): array
+    public function normalize($object, ?string $format = null, array $context = []): array
     {
         return [
             'errors' => [

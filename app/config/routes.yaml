@@ -1,6 +1,6 @@
 api_doc:
     path: /
-    controller: api_platform.swagger_ui.action
+    controller: api_platform.action.documentation
 
 controllers:
     resource:

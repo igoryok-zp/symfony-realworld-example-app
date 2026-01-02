@@ -116,6 +116,7 @@ final class Comment
             new Type(
                 builtinType: Type::BUILTIN_TYPE_ARRAY,
                 collection: true,
+                collectionKeyType: new Type(Type::BUILTIN_TYPE_INT),
                 collectionValueType: [
                     new Type(
                         builtinType: Type::BUILTIN_TYPE_OBJECT,
