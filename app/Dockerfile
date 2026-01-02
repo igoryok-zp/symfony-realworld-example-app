@@ -1,4 +1,4 @@
-FROM php:8.3-fpm AS php_fpm
+FROM php:8.5-fpm AS php_fpm
 
 # php extensions installer: https://github.com/mlocati/docker-php-extension-installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
