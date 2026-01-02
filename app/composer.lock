@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6dddc085720a4683c4f4fbbc8ce2405",
+    "content-hash": "6c2e18128c5032ebf1a2aaee296f85e4",
     "packages": [
         {
             "name": "api-platform/core",
@@ -11522,27 +11522,27 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v7.2.9",
+            "version": "v6.4.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "776d81d0c4859453aa35c316a542d74d0616330f"
+                "reference": "5b8564c882ca8eb9a06ed2840abc9b2a40f1e12a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/776d81d0c4859453aa35c316a542d74d0616330f",
-                "reference": "776d81d0c4859453aa35c316a542d74d0616330f",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/5b8564c882ca8eb9a06ed2840abc9b2a40f1e12a",
+                "reference": "5b8564c882ca8eb9a06ed2840abc9b2a40f1e12a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2",
-                "symfony/dom-crawler": "^6.4|^7.0"
+                "php": ">=8.1",
+                "symfony/dom-crawler": "^5.4|^6.0|^7.0"
             },
             "require-dev": {
-                "symfony/css-selector": "^6.4|^7.0",
-                "symfony/http-client": "^6.4|^7.0",
-                "symfony/mime": "^6.4|^7.0",
-                "symfony/process": "^6.4|^7.0"
+                "symfony/css-selector": "^5.4|^6.0|^7.0",
+                "symfony/http-client": "^5.4|^6.0|^7.0",
+                "symfony/mime": "^5.4|^6.0|^7.0",
+                "symfony/process": "^5.4|^6.0|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -11570,7 +11570,7 @@
             "description": "Simulates the behavior of a web browser, allowing you to make requests, click on links and submit forms programmatically",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/browser-kit/tree/v7.2.9"
+                "source": "https://github.com/symfony/browser-kit/tree/v6.4.31"
             },
             "funding": [
                 {
@@ -11590,7 +11590,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-07-10T08:29:33+00:00"
+            "time": "2025-12-12T07:51:57+00:00"
         },
         {
             "name": "symfony/css-selector",
