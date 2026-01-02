@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
+use ApiPlatform\OpenApi\Model\Response;
 use ApiPlatform\OpenApi\Model\RequestBody;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -75,8 +76,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 summary: '',
                 description: '',
                 responses: [
-                    '200' => [
-                        'content' => [
+                    200 => new Response(
+                        content: new \ArrayObject([
                             'application/json' => [
                                 'schema' => [
                                     '$ref' => '#/components/schemas/Profile-' . ProfileConfig::OUTPUT,
@@ -87,8 +88,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                     '$ref' => '#/components/schemas/Profile-' . ProfileConfig::OUTPUT,
                                 ],
                             ],
-                        ],
-                    ],
+                        ]),
+                    ),
                 ],
             ),
         ),

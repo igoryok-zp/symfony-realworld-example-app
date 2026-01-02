@@ -22,6 +22,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Parameter;
+use ApiPlatform\OpenApi\Model\Response;
 use ApiPlatform\OpenApi\Model\RequestBody;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -256,8 +257,8 @@ use Symfony\Component\Validator\Constraints as Assert;
                     ),
                 ],
                 responses: [
-                    '200' => [
-                        'content' => [
+                    200 => new Response(
+                        content: new \ArrayObject([
                             'application/json' => [
                                 'schema' => [
                                     '$ref' => '#/components/schemas/Article-' . ArticleConfig::OUTPUT,
@@ -268,8 +269,8 @@ use Symfony\Component\Validator\Constraints as Assert;
                                     '$ref' => '#/components/schemas/Article-' . ArticleConfig::OUTPUT,
                                 ],
                             ],
-                        ],
-                    ],
+                        ]),
+                    ),
                 ],
             ),
         ),
