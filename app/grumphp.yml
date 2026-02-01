@@ -2,6 +2,12 @@ grumphp:
   tasks:
     phpcs:
       standard: PSR12
-    phpmd: null
+      ignore_patterns:
+        - "config/reference.php"
+    phpmd:
+      exclude:
+        - "config/reference.php"
     phpstan:
       level: max
+      ignore_patterns:
+        - "config/reference.php"
