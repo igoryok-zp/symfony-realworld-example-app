@@ -8,9 +8,9 @@ use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as ApiPlatformApiTestCase;
 
 class ApiResourceTestCase extends ApiPlatformApiTestCase
 {
-    protected function assertMatchesApiResourceJsonSchema(string $resourceClass, string $operationName): void
+    protected static function assertMatchesApiResourceJsonSchema(string $resourceClass, string $operationName): void
     {
-        $this->assertMatchesResourceItemJsonSchema($resourceClass, $operationName, 'json');
+        static::assertMatchesResourceItemJsonSchema($resourceClass, $operationName, 'json');
     }
 
     /**
@@ -20,7 +20,7 @@ class ApiResourceTestCase extends ApiPlatformApiTestCase
      * @param string $token
      * @return mixed[]
      */
-    protected function requestApi(string $method, string $api, array $data = [], string $token = ''): array
+    protected static function requestApi(string $method, string $api, array $data = [], string $token = ''): array
     {
         $url = '/api/' . $api;
         $headers = [
@@ -36,16 +36,16 @@ class ApiResourceTestCase extends ApiPlatformApiTestCase
         }
 
         $response = static::createClient()->request($method, $url, $options);
-        $this->assertResponseIsSuccessful();
+        static::assertResponseIsSuccessful();
 
         $result = (array) json_decode($response->getContent(false), true);
         return $result;
     }
 
-    protected function getToken(string $email, string $password): string
+    protected static function getToken(string $email, string $password): string
     {
         /** @var string[][] */
-        $data = $this->requestApi('POST', 'users/login', [
+        $data = static::requestApi('POST', 'users/login', [
             'user' => [
                 'email' => $email,
                 'password' => $password,

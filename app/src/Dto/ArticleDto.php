@@ -9,8 +9,8 @@ use App\Config\DateTimeConfig;
 use App\Config\TagConfig;
 use ApiPlatform\Metadata\ApiProperty;
 use DateTimeImmutable;
-use Symfony\Component\Serializer\Annotation\Context;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Context;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 

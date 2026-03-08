@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\PHPUnit;
 
-use PHPUnit\Runner\BeforeFirstTestHook;
 use Symfony\Component\Process\Process;
+use PHPUnit\Runner\Extension\Extension;
+use PHPUnit\Runner\Extension\Facade;
+use PHPUnit\Runner\Extension\ParameterCollection;
+use PHPUnit\TextUI\Configuration\Configuration;
+use PHPUnit\Event\TestRunner\ExecutionStarted;
+use PHPUnit\Event\TestRunner\ExecutionStartedSubscriber;
 
-class PHPUnitExtension implements BeforeFirstTestHook
+class PHPUnitExtension implements Extension, ExecutionStartedSubscriber
 {
     private function exec(string ...$command): void
     {
@@ -15,7 +20,12 @@ class PHPUnitExtension implements BeforeFirstTestHook
         $process->mustRun();
     }
 
-    public function executeBeforeFirstTest(): void
+    public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
+    {
+        $facade->registerSubscriber($this);
+    }
+
+    public function notify(ExecutionStarted $event): void
     {
         $this->exec('doctrine:database:create', '--if-not-exists');
         $this->exec('doctrine:schema:drop', '--full-database', '--force');

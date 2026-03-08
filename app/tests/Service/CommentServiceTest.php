@@ -11,9 +11,12 @@ use App\Mapper\CommentMapper;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Service\CommentService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Throwable;
 
+#[AllowMockObjectsWithoutExpectations]
 class CommentServiceTest extends ServiceTestCase
 {
     /**
@@ -67,7 +70,7 @@ class CommentServiceTest extends ServiceTestCase
     /**
      * @return mixed[]
      */
-    public function deleteArticleCommentExceptionDataProvider(): array
+    public static function deleteArticleCommentExceptionDataProvider(): array
     {
         return [[
             'article-2',
@@ -94,6 +97,7 @@ class CommentServiceTest extends ServiceTestCase
      * @param integer|null $contextUserId
      * @return void
      */
+    #[DataProvider('deleteArticleCommentExceptionDataProvider')]
     public function testDeleteArticleCommentException(
         string $slug,
         int $commentId,

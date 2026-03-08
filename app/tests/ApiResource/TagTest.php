@@ -8,9 +8,9 @@ use App\ApiResource\Tag;
 
 class TagTest extends ApiResourceTestCase
 {
-    private function assertMatchesTagJsonSchema(string $operationName): void
+    private static function assertMatchesTagJsonSchema(string $operationName): void
     {
-        $this->assertMatchesApiResourceJsonSchema(Tag::class, 'tag_' . $operationName);
+        static::assertMatchesApiResourceJsonSchema(Tag::class, 'tag_' . $operationName);
     }
 
     public function testGet(): void

@@ -9,6 +9,7 @@ use App\Repository\ProfileRepository;
 use App\Utility\Context;
 use App\Validator\UniqueUsername;
 use App\Validator\UniqueUsernameValidator;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -18,6 +19,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 /**
  * @extends ConstraintValidatorTestCase<UniqueUsernameValidator>
  */
+#[AllowMockObjectsWithoutExpectations]
 class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
 {
     /**
@@ -30,24 +32,10 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
      */
     private $profileRepository;
 
-    /**
-     * @return MockObject&ProfileRepository
-     */
-    protected function createProfileRepositoryMock()
-    {
-        return $this->getMockBuilder(ProfileRepository::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->addMethods(['findOneByUsername'])
-            ->getMock();
-    }
-
     protected function createValidator(): UniqueUsernameValidator
     {
         $this->appContext = $this->createMock(Context::class);
-        $this->profileRepository = $this->createProfileRepositoryMock();
+        $this->profileRepository = $this->createMock(ProfileRepository::class);
         return new UniqueUsernameValidator($this->appContext, $this->profileRepository);
     }
 
@@ -102,8 +90,8 @@ class UniqueUsernameValidatorTest extends ConstraintValidatorTestCase
 
         $this->profileRepository
             ->expects($this->once())
-            ->method('findOneByUsername')
-            ->with($value)
+            ->method('__call')
+            ->with('findOneByUsername', [$value])
             ->willReturn(new Profile());
 
         $constraint = new UniqueUsername();

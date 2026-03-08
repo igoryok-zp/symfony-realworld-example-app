@@ -10,9 +10,11 @@ use App\Mapper\UserMapper;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class UserServiceTest extends ServiceTestCase
 {
     /**
@@ -22,9 +24,7 @@ class UserServiceTest extends ServiceTestCase
 
     private function createService(?int $contextUserId = null): UserService
     {
-        $this->tokenManager = $this->buildProxy(JWTTokenManagerInterface::class, [
-            'userIdClaim' => static::getContainer()->getParameter('lexik_jwt_authentication.user_id_claim'),
-        ]);
+        $this->tokenManager = $this->buildProxy(JWTTokenManagerInterface::class);
 
         return new UserService(
             $this->createContext($contextUserId),

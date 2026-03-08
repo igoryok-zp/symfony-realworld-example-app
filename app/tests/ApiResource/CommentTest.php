@@ -8,9 +8,9 @@ use App\ApiResource\Comment;
 
 class CommentTest extends ApiResourceTestCase
 {
-    private function assertMatchesCommentJsonSchema(string $operationName): void
+    private static function assertMatchesCommentJsonSchema(string $operationName): void
     {
-        $this->assertMatchesApiResourceJsonSchema(Comment::class, 'comment_' . $operationName);
+        static::assertMatchesApiResourceJsonSchema(Comment::class, 'comment_' . $operationName);
     }
 
     /**
@@ -21,7 +21,7 @@ class CommentTest extends ApiResourceTestCase
      * @param string $token
      * @return mixed[]
      */
-    private function requestComments(
+    private static function requestComments(
         string $method,
         string $slug,
         ?int $commentId = null,
@@ -37,7 +37,7 @@ class CommentTest extends ApiResourceTestCase
             $commentApi .= '/' . $commentId;
         }
         /** @var mixed[][] */
-        $data = $this->requestApi($method, $commentApi, $commentData, $token);
+        $data = static::requestApi($method, $commentApi, $commentData, $token);
         return $data['comments'] ?? $data['comment'] ?? [];
     }
 
