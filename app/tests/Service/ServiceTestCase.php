@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\Utility\Context;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionClass;
+use ReflectionMethod;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -18,36 +19,24 @@ class ServiceTestCase extends KernelTestCase
     /**
      * @template T of object
      * @param class-string<T> $class
-     * @param array<string, mixed> $params
      * @return MockObject&T
      */
-    protected function buildProxy(string $class, $params = []): mixed
+    protected function buildProxy(string $class): mixed
     {
-        $reflection = new ReflectionClass($class);
-        if ($reflection->isInterface()) {
-            $reflection = new ReflectionClass($this->getService($class));
-        }
+        $service = $this->getService($class);
+        $reflection = new ReflectionClass($service);
 
-        $constructorArguments = [];
-        if ($reflection->getConstructor()) {
-            foreach ($reflection->getConstructor()->getParameters() as $param) {
-                $constructorArgument = $params[$param->name] ?? null;
-                /** @var class-string<object> */
-                $type = (string) $param->getType();
-                if (empty($constructorArgument) && !empty($type)) {
-                    $constructorArgument = $param->isDefaultValueAvailable()
-                        ? $this->getServiceOrNull($type)
-                        : $this->getService($type);
-                }
-                if (empty($constructorArgument) && $param->isDefaultValueAvailable()) {
-                    $constructorArgument = $param->getDefaultValue();
-                }
-                $constructorArguments[] = $constructorArgument;
+        $proxy = $this->createMock($reflection->getName());
+        foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            $callback = [$service, $method->getName()];
+            if (!$method->isConstructor() && !$method->isDestructor() && is_callable($callback)) {
+                $proxy->method($method->getName())
+                    ->willReturnCallback(
+                        fn() => call_user_func_array($callback, func_get_args())
+                    );
             }
         }
 
-        /** @var MockObject&T */
-        $proxy = $this->createTestProxy($reflection->getName(), $constructorArguments);
         return $proxy;
     }
 

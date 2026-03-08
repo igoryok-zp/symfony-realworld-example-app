@@ -8,9 +8,9 @@ use App\ApiResource\User;
 
 class UserTest extends ApiResourceTestCase
 {
-    private function assertMatchesUserJsonSchema(string $operationName): void
+    private static function assertMatchesUserJsonSchema(string $operationName): void
     {
-        $this->assertMatchesApiResourceJsonSchema(User::class, 'user_' . $operationName);
+        static::assertMatchesApiResourceJsonSchema(User::class, 'user_' . $operationName);
     }
 
     /**
@@ -20,14 +20,14 @@ class UserTest extends ApiResourceTestCase
      * @param string $token
      * @return mixed[]
      */
-    private function requestUsers(string $method, string $api, array $data = [], string $token = ''): array
+    private static function requestUsers(string $method, string $api, array $data = [], string $token = ''): array
     {
         $userData = [];
         if (!empty($data)) {
             $userData['user'] = $data;
         }
         /** @var mixed[][] */
-        $result = $this->requestApi($method, $api, $userData, $token);
+        $result = static::requestApi($method, $api, $userData, $token);
         return $result['user'] ?? [];
     }
 

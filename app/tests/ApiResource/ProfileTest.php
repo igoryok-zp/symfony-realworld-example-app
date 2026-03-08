@@ -8,9 +8,9 @@ use App\ApiResource\Profile;
 
 class ProfileTest extends ApiResourceTestCase
 {
-    private function assertMatchesProfileJsonSchema(string $operationName): void
+    protected static function assertMatchesProfileJsonSchema(string $operationName): void
     {
-        $this->assertMatchesApiResourceJsonSchema(Profile::class, 'profile_' . $operationName);
+        static::assertMatchesApiResourceJsonSchema(Profile::class, 'profile_' . $operationName);
     }
 
     /**
@@ -19,21 +19,21 @@ class ProfileTest extends ApiResourceTestCase
      * @param string $token
      * @return mixed[]
      */
-    private function requestProfiles(string $method, string $profileApi, string $token = ''): array
+    protected static function requestProfiles(string $method, string $profileApi, string $token = ''): array
     {
         /** @var mixed[][] */
-        $result = $this->requestApi($method, 'profiles/' . $profileApi, token: $token);
+        $result = static::requestApi($method, 'profiles/' . $profileApi, token: $token);
         return $result['profile'] ?? [];
     }
 
-    private function assertFollowing(string $token, string $username, bool $expected): void
+    protected static function assertFollowing(string $token, string $username, bool $expected): void
     {
-        $profile = $this->requestProfiles('GET', $username, $token);
+        $profile = static::requestProfiles('GET', $username, $token);
 
-        $this->assertMatchesProfileJsonSchema('get');
+        static::assertMatchesProfileJsonSchema('get');
 
-        $this->assertEquals($username, $profile['username']);
-        $this->assertEquals($expected, $profile['following']);
+        static::assertEquals($username, $profile['username']);
+        static::assertEquals($expected, $profile['following']);
     }
 
     public function testGet(): void

@@ -11,9 +11,12 @@ use App\Mapper\ProfileMapper;
 use App\Repository\FollowerRepository;
 use App\Repository\ProfileRepository;
 use App\Service\ProfileService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Throwable;
 
+#[AllowMockObjectsWithoutExpectations]
 class ProfileServiceTest extends ServiceTestCase
 {
     /**
@@ -42,7 +45,7 @@ class ProfileServiceTest extends ServiceTestCase
     /**
      * @return mixed[]
      */
-    public function followProfileExceptionDataProvider(): array
+    public static function followProfileExceptionDataProvider(): array
     {
         return [[
             'test',
@@ -65,6 +68,7 @@ class ProfileServiceTest extends ServiceTestCase
      * @param integer|null $contextUserId
      * @return void
      */
+    #[DataProvider('followProfileExceptionDataProvider')]
     public function testFollowProfileException(string $username, string $exception, ?int $contextUserId = null): void
     {
         $this->expectException($exception);

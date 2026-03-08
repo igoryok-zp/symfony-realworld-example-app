@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Utility\Context;
 use App\Validator\UniqueEmail;
 use App\Validator\UniqueEmailValidator;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -18,6 +19,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 /**
  * @extends ConstraintValidatorTestCase<UniqueEmailValidator>
  */
+#[AllowMockObjectsWithoutExpectations]
 class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
 {
     /**
@@ -30,24 +32,10 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
      */
     private $userRepository;
 
-    /**
-     * @return MockObject&UserRepository
-     */
-    protected function createUserRepositoryMock()
-    {
-        return $this->getMockBuilder(UserRepository::class)
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->addMethods(['findOneByEmail'])
-            ->getMock();
-    }
-
     protected function createValidator(): UniqueEmailValidator
     {
         $this->appContext = $this->createMock(Context::class);
-        $this->userRepository = $this->createUserRepositoryMock();
+        $this->userRepository = $this->createMock(UserRepository::class);
         return new UniqueEmailValidator($this->appContext, $this->userRepository);
     }
 
@@ -102,8 +90,8 @@ class UniqueEmailValidatorTest extends ConstraintValidatorTestCase
 
         $this->userRepository
             ->expects($this->once())
-            ->method('findOneByEmail')
-            ->with($value)
+            ->method('__call')
+            ->with('findOneByEmail', [$value])
             ->willReturn(new User());
 
         $constraint = new UniqueEmail();

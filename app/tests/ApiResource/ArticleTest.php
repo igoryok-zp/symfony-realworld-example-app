@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\ApiResource;
 
 use App\ApiResource\Article;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ArticleTest extends ApiResourceTestCase
 {
-    private function assertMatchesArticleJsonSchema(string $operationName): void
+    protected static function assertMatchesArticleJsonSchema(string $operationName): void
     {
-        $this->assertMatchesApiResourceJsonSchema(Article::class, 'article_' . $operationName);
+        static::assertMatchesApiResourceJsonSchema(Article::class, 'article_' . $operationName);
     }
 
     /**
@@ -21,7 +22,7 @@ class ArticleTest extends ApiResourceTestCase
      * @param string $token
      * @return mixed[]
      */
-    private function requestArticles(
+    protected static function requestArticles(
         string $method,
         string $api = '',
         string $query = '',
@@ -40,21 +41,21 @@ class ArticleTest extends ApiResourceTestCase
             $articleApi .= '?' . $query;
         }
         /** @var mixed[][] */
-        $result = $this->requestApi($method, $articleApi, $articleData, $token);
+        $result = static::requestApi($method, $articleApi, $articleData, $token);
         return $result['article'] ?? array_filter([
             $result['articlesCount'] ?? null,
             $result['articles'] ?? null,
         ]);
     }
 
-    private function assertFavorited(string $token, string $slug, bool $expected): void
+    private static function assertFavorited(string $token, string $slug, bool $expected): void
     {
-        $article = $this->requestArticles('GET', $slug, token: $token);
+        $article = static::requestArticles('GET', $slug, token: $token);
 
-        $this->assertMatchesArticleJsonSchema('get');
+        static::assertMatchesArticleJsonSchema('get');
 
-        $this->assertEquals($slug, $article['slug']);
-        $this->assertEquals($expected, $article['favorited']);
+        static::assertEquals($slug, $article['slug']);
+        static::assertEquals($expected, $article['favorited']);
     }
 
     public function testGet(): void
@@ -201,7 +202,7 @@ class ArticleTest extends ApiResourceTestCase
     /**
      * @return mixed[]
      */
-    public function listDataProvider(): array
+    public static function listDataProvider(): array
     {
         $limit = 1;
         $author = 'user1';
@@ -209,57 +210,51 @@ class ArticleTest extends ApiResourceTestCase
         return [[
             '',
             function ($count, $articles) {
-                $this->assertEquals(9, $count);
-                $this->assertCount(9, $articles);
+                static::assertEquals(9, $count);
+                static::assertCount(9, $articles);
             }
         ], [
             'limit=' . $limit,
             function ($count, $articles) use ($limit) {
-                $this->assertEquals(9, $count);
-                $this->assertCount($limit, $articles);
+                static::assertEquals(9, $count);
+                static::assertCount($limit, $articles);
             }
         ], [
             'author=' . $author,
             function ($count, $articles) use ($author) {
-                $this->assertEquals(1, $count);
-                $this->assertCount(1, $articles);
-                $this->assertEquals($author, $articles[0]['author']['username']);
+                static::assertEquals(1, $count);
+                static::assertCount(1, $articles);
+                static::assertEquals($author, $articles[0]['author']['username']);
             }
         ], [
             'favorited=user2',
             function ($count, $articles) {
-                $this->assertEquals(1, $count);
-                $this->assertCount(1, $articles);
-                $this->assertEquals(true, $articles[0]['favorited']);
+                static::assertEquals(1, $count);
+                static::assertCount(1, $articles);
+                static::assertEquals(true, $articles[0]['favorited']);
             },
-            fn () => $this->getToken('user2@app.test', 'pswd2')
+            fn () => static::getToken('user2@app.test', 'pswd2')
         ], [
             'tag=' . $tag,
             function ($count, $articles) use ($tag) {
-                $this->assertEquals(1, $count);
-                $this->assertCount(1, $articles);
-                $this->assertEquals([$tag], $articles[0]['tagList']);
+                static::assertEquals(1, $count);
+                static::assertCount(1, $articles);
+                static::assertEquals([$tag], $articles[0]['tagList']);
             }
         ], [
             'author=' . $author . '&favorited=user2&tag=' . $tag . '&limit=' . $limit,
             function ($count, $articles) use ($author, $tag, $limit) {
-                $this->assertEquals(1, $count);
-                $this->assertCount($limit, $articles);
-                $this->assertEquals($author, $articles[0]['author']['username']);
-                $this->assertEquals(true, $articles[0]['favorited']);
-                $this->assertEquals([$tag], $articles[0]['tagList']);
+                static::assertEquals(1, $count);
+                static::assertCount($limit, $articles);
+                static::assertEquals($author, $articles[0]['author']['username']);
+                static::assertEquals(true, $articles[0]['favorited']);
+                static::assertEquals([$tag], $articles[0]['tagList']);
             },
-            fn () => $this->getToken('user2@app.test', 'pswd2')
+            fn () => static::getToken('user2@app.test', 'pswd2')
         ]];
     }
 
-    /**
-     * @dataProvider listDataProvider
-     * @param string $query
-     * @param callable $assertFunc
-     * @param callable|null $tokenProvider
-     * @return void
-     */
+    #[DataProvider('listDataProvider')]
     public function testList(string $query, callable $assertFunc, ?callable $tokenProvider = null): void
     {
         /** @var string */
