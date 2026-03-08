@@ -16,8 +16,12 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\Model\Parameter;
-use Symfony\Component\PropertyInfo\Type;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\TypeInfo\Type\BuiltinType;
+use Symfony\Component\TypeInfo\Type\CollectionType;
+use Symfony\Component\TypeInfo\Type\GenericType;
+use Symfony\Component\TypeInfo\Type\ObjectType;
+use Symfony\Component\TypeInfo\TypeIdentifier;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
@@ -112,19 +116,15 @@ final class Comment
      * @var CommentDto[]
      */
     #[ApiProperty(
-        builtinTypes: [
-            new Type(
-                builtinType: Type::BUILTIN_TYPE_ARRAY,
-                collection: true,
-                collectionKeyType: new Type(Type::BUILTIN_TYPE_INT),
-                collectionValueType: [
-                    new Type(
-                        builtinType: Type::BUILTIN_TYPE_OBJECT,
-                        class: CommentDto::class,
-                    ),
-                ],
+        nativeType: new CollectionType(
+            // @phpstan-ignore argument.type
+            new GenericType(
+                // @phpstan-ignore argument.type
+                new BuiltinType(TypeIdentifier::ARRAY),
+                new BuiltinType(TypeIdentifier::INT),
+                new ObjectType(CommentDto::class),
             ),
-        ],
+        ),
     )]
     #[Groups([
         CommentConfig::OUTPUT_LIST,

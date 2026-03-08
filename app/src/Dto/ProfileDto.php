@@ -7,7 +7,7 @@ namespace App\Dto;
 use App\Config\ArticleConfig;
 use App\Config\CommentConfig;
 use App\Config\ProfileConfig;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 final class ProfileDto
 {
