@@ -22,7 +22,7 @@ services:
     networks:
       - backend
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql
   proxy:
     build:
       context: ./app
