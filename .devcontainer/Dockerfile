@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 RUN apt-get update && \
     apt-get -y install \
@@ -11,7 +11,6 @@ RUN apt-get update && \
         php-curl \
         php-gd \
         php-gmp \
-        php-imap \
         php-intl \
         php-json \
         php-mbstring \
@@ -26,8 +25,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ARG APP_USER
-ARG APP_USER_ID
+ARG APP_USER=app
+ARG APP_USER_ID=1000
 RUN userdel ubuntu && \
     useradd -m -s /bin/bash -u $APP_USER_ID $APP_USER && \
     mkdir -p /workspace && \
