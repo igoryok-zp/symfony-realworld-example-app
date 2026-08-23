@@ -14,7 +14,7 @@ jobs:
 
     services:
       pgsql:
-        image: postgres:15
+        image: postgres:18
         env:
           POSTGRES_DB: app
           POSTGRES_USER: user
@@ -28,7 +28,7 @@ jobs:
           --health-retries 3
 
     env:
-      DATABASE_URL: postgresql://user:pswd@localhost:5432/app?serverVersion=15&charset=utf8
+      DATABASE_URL: postgresql://user:pswd@localhost:5432/app?serverVersion=18&charset=utf8
 
     steps:
       - name: Checkout

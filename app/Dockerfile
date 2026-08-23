@@ -25,8 +25,8 @@ RUN set -eux; \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-ARG APP_USER
-ARG APP_USER_ID
+ARG APP_USER=app
+ARG APP_USER_ID=1000
 RUN useradd -m -s /bin/bash -u $APP_USER_ID $APP_USER && \
     chown $APP_USER:$APP_USER -R /var/www && \
     sed -i -e "s/www-data/$APP_USER/g" /usr/local/etc/php-fpm.d/www.conf
@@ -55,7 +55,7 @@ RUN set -eux; \
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini && \
     rm $PHP_INI_DIR/php.ini-production
 
-ARG APP_USER
+ARG APP_USER=app
 USER $APP_USER
 
 
@@ -67,7 +67,7 @@ ENV APP_ENV=prod
 RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini && \
     rm $PHP_INI_DIR/php.ini-development
 
-ARG APP_USER
+ARG APP_USER=app
 USER $APP_USER
 
 # prevent the reinstallation of vendors at every changes in the source code
@@ -91,8 +91,8 @@ RUN set -eux; \
 
 FROM nginx:1-alpine AS proxy
 
-ARG APP_USER
-ARG APP_USER_ID
+ARG APP_USER=app
+ARG APP_USER_ID=1000
 RUN adduser --disabled-password -u $APP_USER_ID $APP_USER && \
     mkdir -p /var/www/html/public && \
     chown $APP_USER:$APP_USER -R /var/www/html && \
