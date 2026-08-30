@@ -1,4 +1,7 @@
 services:
+  app:
+    volumes:
+      - .devcontainer/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
   devcontainer:
     build:
       context: .

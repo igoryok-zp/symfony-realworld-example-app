@@ -24,16 +24,39 @@ class ProfileMapper
 
     private function isFollowing(Profile $profile): bool
     {
-        $result = false;
+        $key = $profile->getId();
+        $result = $this->followings[$key] ?? null;
+        $follower = $this->context->getProfileSafe();
+        if ($result === null && $follower !== null) {
+            $result = $this->followerRepository->exists($profile, $follower);
+            $this->followings[$key] = $result;
+        }
+        return $result ?? false;
+    }
+
+    /**
+     * @param Profile[] $profiles
+     * @return void
+     */
+    private function loadFollowings(array $profiles): void
+    {
         $follower = $this->context->getProfileSafe();
         if ($follower !== null) {
-            $cacheKey = $profile->getId() . '_' . $follower->getId();
-            if (!isset($this->followings[$cacheKey])) {
-                $this->followings[$cacheKey] = $this->followerRepository->exists($profile, $follower);
+            $loadProfiles = [];
+            foreach ($profiles as $profile) {
+                $key = $profile->getId();
+                if (!isset($this->followings[$key])) {
+                    $this->followings[$key] = false;
+                    $loadProfiles[] = $profile;
+                }
             }
-            $result = $this->followings[$cacheKey];
+            if (!empty($loadProfiles)) {
+                $followings = $this->followerRepository->findFollowings($follower, $loadProfiles);
+                foreach ($followings as $following) {
+                    $this->followings[$following->getId()] = true;
+                }
+            }
         }
-        return $result;
     }
 
     public function mapEntityToDto(Profile $entity): ProfileDto
@@ -44,5 +67,15 @@ class ProfileMapper
         $result->image = $entity->getImage();
         $result->following = $this->isFollowing($entity);
         return $result;
+    }
+
+    /**
+     * @param Profile[] $entities
+     * @return ProfileDto[]
+     */
+    public function mapEntitiesToDto(array $entities): array
+    {
+        $this->loadFollowings($entities);
+        return array_map(fn (Profile $entity) => $this->mapEntityToDto($entity), $entities);
     }
 }

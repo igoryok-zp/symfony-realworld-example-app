@@ -22,7 +22,7 @@ class Comment
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Profile $author = null;
 

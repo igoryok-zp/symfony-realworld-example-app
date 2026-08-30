@@ -54,8 +54,9 @@ class ArticleRepository extends ServiceEntityRepository
     ): QueryBuilder {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder->from(Article::class, 'a');
+        $queryBuilder->join('a.author', 'aa');
         if ($author !== null) {
-            $queryBuilder->join('a.author', 'aa', Join::WITH, 'aa.username = :author');
+            $queryBuilder->andWhere('aa.username = :author');
             $queryBuilder->setParameter('author', $author);
         }
         if ($favorited !== null) {
@@ -142,7 +143,7 @@ class ArticleRepository extends ServiceEntityRepository
         ?string $tag = null
     ): array {
         $queryBuilder = $this->createArticlesQueryBuilder($author, $favorited, $tag);
-        $queryBuilder->select('a');
+        $queryBuilder->select('a', 'aa');
         $queryBuilder->orderBy('a.createdAt', 'DESC');
         $queryBuilder->setFirstResult($offset);
         $queryBuilder->setMaxResults($limit);

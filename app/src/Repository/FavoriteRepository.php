@@ -56,4 +56,45 @@ class FavoriteRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * @param Profile $profile
+     * @param Article[] $articles
+     * @return Favorite[]
+     */
+    public function findByProfile(Profile $profile, array $articles = []): array
+    {
+        $criteria = ['profile' => $profile];
+        if (!empty($articles)) {
+            $criteria['article'] = $articles;
+        }
+        return $this->findBy($criteria);
+    }
+
+    /**
+     * @param Article[] $articles
+     * @return array<int, int>
+     */
+    public function countByArticles(array $articles): array
+    {
+        $result = [];
+        $articleIds = array_map(fn(Article $article) => $article->getId(), $articles);
+        if (!empty($articleIds)) {
+            $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+            $queryBuilder->from(Favorite::class, 'f');
+            $queryBuilder->where('f.article IN (:article_ids)');
+            $queryBuilder->setParameter('article_ids', $articleIds);
+            $queryBuilder->groupBy('f.article');
+            $queryBuilder->select(
+                'IDENTITY(f.article) AS id',
+                $queryBuilder->expr()->count('IDENTITY(f.profile)') . ' AS qty',
+            );
+            $counts = $queryBuilder->getQuery()->getScalarResult();
+            $result = array_combine(
+                array_column($counts, 'id'),
+                array_column($counts, 'qty'),
+            );
+        }
+        return $result;
+    }
 }

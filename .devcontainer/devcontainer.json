@@ -11,6 +11,7 @@
         "vscode": {
             "extensions": [
                 "bmewburn.vscode-intelephense-client",
+                "neilbrayfield.php-docblocker",
                 "xdebug.php-debug"
             ]
         }

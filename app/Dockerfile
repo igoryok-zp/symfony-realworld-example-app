@@ -68,6 +68,10 @@ RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini && \
     rm $PHP_INI_DIR/php.ini-development
 
 ARG APP_USER=app
+
+COPY docker/app/user.ini $PHP_INI_DIR/99-user.ini
+RUN sed -i -e "s/www-data/$APP_USER/g" $PHP_INI_DIR/99-user.ini
+
 USER $APP_USER
 
 # prevent the reinstallation of vendors at every changes in the source code
