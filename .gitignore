@@ -49,7 +49,9 @@ out/
 .idea_modules/
 
 ### VisualStudioCode ###
-.vscode/
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
 *.code-workspace
 # Local History for Visual Studio Code
 .history/

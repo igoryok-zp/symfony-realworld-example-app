@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -44,5 +46,30 @@ class TagRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
         return $tags;
+    }
+
+    /**
+     * @param Article[] $articles
+     * @return void
+     */
+    public function loadTags(array $articles): void
+    {
+        $articleIds = array_map(
+            fn (Article $article) => $article->getId(),
+            array_filter($articles, function (Article $article) {
+                /** @var PersistentCollection<int, Tag> */
+                $tags = $article->getTags();
+                return !$tags->isInitialized();
+            })
+        );
+        if (!empty($articleIds)) {
+            $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+            $queryBuilder->from(Article::class, 'a');
+            $queryBuilder->join('a.tags', 'at');
+            $queryBuilder->where('a.id IN (:article_ids)');
+            $queryBuilder->setParameter('article_ids', $articleIds);
+            $queryBuilder->select('a', 'at');
+            $queryBuilder->getQuery()->getResult();
+        }
     }
 }

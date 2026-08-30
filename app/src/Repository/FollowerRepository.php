@@ -54,4 +54,19 @@ class FollowerRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * @param Profile $follower
+     * @param Profile[] $profiles
+     * @return Profile[]
+     */
+    public function findFollowings(Profile $follower, array $profiles = []): array
+    {
+        $criteria = ['follower' => $follower];
+        if (!empty($profiles)) {
+            $criteria['profile'] = $profiles;
+        }
+        $entities = $this->findBy($criteria);
+        return array_filter(array_map(fn (Follower $entity) => $entity->getProfile(), $entities));
+    }
 }

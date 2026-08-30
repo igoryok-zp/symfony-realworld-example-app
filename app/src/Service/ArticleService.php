@@ -29,6 +29,15 @@ class ArticleService
         return $this->articleMapper->mapEntityToDto($article);
     }
 
+    /**
+     * @param Article[] $articles
+     * @return ArticleDto[]
+     */
+    private function toDtos(array $articles): array
+    {
+        return $this->articleMapper->mapEntitiesToDtos($articles);
+    }
+
     private function findArticle(string $slug): Article
     {
         $article = $this->findArticleSafe($slug);
@@ -125,7 +134,7 @@ class ArticleService
     {
         $profile = $this->getContextProfile();
         $articles = $this->articleRepository->findArticlesFeed($profile, $limit, $offset);
-        return array_map(fn (Article $article) => $this->toDto($article), $articles);
+        return $this->toDtos($articles);
     }
 
     public function countArticles(?string $author = null, ?string $favorited = null, ?string $tag = null): int
@@ -149,6 +158,6 @@ class ArticleService
         ?string $tag = null
     ): array {
         $articles = $this->articleRepository->findArticles($limit, $offset, $author, $favorited, $tag);
-        return array_map(fn (Article $article) => $this->toDto($article), $articles);
+        return $this->toDtos($articles);
     }
 }
