@@ -25,7 +25,7 @@
         "symfony/http-client": "7.4.*",
         "symfony/property-access": "7.4.*",
         "symfony/property-info": "7.4.*",
-        "symfony/runtime": "7.4.*",
+        "symfony/runtime": "8.1.*",
         "symfony/security-bundle": "7.4.*",
         "symfony/serializer": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
